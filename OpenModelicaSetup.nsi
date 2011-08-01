@@ -35,12 +35,29 @@ Name OpenModelica-1.7.0
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
 
+; !defines for use with SHChangeNotify
+!ifdef SHCNE_ASSOCCHANGED
+!undef SHCNE_ASSOCCHANGED
+!endif
+!define SHCNE_ASSOCCHANGED 0x08000000
+!ifdef SHCNF_FLUSH
+!undef SHCNF_FLUSH
+!endif
+!define SHCNF_FLUSH        0x1000
+ 
+!macro UPDATEFILEASSOC
+; Using the system.dll plugin to call the SHChangeNotify Win32 API function so we
+; can update the shell.
+  System::Call "shell32::SHChangeNotify(i,i,i,i) (${SHCNE_ASSOCCHANGED}, ${SHCNF_FLUSH}, 0, 0)"
+!macroend
+
 # Included files
 !include MultiUser.nsh
 !include Sections.nsh
 !include MUI2.nsh
 # Include for some of the windows messages defines
 !include "winmessages.nsh"
+!include "FileAssociation.nsh"
 
 ; HKLM (all users) vs HKCU (current user) defines
 !define ENV_HKLM 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
@@ -222,6 +239,10 @@ Section -post SEC0001
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omoptim\OMOptim-UsersGuide.pdf" \
     "" "$INSTDIR\icons\PDF.ico"
     !insertmacro MUI_STARTMENU_WRITE_END
+    ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OpenModelica Model" "$INSTDIR\icons\omedit.ico"
+    ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook" "$INSTDIR\icons\OMNotebook.ico"
+    # make sure windows knows about the change
+    !insertmacro UPDATEFILEASSOC
     WriteRegStr HKLM "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -269,6 +290,10 @@ Section "Uninstall"
     RMDir /REBOOTOK "$SMPROGRAMS\$R1\Documentation"
     RMDir /REBOOTOK "$SMPROGRAMS\$R1"
     DeleteRegKey HKLM "SOFTWARE\OpenModelica"
+    ${unregisterExtension} ".mo" "OpenModelica Model"
+    ${unregisterExtension} ".onb" "OpenModelica Notebook"
+    # make sure windows knows about the change
+    !insertmacro UPDATEFILEASSOC
     DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
     DeleteRegValue HKLM "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
@@ -278,6 +303,12 @@ SectionEnd
 
 # Installer functions
 Function .onInit
+    ; Check to see if already installed
+    ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
+    IfFileExists $R0 +1 NotInstalled
+        MessageBox MB_OK "$(^Name) is already installed on your machine. Please uninstall it before running the installation again."
+        Quit
+NotInstalled:
     InitPluginsDir
     !insertmacro MULTIUSER_INIT
     StrCpy $INSTDIR "C:\OpenModelica1.7.0"
