@@ -2,6 +2,7 @@
 # 2011-jul-29 21:01:29
 
 Name OpenModelica-1.7.0
+BrandingText "$(^Name)"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
@@ -220,6 +221,7 @@ Section -post SEC0001
     "" "$INSTDIR\icons\IExplorer.ico"
     SetOutPath "$INSTDIR\share\omc\simforge\"
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\SimForge.lnk" "$INSTDIR\share\omc\simforge\SimForge-0.9.0-stableinstaller-README.txt"
+    SetOutPath "$INSTDIR\"
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Uninstall OpenModelica.lnk" "$INSTDIR\Uninstall.exe" \
     "" "$INSTDIR\icons\Uninstall.ico"
     CreateDirectory "$SMPROGRAMS\$StartMenuGroup\Documentation"
@@ -280,6 +282,8 @@ Section "Uninstall"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Shell.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Website.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$R1\SimForge.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$R1\Uninstall OpenModelica.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - API - HowTo.pdf.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - Modelica Tutorial by Peter Fritzson.pdf.lnk"
