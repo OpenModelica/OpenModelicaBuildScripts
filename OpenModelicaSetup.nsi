@@ -182,8 +182,7 @@ Section -Main SEC0000
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
     File "..\..\OMNotebook\OMNotebookGUI\modelicacolors.xml"
     File "..\..\OMNotebook\OMNotebookGUI\stylesheet.xml"
-    # Create tmp\OMEdit directory and copy files in it
-    CreateDirectory "$INSTDIR\tmp\OMEdit"
+    # Create work directory and copy files in it
     CreateDirectory "$INSTDIR\work"
     # create environment variables
     StrCmp $MultiUser.InstallMode "AllUsers" 0 +6
