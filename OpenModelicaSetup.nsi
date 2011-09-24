@@ -182,8 +182,12 @@ Section -Main SEC0000
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
     File "..\..\OMNotebook\OMNotebookGUI\modelicacolors.xml"
     File "..\..\OMNotebook\OMNotebookGUI\stylesheet.xml"
+    # Create tmp directory and copy files in it
+    CreateDirectory "$INSTDIR\tmp"
     # Create work directory and copy files in it
     CreateDirectory "$INSTDIR\work"
+    # set the rights for all users
+    AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
     StrCmp $MultiUser.InstallMode "AllUsers" 0 +6
         WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
