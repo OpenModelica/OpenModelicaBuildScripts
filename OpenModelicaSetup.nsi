@@ -157,6 +157,7 @@ Section -Main SEC0000
     SetOutPath "$INSTDIR\share\omc\java"
     File "..\..\build\share\omc\java\antlr-3.1.3.jar"
     File "..\..\build\share\omc\java\ptplot.jar"
+    File "..\..\build\share\omc\java\modelica_java.jar"
     # Create share\omc\scripts directory and copy files in it
     SetOutPath "$INSTDIR\share\omc\scripts"
     File /r /x "*.svn" "..\..\build\share\omc\scripts\*"
