@@ -102,6 +102,7 @@ Section -Main SEC0000
     # Create bin directory and copy files in it
     SetOutPath "$INSTDIR\bin"
     File "..\..\build\bin\omc.exe"
+	File "..\..\build\bin\fmigenerator.exe"
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\qtdlls\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
