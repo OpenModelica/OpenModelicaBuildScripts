@@ -7,7 +7,7 @@ BrandingText "$(^Name)"
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 1.8.0
-!define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
+!define COMPANY "Open Source Modelica Consortium (OSMC) and LinkÃ¶ing University (LiU)."
 !define URL "http://www.openmodelica.org/"
 
 # MultiUser Symbol Definitions
@@ -102,7 +102,8 @@ Section -Main SEC0000
     # Create bin directory and copy files in it
     SetOutPath "$INSTDIR\bin"
     File "..\..\build\bin\omc.exe"
-	File "..\..\build\bin\fmigenerator.exe"
+	  File "..\..\build\bin\fmigenerator.exe"
+    File "..\..\build\bin\BreakProcess.exe"
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\qtdlls\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
