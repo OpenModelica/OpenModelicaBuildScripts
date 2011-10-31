@@ -7,7 +7,7 @@ BrandingText "$(^Name)"
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 1.8.0
-!define COMPANY "Open Source Modelica Consortium (OSMC) and Linköing University (LiU)."
+!define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 
 # MultiUser Symbol Definitions
