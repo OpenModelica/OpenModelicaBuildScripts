@@ -11,7 +11,7 @@ BrandingText "$(^Name)"
 !define URL "http://www.openmodelica.org/"
 
 # MultiUser Symbol Definitions
-!define MULTIUSER_EXECUTIONLEVEL Admin
+!define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "${REGKEY}"
@@ -104,14 +104,14 @@ Section -Main SEC0000
     File "..\..\build\bin\omc.exe"
 	  File "..\..\build\bin\fmigenerator.exe"
     File "..\..\build\bin\BreakProcess.exe"
-    File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\qtdlls\*"
+    File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
     File "bin\ptplot copyright.txt"
     File "bin\ptplot.jar"
     # Create bin\iconengines directory and copy files in it
     SetOutPath "$INSTDIR\bin\iconengines"
-    File "$%OMDEV%\tools\OMTools\qtdlls\qsvgicon4.dll"
+    File "$%OMDEV%\tools\OMTools\dll\qsvgicon4.dll"
     # Create icons directory and copy files in it
     SetOutPath "$INSTDIR\icons"
     File /r /x "*.svn" "icons\*"
@@ -125,6 +125,7 @@ Section -Main SEC0000
     # Create lib directory and copy files in it
     SetOutPath "$INSTDIR\lib"
     File /r /x "*.svn" "..\..\build\lib\*"
+    File /r /x "*.svn" "$%OMDEV%\tools\OMTools\lib\*"
     # Create MinGW directory and copy files in it
     SetOutPath "$INSTDIR\MinGW"
     File /r /x "*.svn" "..\..\build\MinGW\*"
@@ -143,8 +144,8 @@ Section -Main SEC0000
     File "..\..\build\share\doc\omc\ptplot_license.txt"
     # Create share\doc\omc\interactive-simulation directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omc\interactive-simulation"
-    File "..\..\c_runtime\interactive\README.txt"
-    File "..\..\c_runtime\interactive\SampleClient\SimulationApplicationExample_TwoTanks.zip"
+    File "..\..\SimulationRuntime\interactive\README.txt"
+    File "..\..\SimulationRuntime\interactive\SampleClient\SimulationApplicationExample_TwoTanks.zip"
     # Create share\doc\omc\testmodels directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omc\testmodels"
     File /r /x "*.svn" "..\..\Examples\*"
@@ -163,11 +164,6 @@ Section -Main SEC0000
     # Create share\omc\scripts directory and copy files in it
     SetOutPath "$INSTDIR\share\omc\scripts"
     File /r /x "*.svn" "..\..\build\share\omc\scripts\*"
-    # Create share\omc\simforge directory and copy files in it
-    SetOutPath "$INSTDIR\share\omc\simforge"
-    File "tools\SimForge-0.9.0-stableinstaller-README.txt"
-    File "tools\SimForge-0.9.0-stableinstaller.jar"
-    File "..\..\doc\SimForge - An Open Source Graphical Model Editor by Politecnico di Milano.url"
     # Create share\omnotebook directory and copy files in it
     SetOutPath "$INSTDIR\share\omnotebook"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
@@ -185,10 +181,6 @@ Section -Main SEC0000
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
     File "..\..\OMNotebook\OMNotebookGUI\modelicacolors.xml"
     File "..\..\OMNotebook\OMNotebookGUI\stylesheet.xml"
-    # Create tmp directory and copy files in it
-    CreateDirectory "$INSTDIR\tmp"
-    # Create work directory and copy files in it
-    CreateDirectory "$INSTDIR\work"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
@@ -211,8 +203,8 @@ Section -post SEC0001
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
     WriteUninstaller $INSTDIR\Uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    # set the output path to tmp which is used as a start in option for shortcuts
-    SetOutPath "$INSTDIR\tmp\"
+    # set the output path to temp directory which is used as a start in option for shortcuts.
+    SetOutPath "$TEMP"
     # create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuGroup"
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Connection Editor.lnk" "$INSTDIR\bin\OMEdit.exe" \
@@ -225,8 +217,6 @@ Section -post SEC0001
     "" "$INSTDIR\icons\omshell.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Website.lnk" "$INSTDIR\share\doc\omc\OpenModelica Project Online.url" \
     "" "$INSTDIR\icons\IExplorer.ico"
-    SetOutPath "$INSTDIR\share\omc\simforge\"
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\SimForge.lnk" "$INSTDIR\share\omc\simforge\SimForge-0.9.0-stableinstaller-README.txt"
     SetOutPath "$INSTDIR\"
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Uninstall OpenModelica.lnk" "$INSTDIR\Uninstall.exe" \
     "" "$INSTDIR\icons\Uninstall.ico"
@@ -288,7 +278,6 @@ Section "Uninstall"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Shell.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Website.lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$R1\SimForge.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Uninstall OpenModelica.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - API - HowTo.pdf.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk"
