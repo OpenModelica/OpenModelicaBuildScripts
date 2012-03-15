@@ -104,6 +104,8 @@ Section -Main SEC0000
     File "..\..\build\bin\omc.exe"
 	  File "..\..\build\bin\fmigenerator.exe"
     File "..\..\build\bin\BreakProcess.exe"
+    File "..\..\build\bin\omniORB416_vc10_rt.dll"
+    File "..\..\build\bin\omnithread34_vc10_rt.dll"
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
