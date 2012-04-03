@@ -1,14 +1,14 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 
-Name OpenModelica-1.8.1
-BrandingText "$(^Name)"
+Name OpenModelica1.8.1
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 1.8.1
-!define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
+!define COMPANY "Open Source Modelica Consortium (OSMC) and LinkÃ¶ping University (LiU)."
 !define URL "http://www.openmodelica.org/"
+BrandingText "OpenModelica (${URL})"
 
 # MultiUser Symbol Definitions
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -166,6 +166,11 @@ Section -Main SEC0000
     # Create share\omc\scripts directory and copy files in it
     SetOutPath "$INSTDIR\share\omc\scripts"
     File /r /x "*.svn" "..\..\build\share\omc\scripts\*"
+    # Create share\omedit\nls directory and copy files in it
+    SetOutPath "$INSTDIR\share\omedit\nls"
+    File "..\..\OMEdit\OMEditGUI\OMEdit_de.qm"
+    File "..\..\OMEdit\OMEditGUI\OMEdit_ru.qm"
+    File "..\..\OMEdit\OMEditGUI\OMEdit_sv.qm"
     # Create share\omnotebook directory and copy files in it
     SetOutPath "$INSTDIR\share\omnotebook"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
@@ -181,20 +186,16 @@ Section -Main SEC0000
     # Create share\omshell directory and copy files in it
     SetOutPath "$INSTDIR\share\omshell"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
-    File "..\..\OMNotebook\OMNotebookGUI\modelicacolors.xml"
-    File "..\..\OMNotebook\OMNotebookGUI\stylesheet.xml"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
-    StrCmp $MultiUser.InstallMode "AllUsers" 0 +6
+    StrCmp $MultiUser.InstallMode "AllUsers" 0 +5
         WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
         WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
-        WriteRegExpandStr ${ENV_HKLM} DRMODELICAHOME "$INSTDIR\share/omnotebook/drmodelica"
         WriteRegExpandStr ${ENV_HKLM} PTII "$INSTDIR\bin/ptplot.jar"
-        Goto +5
+        Goto +4
         WriteRegExpandStr ${ENV_HKCU} OPENMODELICAHOME "$INSTDIR\"
         WriteRegExpandStr ${ENV_HKCU} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
-        WriteRegExpandStr ${ENV_HKCU} DRMODELICAHOME "$INSTDIR\share/omnotebook/drmodelica"
         WriteRegExpandStr ${ENV_HKCU} PTII "$INSTDIR\bin/ptplot.jar"
     # make sure windows knows about the change i.e we created the environment variables.
     SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
@@ -260,16 +261,14 @@ Section "Uninstall"
     Delete /REBOOTOK $INSTDIR\Uninstall.exe
     !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
     ReadRegStr $R0 HKLM "SOFTWARE\OpenModelica" InstallMode
-    StrCmp $R0 "AllUsers" 0 +7
+    StrCmp $R0 "AllUsers" 0 +6
         DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
         DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
-        DeleteRegValue ${ENV_HKLM} DRMODELICAHOME
         DeleteRegValue ${ENV_HKLM} PTII
         SetShellVarContext all
-        Goto +6
+        Goto +5
         DeleteRegValue ${ENV_HKCU} OPENMODELICAHOME
         DeleteRegValue ${ENV_HKCU} OPENMODELICALIBRARY
-        DeleteRegValue ${ENV_HKCU} DRMODELICAHOME
         DeleteRegValue ${ENV_HKCU} PTII
         SetShellVarContext current
     # make sure windows knows about the change i.e we created the environment variables.
