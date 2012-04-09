@@ -189,14 +189,12 @@ Section -Main SEC0000
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
-    StrCmp $MultiUser.InstallMode "AllUsers" 0 +5
+    StrCmp $MultiUser.InstallMode "AllUsers" 0 +4
         WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
         WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
-        WriteRegExpandStr ${ENV_HKLM} PTII "$INSTDIR\bin/ptplot.jar"
-        Goto +4
+        Goto +3
         WriteRegExpandStr ${ENV_HKCU} OPENMODELICAHOME "$INSTDIR\"
         WriteRegExpandStr ${ENV_HKCU} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
-        WriteRegExpandStr ${ENV_HKCU} PTII "$INSTDIR\bin/ptplot.jar"
     # make sure windows knows about the change i.e we created the environment variables.
     SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
@@ -261,15 +259,13 @@ Section "Uninstall"
     Delete /REBOOTOK $INSTDIR\Uninstall.exe
     !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
     ReadRegStr $R0 HKLM "SOFTWARE\OpenModelica" InstallMode
-    StrCmp $R0 "AllUsers" 0 +6
+    StrCmp $R0 "AllUsers" 0 +5
         DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
         DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
-        DeleteRegValue ${ENV_HKLM} PTII
         SetShellVarContext all
-        Goto +5
+        Goto +4
         DeleteRegValue ${ENV_HKCU} OPENMODELICAHOME
         DeleteRegValue ${ENV_HKCU} OPENMODELICALIBRARY
-        DeleteRegValue ${ENV_HKCU} PTII
         SetShellVarContext current
     # make sure windows knows about the change i.e we created the environment variables.
     SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
