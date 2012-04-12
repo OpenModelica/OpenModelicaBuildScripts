@@ -168,9 +168,8 @@ Section -Main SEC0000
     File /r /x "*.svn" "..\..\build\share\omc\scripts\*"
     # Create share\omedit\nls directory and copy files in it
     SetOutPath "$INSTDIR\share\omedit\nls"
-    File "..\..\OMEdit\OMEditGUI\OMEdit_de.qm"
-    File "..\..\OMEdit\OMEditGUI\OMEdit_ru.qm"
-    File "..\..\OMEdit\OMEditGUI\OMEdit_sv.qm"
+    File "..\..\OMEdit\OMEditGUI\Resources\nls\*.qm"
+    File "$%OMDEV%\tools\OMTools\nls\*.qm"
     # Create share\omnotebook directory and copy files in it
     SetOutPath "$INSTDIR\share\omnotebook"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
