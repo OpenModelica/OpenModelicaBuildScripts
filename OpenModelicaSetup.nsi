@@ -109,8 +109,6 @@ Section -Main SEC0000
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
-    File "bin\ptplot copyright.txt"
-    File "bin\ptplot.jar"
     # Create bin\iconengines directory and copy files in it
     SetOutPath "$INSTDIR\bin\iconengines"
     File "$%OMDEV%\tools\OMTools\dll\qsvgicon4.dll"
@@ -143,7 +141,6 @@ Section -Main SEC0000
     File "..\..\build\share\doc\omc\OpenModelicaSystem.pdf"
     File "..\..\build\share\doc\omc\OpenModelicaTemplateProgramming.pdf"
     File "..\..\build\share\doc\omc\OpenModelicaUsersGuide.pdf"
-    File "..\..\build\share\doc\omc\ptplot_license.txt"
     # Create share\doc\omc\interactive-simulation directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omc\interactive-simulation"
     File "..\..\SimulationRuntime\interactive\README.txt"
@@ -161,7 +158,6 @@ Section -Main SEC0000
     # Create share\omc\java directory and copy files in it
     SetOutPath "$INSTDIR\share\omc\java"
     File "..\..\build\share\omc\java\antlr-3.1.3.jar"
-    File "..\..\build\share\omc\java\ptplot.jar"
     File "..\..\build\share\omc\java\modelica_java.jar"
     # Create share\omc\scripts directory and copy files in it
     SetOutPath "$INSTDIR\share\omc\scripts"
