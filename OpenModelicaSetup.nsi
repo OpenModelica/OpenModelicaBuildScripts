@@ -8,7 +8,7 @@ Name OpenModelica1.8.1
 !define VERSION 1.8.1
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
-BrandingText "OpenModelica (${URL})"
+BrandingText "Copyright 2012 OpenModelica"
 
 # MultiUser Symbol Definitions
 !define MULTIUSER_EXECUTIONLEVEL Highest
