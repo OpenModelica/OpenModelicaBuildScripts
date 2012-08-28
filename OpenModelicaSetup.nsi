@@ -133,7 +133,6 @@ Section -Main SEC0000
     File /r /x "*.svn" "..\..\build\MinGW\*"
     # Create share directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omc"
-    File "..\..\build\share\doc\omc\antlr_license.txt"
     File "..\..\build\share\doc\omc\CMakeLists.txt"
     File "..\..\build\share\doc\omc\ModelicaTutorialFritzson.pdf"
     File "..\..\build\share\doc\omc\OMC_API-HowTo.pdf"
@@ -185,7 +184,10 @@ Section -Main SEC0000
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
     # Create share\locale directory and copy files in it
     SetOutPath "$INSTDIR\share\locale"
-    File "..\..\build\share\locale\*"
+    File /r "..\..\build\share\locale\*"
+    # Create share\man directory and copy files in it
+    SetOutPath "$INSTDIR\share\man"
+    File /r "..\..\build\share\man\*"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
