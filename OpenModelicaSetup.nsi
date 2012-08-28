@@ -106,6 +106,8 @@ Section -Main SEC0000
     File "..\..\build\bin\BreakProcess.exe"
     File "..\..\build\bin\omniORB416_vc10_rt.dll"
     File "..\..\build\bin\omnithread34_vc10_rt.dll"
+    File "..\..\build\bin\libiconv-2.dll"
+    File "..\..\build\bin\libintl-8.dll"
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
     File "..\..\OSMC-License.txt"
@@ -181,6 +183,12 @@ Section -Main SEC0000
     # Create share\omshell directory and copy files in it
     SetOutPath "$INSTDIR\share\omshell"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
+    # Create share\locale directory and copy files in it
+    SetOutPath "$INSTDIR\share\locale"
+    File "..\..\build\share\locale\*"
+    # Create share\man directory and copy files in it
+    SetOutPath "$INSTDIR\share\man"
+    File "..\..\build\share\man\*"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
