@@ -186,9 +186,6 @@ Section -Main SEC0000
     # Create share\locale directory and copy files in it
     SetOutPath "$INSTDIR\share\locale"
     File "..\..\build\share\locale\*"
-    # Create share\man directory and copy files in it
-    SetOutPath "$INSTDIR\share\man"
-    File "..\..\build\share\man\*"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
