@@ -110,6 +110,9 @@ Section -Main SEC0000
     File "..\..\build\bin\libintl-8.dll"
     File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
     File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
+    File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
+    File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
+    File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omnithread34_rt.dll"
     File "..\..\OSMC-License.txt"
     # Create bin\iconengines directory and copy files in it
     SetOutPath "$INSTDIR\bin\iconengines"
@@ -149,7 +152,6 @@ Section -Main SEC0000
     # Create share\doc\omc\testmodels directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omc\testmodels"
     File /r /x "*.svn" "..\..\Examples\*"
-    File "..\..\testsuite.zip"
     # Create share\doc\omedit directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omedit"
     File "..\..\doc\OMEdit\OMEdit-UserManual.pdf"
