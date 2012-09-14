@@ -135,36 +135,14 @@ Section -Main SEC0000
     SetOutPath "$INSTDIR\MinGW"
     File /r /x "*.svn" "..\..\build\MinGW\*"
     # Create share directory and copy files in it
-    SetOutPath "$INSTDIR\share\doc\omc"
-    File "..\..\build\share\doc\omc\CMakeLists.txt"
-    File "..\..\build\share\doc\omc\ModelicaTutorialFritzson.pdf"
-    File "..\..\build\share\doc\omc\OMC_API-HowTo.pdf"
-    File "..\..\build\share\doc\omc\omc_helptext.txt"
-    File "..\..\doc\OpenModelica Project Online.url"
-    File "..\..\build\share\doc\omc\OpenModelicaMetaProgramming.pdf"
-    File "..\..\build\share\doc\omc\OpenModelicaSystem.pdf"
-    File "..\..\build\share\doc\omc\OpenModelicaTemplateProgramming.pdf"
-    File "..\..\build\share\doc\omc\OpenModelicaUsersGuide.pdf"
-    # Create share\doc\omc\interactive-simulation directory and copy files in it
-    SetOutPath "$INSTDIR\share\doc\omc\interactive-simulation"
-    File "..\..\SimulationRuntime\interactive\README.txt"
-    File "..\..\SimulationRuntime\interactive\SampleClient\SimulationApplicationExample_TwoTanks.zip"
-    # Create share\doc\omc\testmodels directory and copy files in it
-    SetOutPath "$INSTDIR\share\doc\omc\testmodels"
-    File /r /x "*.svn" "..\..\Examples\*"
+    SetOutPath "$INSTDIR\share"
+    File /r /x "*.svn" "..\..\build\share\*"
     # Create share\doc\omedit directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omedit"
     File "..\..\doc\OMEdit\OMEdit-UserManual.pdf"
     # Create share\doc\omoptim directory and copy files in it
     SetOutPath "$INSTDIR\share\doc\omoptim"
     File "..\..\doc\OMOptim\OMOptimUsersGuide.pdf"
-    # Create share\omc\java directory and copy files in it
-    SetOutPath "$INSTDIR\share\omc\java"
-    File "..\..\build\share\omc\java\antlr-3.1.3.jar"
-    File "..\..\build\share\omc\java\modelica_java.jar"
-    # Create share\omc\scripts directory and copy files in it
-    SetOutPath "$INSTDIR\share\omc\scripts"
-    File /r /x "*.svn" "..\..\build\share\omc\scripts\*"
     # Create share\omedit\nls directory and copy files in it
     SetOutPath "$INSTDIR\share\omedit\nls"
     File "..\..\OMEdit\OMEditGUI\Resources\nls\*.qm"
@@ -184,12 +162,6 @@ Section -Main SEC0000
     # Create share\omshell directory and copy files in it
     SetOutPath "$INSTDIR\share\omshell"
     File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
-    # Create share\locale directory and copy files in it
-    SetOutPath "$INSTDIR\share\locale"
-    File /r "..\..\build\share\locale\*"
-    # Create share\man directory and copy files in it
-    SetOutPath "$INSTDIR\share\man"
-    File /r "..\..\build\share\man\*"
     # set the rights for all users
     AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
     # create environment variables
