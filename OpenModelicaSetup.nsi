@@ -136,7 +136,7 @@ Section -Main SEC0000
   File /r /x "*.svn" "$%OMDEV%\tools\OMTools\lib\*"
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
-  File /r /x "*.svn" "..\..\build\MinGW\*"
+  File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" "..\..\build\share\*"
