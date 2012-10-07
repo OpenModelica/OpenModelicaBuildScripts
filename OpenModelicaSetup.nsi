@@ -111,6 +111,7 @@ Section -Main SEC0000
   File "..\..\build\bin\libintl-8.dll"
   File "..\..\build\bin\pthreadGC2.dll"
   File "..\..\build\bin\libgomp-1.dll"
+  File "..\..\build\bin\mico2313.dll"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
   File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
