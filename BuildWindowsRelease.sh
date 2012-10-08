@@ -61,8 +61,8 @@ lrelease *.ts
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
 makensisw /V4 OpenModelicaSetup.nsi
-# copy the installer
-cp -p OpenModelica.exe ${FILE_PREFIX}.exe
+# move the installer
+mv OpenModelica.exe ${FILE_PREFIX}.exe
 
 # gather the svn log
 cd /c/dev/OpenModelica
