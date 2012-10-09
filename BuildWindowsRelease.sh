@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/sh -xe
 # script to build the OpenModelica nightly-build
 # Adrian Pop [adrian.pop@liu.se]
 # 2012-10-08
@@ -52,10 +52,13 @@ svn up . --accept theirs-full
 
 # build OpenModelica
 cd /c/dev/OpenModelica
+echo "Cleaning OpenModelica"
 make -f 'Makefile.omdev.mingw' clean
 cd /c/dev/OpenModelica
+echo "Building OpenModelica"
 make -f 'Makefile.omdev.mingw' all
 cd /c/dev/OpenModelica
+echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' install-python
 
 # build the .qm files from .ts files for OMEdit
@@ -131,3 +134,5 @@ cd public_html/omc/builds/windows/nightly-builds/
 mv -f OpenModelica* older/
 ENDSSH
 scp OpenModelica* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/
+
+echo "All done!"
