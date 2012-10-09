@@ -51,8 +51,8 @@ cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
 svn up . --accept theirs-full
 
 # build OpenModelica
-#cd /c/dev/OpenModelica
-#make -f 'Makefile.omdev.mingw' clean
+cd /c/dev/OpenModelica
+make -f 'Makefile.omdev.mingw' clean
 cd /c/dev/OpenModelica
 make -f 'Makefile.omdev.mingw' all
 cd /c/dev/OpenModelica
