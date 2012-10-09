@@ -105,6 +105,12 @@ Section -Main SEC0000
   File "..\..\build\bin\omc.exe"
   File "..\..\build\bin\fmigenerator.exe"
   File "..\..\build\bin\BreakProcess.exe"
+  File "..\..\build\bin\OMPlot.exe"
+  File "..\..\build\bin\OMVisualize.exe"
+  File "..\..\build\bin\OMEdit.exe"
+  File "..\..\build\bin\OMNotebook.exe"
+  File "..\..\build\bin\OMShell.exe"
+  File "..\..\build\bin\OMOptim.exe"
   File "..\..\build\bin\omniORB416_vc10_rt.dll"
   File "..\..\build\bin\omnithread34_vc10_rt.dll"
   File "..\..\build\bin\libiconv-2.dll"
@@ -113,7 +119,6 @@ Section -Main SEC0000
   File "..\..\build\bin\libgomp-1.dll"
   File "..\..\build\bin\mico2313.dll"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
-  File /r /x "*.svn" "$%OMDEV%\tools\OMTools\bin\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omnithread34_rt.dll"
@@ -128,44 +133,22 @@ Section -Main SEC0000
   File "..\..\OMOptim\GUI\Resources\omoptim.ico"
   File "..\..\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
   File "..\..\OMShell\OMShellGUI\Resources\omshell.ico"
+  File "..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
   File /r /x "*.svn" "..\..\build\include\omc\*"
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
   File /r /x "*.svn" "..\..\build\lib\*"
-  File /r /x "*.svn" "$%OMDEV%\tools\OMTools\lib\*"
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" "..\..\build\share\*"
-  # Create share\doc\omedit directory and copy files in it
-  SetOutPath "$INSTDIR\share\doc\omedit"
-  File "..\..\doc\OMEdit\OMEdit-UserManual.pdf"
-  # Create share\doc\omoptim directory and copy files in it
-  SetOutPath "$INSTDIR\share\doc\omoptim"
-  File "..\..\doc\OMOptim\OMOptimUsersGuide.pdf"
   # Create share\omedit\nls directory and copy files in it
   SetOutPath "$INSTDIR\share\omedit\nls"
-  File "..\..\OMEdit\OMEditGUI\Resources\nls\*.qm"
   File "$%OMDEV%\tools\OMTools\nls\*.qm"
-  # Create share\omnotebook directory and copy files in it
-  SetOutPath "$INSTDIR\share\omnotebook"
-  File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
-  File "..\..\OMNotebook\OMNotebookGUI\modelicacolors.xml"
-  File "..\..\OMNotebook\OMNotebookGUI\OMNotebookHelp.onb"
-  File "..\..\OMNotebook\OMNotebookGUI\stylesheet.xml"
-  # Create share\omnotebook\drcontrol directory and copy files in it
-  SetOutPath "$INSTDIR\share\omnotebook\drcontrol"
-  File /r /x "*.svn" "..\..\OMNotebook\DrControl\*"
-  # Create share\omnotebook\drmodelica directory and copy files in it
-  SetOutPath "$INSTDIR\share\omnotebook\drmodelica"
-  File /r /x "*.svn" "..\..\OMNotebook\DrModelica\*"
-  # Create share\omshell directory and copy files in it
-  SetOutPath "$INSTDIR\share\omshell"
-  File "..\..\OMNotebook\OMNotebookGUI\commands.xml"
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables

@@ -60,10 +60,49 @@ make -f 'Makefile.omdev.mingw' all
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' install-python
-
-# build the .qm files from .ts files for OMEdit
-cd /c/dev/OpenModelica/OMEdit/OMEditGUI/Resources/nls
-lrelease *.ts
+#build OMClients
+#build OMPlot
+cd /c/dev/OpenModelica/OMPlot/OMPlotGUI
+echo "Cleaning OMPlot"
+make -f 'Makefile.omdev.mingw' clean
+echo "Cleaning OpenModelica"
+make -f 'Makefile.omdev.mingw'
+#build OMVisualize
+cd /c/dev/OpenModelica/OMVisualize/OMVisualizeGUI
+echo "Cleaning OMVisualize"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMVisualize"
+make -f 'Makefile.omdev.mingw'
+#build OMEdit
+cd /c/dev/OpenModelica/OMEdit/OMEditGUI
+echo "Cleaning OMEdit"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMEdit"
+make -f 'Makefile.omdev.mingw'
+#build OMNotebook
+cd /c/dev/OpenModelica/OMNotebook/OMNotebookGUI
+echo "Cleaning OMNotebook"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMNotebook"
+make -f 'Makefile.omdev.mingw'
+#build OMShell
+cd /c/dev/OpenModelica/OMShell/OMShellGUI
+echo "Cleaning OMShell"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMShell"
+make -f 'Makefile.omdev.mingw'
+#build OMOptimBasis
+cd /c/dev/OpenModelica/OMOptimBasis/build
+echo "Cleaning OMOptimBasis"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMOptimBasis"
+make -f 'Makefile.omdev.mingw'
+#build OMOptim
+cd /c/dev/OpenModelica/OMOptim/build
+echo "Cleaning OMOptim"
+make -f 'Makefile.omdev.mingw' clean
+echo "Building OMOptim"
+make -f 'Makefile.omdev.mingw'
 
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
@@ -79,7 +118,7 @@ svn log -v -r ${REVISION}:1 > ${FILE_PREFIX}-ChangeLog.txt
 export DATESTR=`date +"%Y-%m-%d_%H-%M"`
 echo "Automatic build of OpenModelica by testwin.openmodelica.org at date: ${DATESTR} from revision: ${REVISION}" >> ${FILE_PREFIX}-README.txt
 echo " " >> ${FILE_PREFIX}-README.txt
-echo "Read OpenModelica-*-ChangeLog.txt for more info on changes." >> ${FILE_PREFIX}-README.txt
+echo "Read OpenModelica-revision-${REVISION}-ChangeLog.txt for more info on changes." >> ${FILE_PREFIX}-README.txt
 echo " " >> ${FILE_PREFIX}-README.txt
 echo "See also (match revision ${REVISION} to build jobs):" >> ${FILE_PREFIX}-README.txt
 echo "  https://test.openmodelica.org/hudson/" >> ${FILE_PREFIX}-README.txt
