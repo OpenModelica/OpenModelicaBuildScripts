@@ -61,48 +61,10 @@ cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' install-python
 #build OMClients
-#build OMPlot
-cd /c/dev/OpenModelica/OMPlot/OMPlotGUI
-echo "Cleaning OMPlot"
-make -f 'Makefile.omdev.mingw' clean
-echo "Cleaning OpenModelica"
-make -f 'Makefile.omdev.mingw'
-#build OMVisualize
-cd /c/dev/OpenModelica/OMVisualize/OMVisualizeGUI
-echo "Cleaning OMVisualize"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMVisualize"
-make -f 'Makefile.omdev.mingw'
-#build OMEdit
-cd /c/dev/OpenModelica/OMEdit/OMEditGUI
-echo "Cleaning OMEdit"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMEdit"
-make -f 'Makefile.omdev.mingw'
-#build OMNotebook
-cd /c/dev/OpenModelica/OMNotebook/OMNotebookGUI
-echo "Cleaning OMNotebook"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMNotebook"
-make -f 'Makefile.omdev.mingw'
-#build OMShell
-cd /c/dev/OpenModelica/OMShell/OMShellGUI
-echo "Cleaning OMShell"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMShell"
-make -f 'Makefile.omdev.mingw'
-#build OMOptimBasis
-cd /c/dev/OpenModelica/OMOptimBasis/build
-echo "Cleaning OMOptimBasis"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMOptimBasis"
-make -f 'Makefile.omdev.mingw'
-#build OMOptim
-cd /c/dev/OpenModelica/OMOptim/build
-echo "Cleaning OMOptim"
-make -f 'Makefile.omdev.mingw' clean
-echo "Building OMOptim"
-make -f 'Makefile.omdev.mingw'
+echo "Cleaning OMClients"
+make -f 'Makefile.omdev.mingw' clean-qtclients
+echo "Building OMClients"
+make -f 'Makefile.omdev.mingw' qtclients
 
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
