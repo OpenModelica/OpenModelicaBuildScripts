@@ -12,6 +12,7 @@
 
 # get the ssh password via command line
 export SSHUSER=$1
+export MAKETHREADS=$2
 
 # set the path to our tools
 export PATH=/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk170/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:$PATH
@@ -53,18 +54,18 @@ svn up . --accept theirs-full
 # build OpenModelica
 cd /c/dev/OpenModelica
 echo "Cleaning OpenModelica"
-make -f 'Makefile.omdev.mingw' clean
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
 echo "Building OpenModelica"
-make -f 'Makefile.omdev.mingw' all
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} all
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
-make -f 'Makefile.omdev.mingw' install-python
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 #build OMClients
 echo "Cleaning OMClients"
-make -f 'Makefile.omdev.mingw' clean-qtclients
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean-qtclients
 echo "Building OMClients"
-make -f 'Makefile.omdev.mingw' qtclients
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} qtclients
 
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
@@ -122,8 +123,15 @@ echo "Read more about OpenModelica at https://openmodelica.org" >> ${FILE_PREFIX
 echo "Contact us at OpenModelica@ida.liu.se for further issues or questions." >> ${FILE_PREFIX}-README.txt
 
 # make the testsuite-trace
+cd /c/dev/OpenModelica
+echo "Running testsuite trace"
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} testlog > time.log 2>&1
+
 echo "Check HUDSON testserver for the testsuite trace here (match revision ${REVISION} to build jobs): " >> ${FILE_PREFIX}-testsuite-trace.txt
 echo "  https://test.openmodelica.org/hudson/" >> ${FILE_PREFIX}-testsuite-trace.txt
+cat time.log >> ${FILE_PREFIX}-testsuite-trace.txt
+cat testsuite/testsuite-trace.txt >> ${FILE_PREFIX}-testsuite-trace.txt
+rm -f time.log
 
 ls -lah ${PREFIX}
 
