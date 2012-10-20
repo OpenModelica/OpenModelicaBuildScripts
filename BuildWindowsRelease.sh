@@ -66,6 +66,8 @@ echo "Cleaning OMClients"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean-qtclients
 echo "Building OMClients"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} qtclients
+echo "Building MSVC compiled runtime"
+make -f 'Makefile.omdev.mingw' simulationruntimecmsvc
 
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
