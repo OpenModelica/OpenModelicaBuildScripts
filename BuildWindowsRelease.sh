@@ -57,7 +57,7 @@ echo "Cleaning OpenModelica"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
 echo "Building OpenModelica"
-make -f 'Makefile.omdev.mingw' -j6 all
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} all
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
