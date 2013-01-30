@@ -1,11 +1,12 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
+# Adrian.Pop@liu.se 2013-01-30 (beta2 -> beta4)
 
-Name OpenModelica1.9.0Beta2
+Name OpenModelica1.9.0Beta4
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.9.0Beta2
+!define VERSION 1.9.0Beta4
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright 2012 OpenModelica"
