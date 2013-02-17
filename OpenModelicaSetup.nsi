@@ -272,6 +272,7 @@ Function .onInit
     "$(^Name) is already installed on your machine. $\n$\nClick `OK` to upgrade \
     or `Cancel` to cancel this upgrade." \
     IDOK uninst
+    Quit
 uninst:
   ClearErrors
   Exec $INSTDIR\Uninstall.exe
