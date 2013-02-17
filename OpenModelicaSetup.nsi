@@ -274,8 +274,7 @@ Function .onInit
     IDOK uninst
     Quit
 uninst:
-  ClearErrors
-  Exec $INSTDIR\Uninstall.exe
+  ExecWait '$R0 _?=$INSTDIR'
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
