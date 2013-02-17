@@ -222,7 +222,7 @@ SectionEnd
 # Uninstaller sections
 Section "Uninstall"
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
-  Delete /REBOOTOK $INSTDIR\Uninstall.exe
+  Delete $INSTDIR\Uninstall.exe
   !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
   ReadRegStr $R0 HKLM "SOFTWARE\OpenModelica" InstallMode
   StrCmp $R0 "AllUsers" 0 +5
@@ -236,21 +236,21 @@ Section "Uninstall"
   # make sure windows knows about the change i.e we created the environment variables.
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
   # delete the shortcuts and the startment folder
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Connection Editor.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Notebook.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Shell.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\OpenModelica Website.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Uninstall OpenModelica.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - API - HowTo.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - Modelica Tutorial by Peter Fritzson.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - System Guide.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica - Users Guide.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica Connection Editor - User Manual.pdf.lnk"
-  Delete /REBOOTOK "$SMPROGRAMS\$R1\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk"
-  RMDir /REBOOTOK "$SMPROGRAMS\$R1\Documentation"
-  RMDir /REBOOTOK "$SMPROGRAMS\$R1"
+  Delete "$SMPROGRAMS\$R1\OpenModelica Connection Editor.lnk"
+  Delete "$SMPROGRAMS\$R1\OpenModelica Notebook.lnk"
+  Delete "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
+  Delete "$SMPROGRAMS\$R1\OpenModelica Shell.lnk"
+  Delete "$SMPROGRAMS\$R1\OpenModelica Website.lnk"
+  Delete "$SMPROGRAMS\$R1\Uninstall OpenModelica.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - API - HowTo.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - Modelica Tutorial by Peter Fritzson.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - System Guide.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - Users Guide.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica Connection Editor - User Manual.pdf.lnk"
+  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk"
+  RMDir "$SMPROGRAMS\$R1\Documentation"
+  RMDir "$SMPROGRAMS\$R1"
   DeleteRegKey HKLM "SOFTWARE\OpenModelica"
   ${unregisterExtension} ".mo" "OpenModelica Model"
   ${unregisterExtension} ".onb" "OpenModelica Notebook"
@@ -260,7 +260,7 @@ Section "Uninstall"
   DeleteRegValue HKLM "${REGKEY}" Path
   DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
   DeleteRegKey /IfEmpty HKLM "${REGKEY}"
-  RmDir /r /REBOOTOK $INSTDIR
+  RmDir /r $INSTDIR
 SectionEnd
 
 # Installer functions
