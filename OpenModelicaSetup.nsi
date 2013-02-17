@@ -269,7 +269,7 @@ Function .onInit
   ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
   IfFileExists $R0 +1 NotInstalled
     MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to upgrade \
+    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to update \
     or `Cancel` to cancel this upgrade." \
     IDOK uninst
     Quit
