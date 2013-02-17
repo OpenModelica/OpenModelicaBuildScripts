@@ -268,8 +268,13 @@ Function .onInit
   ; Check to see if already installed
   ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
   IfFileExists $R0 +1 NotInstalled
-    MessageBox MB_OK "$(^Name) is already installed on your machine. Please uninstall it before running the installation again."
-    Quit
+    MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to upgrade \
+    or `Cancel` to cancel this upgrade." \
+    IDOK uninst
+uninst:
+  ClearErrors
+  Exec $INSTDIR\Uninstall.exe
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
