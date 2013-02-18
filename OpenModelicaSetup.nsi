@@ -266,15 +266,20 @@ SectionEnd
 # Installer functions
 Function .onInit
   ; Check to see if already installed
-  ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
-  IfFileExists $R0 +1 NotInstalled
+  ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
+  IfFileExists $R2 +1 NotInstalled
     MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to update \
-    or `Cancel` to cancel this upgrade." \
+    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to uninstall and install again. \
+    $\nClick `Cancel` to quit the setup." \
     IDOK uninst
     Quit
 uninst:
-  ExecWait '$R0 _?=$INSTDIR'
+  Push "\Uninstall.exe" ; divider str
+  Push $R2 ; input string
+  Call GetLastPart
+  Pop $R1 ; last part
+  Pop $R0 ; first part
+  ExecWait '$R2 _?=$R0' ; _? switch blocks until the uninstall is done.
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
@@ -320,6 +325,41 @@ Function CheckForSpaces
   Pop $R2
   Pop $R1
   Exch $R0
+FunctionEnd
+
+Function GetLastPart
+Exch $R0 ; input
+Exch
+Exch $R1 ; divider str
+Push $R2
+Push $R3
+Push $R4
+Push $R5
+ 
+ StrCpy $R2 -1
+ StrLen $R4 $R0
+ StrLen $R5 $R1
+ Loop:
+  IntOp $R2 $R2 + 1
+  StrCpy $R3 $R0 $R5 $R2
+  StrCmp $R3 $R1 Chop
+  StrCmp $R2 $R4 0 Loop
+   StrCpy $R0 ""
+   StrCpy $R1 ""
+   Goto Done
+ Chop:
+  StrCpy $R1 $R0 $R2
+  IntOp $R2 $R2 + $R5
+  StrCpy $R0 $R0 "" $R2
+ Done:
+ 
+Pop $R5
+Pop $R4
+Pop $R3
+Pop $R2
+Exch $R1 ; before
+Exch
+Exch $R0 ; after
 FunctionEnd
 
 # Uninstaller functions
