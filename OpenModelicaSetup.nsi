@@ -60,6 +60,7 @@ BrandingText "Copyright 2012 OpenModelica"
 # Include for some of the windows messages defines
 !include "winmessages.nsh"
 !include "FileAssociation.nsh"
+!include "CustomFunctions.nsh"
 
 ; HKLM (all users) vs HKCU (current user) defines
 !define ENV_HKLM 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
@@ -283,83 +284,10 @@ uninst:
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
-  StrCpy $INSTDIR "C:\OpenModelica1.9.0"
-FunctionEnd
-
-Function DirectoryLeave
-  # Call the CheckForSpaces function.
-  Push $INSTDIR # Input string (install path).
-  Call CheckForSpaces
-  Pop $R0 # The function returns the number of spaces found in the input string.
-  # Check if any spaces exist in $INSTDIR.
-  StrCmp $R0 0 NoSpaces
-    # Plural if more than 1 space in $INSTDIR.
-    StrCmp $R0 1 0 +3
-      StrCpy $R1 ""
-    Goto +2
-      StrCpy $R1 "s"
-    # Show message box then take the user back to the Directory page.
-    MessageBox MB_OK|MB_ICONEXCLAMATION "The Installaton directory \
-    has $R0 space$R1.$\nPlease remove the space$R1."
-    Abort
-  NoSpaces:
-FunctionEnd
-
-Function CheckForSpaces
-  Exch $R0
-  Push $R1
-  Push $R2
-  Push $R3
-  StrCpy $R1 -1
-  StrCpy $R3 $R0
-  StrCpy $R0 0
-  loop:
-    StrCpy $R2 $R3 1 $R1
-    IntOp $R1 $R1 - 1
-    StrCmp $R2 "" done
-    StrCmp $R2 " " 0 loop
-    IntOp $R0 $R0 + 1
-  Goto loop
-  done:
-  Pop $R3
-  Pop $R2
-  Pop $R1
-  Exch $R0
-FunctionEnd
-
-Function GetLastPart
-Exch $R0 ; input
-Exch
-Exch $R1 ; divider str
-Push $R2
-Push $R3
-Push $R4
-Push $R5
- 
- StrCpy $R2 -1
- StrLen $R4 $R0
- StrLen $R5 $R1
- Loop:
-  IntOp $R2 $R2 + 1
-  StrCpy $R3 $R0 $R5 $R2
-  StrCmp $R3 $R1 Chop
-  StrCmp $R2 $R4 0 Loop
-   StrCpy $R0 ""
-   StrCpy $R1 ""
-   Goto Done
- Chop:
-  StrCpy $R1 $R0 $R2
-  IntOp $R2 $R2 + $R5
-  StrCpy $R0 $R0 "" $R2
- Done:
- 
-Pop $R5
-Pop $R4
-Pop $R3
-Pop $R2
-Exch $R1 ; before
-Exch
-Exch $R0 ; after
+  ${GetDrives} "HDD" "HardDiskDrives"
+  # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
+  StrCpy $INSTDIR $R0
+  StrCpy $INSTDIR "$R0OpenModelica1.9.0"
 FunctionEnd
 
 # Uninstaller functions
