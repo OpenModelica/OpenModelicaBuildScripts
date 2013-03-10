@@ -9,7 +9,7 @@ Name OpenModelica1.9.0Beta4
 !define VERSION 1.9.0Beta4
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
-BrandingText "Copyright 2012 OpenModelica"
+BrandingText "Copyright 2013 OpenModelica"
 
 # MultiUser Symbol Definitions
 !define MULTIUSER_EXECUTIONLEVEL Highest
