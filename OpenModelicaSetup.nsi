@@ -200,8 +200,6 @@ Section -post SEC0001
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica Connection Editor - User Manual.pdf.lnk" "$INSTDIR\share\doc\omedit\OMEdit-UserManual.pdf" \
-  "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omoptim\OMOptim-UsersGuide.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
   !insertmacro MUI_STARTMENU_WRITE_END
