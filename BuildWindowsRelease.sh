@@ -58,6 +58,8 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
 echo "Building OpenModelica"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} all
+echo "Building OpenModelica second time to handle templates"
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} all
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
@@ -69,6 +71,8 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS} qtclients
 cd /c/dev/OpenModelica
 echo "Building MSVC compiled runtime"
 make -f 'Makefile.omdev.mingw' simulationruntimecmsvc
+echo "Building CPP runtime"
+make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup

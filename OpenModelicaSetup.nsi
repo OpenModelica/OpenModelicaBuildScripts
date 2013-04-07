@@ -105,6 +105,7 @@ Section -Main SEC0000
   # Create bin directory and copy files in it
   SetOutPath "$INSTDIR\bin"
   File "..\..\build\bin\omc.exe"
+  File "..\..\build\bin\OMCppSimulation.exe"
   File "..\..\build\bin\fmigenerator.exe"
   File "..\..\build\bin\BreakProcess.exe"
   File "..\..\build\bin\OMPlot.exe"
@@ -121,6 +122,8 @@ Section -Main SEC0000
   File "..\..\build\bin\libgomp-1.dll"
   File "..\..\build\bin\mico2313.dll"
   File "..\..\build\bin\libexpat.dll"
+  File "..\..\build\bin\blas_win32.dll"
+  File "..\..\build\bin\lapack_win32.dll"
   File /r "..\..\build\bin\sundials_*.dll"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
