@@ -34,18 +34,18 @@ svn up . --accept theirs-full
 # get the revision
 export REVISION=`svn info | grep "Revision:" | cut -d " " -f 2`
 # Directory prefix
-export PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
+export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
 
 # test if exists and exit if it does
-if [ -d "${PREFIX}" ]; then
-	echo "Revision ${PREFIX} already exists! Exiting ..."
+if [ -d "${OMC_INSTALL_PREFIX}" ]; then
+	echo "Revision ${OMC_INSTALL_PREFIX} already exists! Exiting ..."
 	exit 0
 fi
 
 # create the revision directory
-mkdir -p ${PREFIX}
+mkdir -p ${OMC_INSTALL_PREFIX}
 # make the file prefix
-export FILE_PREFIX="${PREFIX}OpenModelica-revision-${REVISION}"
+export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-revision-${REVISION}"
 
 # update OpenModelicaSetup
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
@@ -78,24 +78,24 @@ make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
 makensis OpenModelicaSetup.nsi
 # move the installer
-mv OpenModelica.exe ${FILE_PREFIX}.exe
+mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
 # gather the svn log
 cd /c/dev/OpenModelica
-svn log -v -r ${REVISION}:1 > ${FILE_PREFIX}-ChangeLog.txt
+svn log -v -r ${REVISION}:1 > ${OMC_INSTALL_FILE_PREFIX}-ChangeLog.txt
 
 # make the readme
 export DATESTR=`date +"%Y-%m-%d_%H-%M"`
-echo "Automatic build of OpenModelica by testwin.openmodelica.org at date: ${DATESTR} from revision: ${REVISION}" >> ${FILE_PREFIX}-README.txt
-echo " " >> ${FILE_PREFIX}-README.txt
-echo "Read OpenModelica-revision-${REVISION}-ChangeLog.txt for more info on changes." >> ${FILE_PREFIX}-README.txt
-echo " " >> ${FILE_PREFIX}-README.txt
-echo "See also (match revision ${REVISION} to build jobs):" >> ${FILE_PREFIX}-README.txt
-echo "  https://test.openmodelica.org/hudson/" >> ${FILE_PREFIX}-README.txt
-echo "  http://test.openmodelica.org/~marsj/MSL31/BuildModelRecursive.html" >> ${FILE_PREFIX}-README.txt
-echo "  http://test.openmodelica.org/~marsj/MSL32/BuildModelRecursive.html" >> ${FILE_PREFIX}-README.txt
-echo " " >> ${FILE_PREFIX}-README.txt
-cat >> ${FILE_PREFIX}-README.txt <<DELIMITER
+echo "Automatic build of OpenModelica by testwin.openmodelica.org at date: ${DATESTR} from revision: ${REVISION}" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "Read OpenModelica-revision-${REVISION}-ChangeLog.txt for more info on changes." >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "See also (match revision ${REVISION} to build jobs):" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "  https://test.openmodelica.org/hudson/" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "  http://test.openmodelica.org/~marsj/MSL31/BuildModelRecursive.html" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "  http://test.openmodelica.org/~marsj/MSL32/BuildModelRecursive.html" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+cat >> ${OMC_INSTALL_FILE_PREFIX}-README.txt <<DELIMITER
 *Instructions to prepare test information if you find a bug:*
  
 generate a .mos script file loading all libraries and files your model need call simulate.
@@ -125,24 +125,24 @@ bug in our bug tracker:
 
 Happy testing!
 DELIMITER
-echo " " >> ${FILE_PREFIX}-README.txt
-echo "Read more about OpenModelica at https://openmodelica.org" >> ${FILE_PREFIX}-README.txt
-echo "Contact us at OpenModelica@ida.liu.se for further issues or questions." >> ${FILE_PREFIX}-README.txt
+echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "Read more about OpenModelica at https://openmodelica.org" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "Contact us at OpenModelica@ida.liu.se for further issues or questions." >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 
 # make the testsuite-trace
 cd /c/dev/OpenModelica
 echo "Running testsuite trace"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} testlog > time.log 2>&1
 
-echo "Check HUDSON testserver for the testsuite trace here (match revision ${REVISION} to build jobs): " >> ${FILE_PREFIX}-testsuite-trace.txt
-echo "  https://test.openmodelica.org/hudson/" >> ${FILE_PREFIX}-testsuite-trace.txt
-cat time.log >> ${FILE_PREFIX}-testsuite-trace.txt
-cat testsuite/testsuite-trace.txt >> ${FILE_PREFIX}-testsuite-trace.txt
+echo "Check HUDSON testserver for the testsuite trace here (match revision ${REVISION} to build jobs): " >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
+echo "  https://test.openmodelica.org/hudson/" >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
+cat time.log >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
+cat testsuite/testsuite-trace.txt >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
 rm -f time.log
 
-ls -lah ${PREFIX}
+ls -lah ${OMC_INSTALL_PREFIX}
 
-cd ${PREFIX}
+cd ${OMC_INSTALL_PREFIX}
 # move the last nightly build to the older location
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
