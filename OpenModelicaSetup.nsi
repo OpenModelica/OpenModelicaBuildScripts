@@ -9,7 +9,7 @@ Name OpenModelica1.9.0Beta4
 !define VERSION 1.9.0Beta4
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
-BrandingText "Copyright 2013 OpenModelica"
+BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
 
 # MultiUser Symbol Definitions
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -269,6 +269,11 @@ SectionEnd
 
 # Installer functions
 Function .onInit
+  # Read the current local time of the system and then extract the year from it. This value is then used in Branding Text.
+  Call GetLocalTime
+  Pop $0  ; Day
+  Pop $1  ; Month
+  Pop $2  ; Year
   ; Check to see if already installed
   ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
   IfFileExists $R2 +1 NotInstalled
