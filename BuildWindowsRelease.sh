@@ -132,13 +132,12 @@ echo "Contact us at OpenModelica@ida.liu.se for further issues or questions." >>
 # make the testsuite-trace
 cd /c/dev/OpenModelica
 echo "Running testsuite trace"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} testlogwindows > time.log 2>&1
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} testlogwindows > tmpTime.log 2>&1
 
 echo "Check HUDSON testserver for the testsuite trace here (match revision ${REVISION} to build jobs): " >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
 echo "  https://test.openmodelica.org/hudson/" >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
-cat time.log >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
-cat testsuite/testsuite-trace.txt >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
-rm -f time.log
+cat tmpTime.log >> ${OMC_INSTALL_FILE_PREFIX}-testsuite-trace.txt
+#rm -f tmpTime.log
 
 ls -lah ${OMC_INSTALL_PREFIX}
 
