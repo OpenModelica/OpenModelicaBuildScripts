@@ -1,21 +1,26 @@
 #!/bin/sh -xe
 # script to build the OpenModelica nightly-build
 # Adrian Pop [adrian.pop@liu.se]
-# 2012-10-08
-
+# 2013-10-03
+#
 # expects to have these things installed:
-#  python 2.7.x
+#  python 2.7.x (you need to run easy_install joblib simplejson requests in the cmd line in python\Scripts)
 #  nsis installer
 #  TortoiseSVN command line tools
 #  Qt 4.8.0
 #  jdk
+#  git command line clients (PUT IT LAST IN THE PATH!) http://git-scm.com/downloads
+#  OMDev in c:\OMDev
+#
+# use the git libraries!
+export GITLIBRARIES=Yes
 
 # get the ssh password via command line
 export SSHUSER=$1
 export MAKETHREADS=$2
 
 # set the path to our tools
-export PATH=/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk170/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:$PATH
+export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk170/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
 export OPENMODELICAHOME="c:\\dev\\OpenModelica\\build"
