@@ -155,9 +155,6 @@ Section -Main SEC0000
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" "..\..\build\share\*"
-  # Create share\omedit\nls directory and copy files in it
-  SetOutPath "$INSTDIR\share\omedit\nls"
-  File "$%OMDEV%\tools\OMTools\nls\*.qm"
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
