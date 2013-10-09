@@ -1,12 +1,13 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 # Adrian.Pop@liu.se 2013-01-30 (beta2 -> beta4)
+# Adrian.Pop@liu.se 2013-10-09 (beta4 -> release)
 
-Name OpenModelica1.9.0Beta4
+Name OpenModelica1.9.0
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.9.0Beta4
+!define VERSION 1.9.0
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
