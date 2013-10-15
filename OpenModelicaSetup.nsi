@@ -2,12 +2,13 @@
 # 2011-jul-29 21:01:29
 # Adrian.Pop@liu.se 2013-01-30 (beta2 -> beta4)
 # Adrian.Pop@liu.se 2013-10-09 (beta4 -> release)
+# Adrian.Pop@liu.se 2013-10-16 (1.9.0 -> 1.9.1)
 
-Name OpenModelica1.9.0
+Name OpenModelica1.9.1Nightly
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.9.0
+!define VERSION 1.9.1Nightly
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -89,7 +90,7 @@ OutFile "OpenModelica.exe"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.9.0.0
+VIProductVersion 1.9.1.0
 VIAddVersionKey ProductName "OpenModelica"
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
@@ -293,7 +294,7 @@ NotInstalled:
   ${GetDrives} "HDD" "HardDiskDrives"
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
-  StrCpy $INSTDIR "$R0OpenModelica1.9.0"
+  StrCpy $INSTDIR "$R0OpenModelica1.9.1"
 FunctionEnd
 
 # Uninstaller functions
