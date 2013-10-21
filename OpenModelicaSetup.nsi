@@ -7,7 +7,7 @@
 Name OpenModelica1.9.1Nightly
 
 # General Symbol Definitions
-!define REGKEY "SOFTWARE\$(^Name)"
+!define REGKEY "SOFTWARE\OpenModelica"
 !define VERSION 1.9.1Nightly
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
@@ -212,19 +212,19 @@ Section -post SEC0001
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
   WriteRegStr HKLM "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" URLInfoAbout "${URL}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayIcon $INSTDIR\Uninstall.exe
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\Uninstall.exe
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayName "$(^Name)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayVersion "${VERSION}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" Publisher "${COMPANY}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" URLInfoAbout "${URL}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayIcon $INSTDIR\Uninstall.exe
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" UninstallString $INSTDIR\Uninstall.exe
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoModify 1
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoRepair 1
 SectionEnd
 
 # Uninstaller sections
 Section "Uninstall"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica"
   Delete $INSTDIR\Uninstall.exe
   !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
   ReadRegStr $R0 HKLM "SOFTWARE\OpenModelica" InstallMode
@@ -274,10 +274,10 @@ Function .onInit
   Pop $1  ; Month
   Pop $2  ; Year
   ; Check to see if already installed
-  ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" "UninstallString"
+  ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" "UninstallString"
   IfFileExists $R2 +1 NotInstalled
     MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-    "$(^Name) is already installed on your machine. $\n$\nClick `OK` to uninstall and install again. \
+    "OpenModelica is already installed on your machine. $\n$\nClick `OK` to uninstall and install again. \
     $\nClick `Cancel` to quit the setup." \
     IDOK uninst
     Quit
@@ -294,7 +294,7 @@ NotInstalled:
   ${GetDrives} "HDD" "HardDiskDrives"
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
-  StrCpy $INSTDIR "$R0OpenModelica1.9.1"
+  StrCpy $INSTDIR "$R0$(^Name)"
 FunctionEnd
 
 # Uninstaller functions
