@@ -300,7 +300,7 @@ FunctionEnd
 # Uninstaller functions
 Function un.onInit
   # Read the current local time of the system and then extract the year from it. This value is then used in Branding Text.
-  Call GetLocalTime
+  Call un.GetLocalTime
   Pop $0  ; Day
   Pop $1  ; Month
   Pop $2  ; Year
