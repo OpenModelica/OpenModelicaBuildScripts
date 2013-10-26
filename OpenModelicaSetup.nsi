@@ -125,6 +125,7 @@ Section -Main SEC0000
   File "..\..\build\bin\libexpat.dll"
   File "..\..\build\bin\blas_win32.dll"
   File "..\..\build\bin\lapack_win32.dll"
+  File /r "..\..\build\bin\libgfortran*.dll"
   File /r "..\..\build\bin\pthread*.dll"
   File /r "..\..\build\bin\sundials_*.dll"
   File /r "..\..\build\bin\boost_*.dll"
