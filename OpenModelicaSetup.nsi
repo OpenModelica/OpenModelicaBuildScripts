@@ -289,6 +289,7 @@ uninst:
   Pop $R1 ; last part
   Pop $R0 ; first part
   ExecWait '$R2 _?=$R0' ; _? switch blocks until the uninstall is done.
+  RmDir /r $INSTDIR ; since we are running the Uninstall.exe so it was not deleted in the uninstallation process. Makesure we remove the $INSTDIR.
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
