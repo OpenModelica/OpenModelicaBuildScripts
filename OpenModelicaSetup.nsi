@@ -158,7 +158,7 @@ Section -Main SEC0000
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
-  File /r /x "*.svn" "..\..\build\share\*"
+  File /r /x "*.svn" /x "*.git" "..\..\build\share\*"
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
@@ -208,6 +208,9 @@ Section -post SEC0001
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omoptim\OMOptim-UsersGuide.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
+  CreateDirectory "$SMPROGRAMS\$StartMenuGroup\PySimulator"
+  SetOutPath ""
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\PySimulator\README.lnk" "$INSTDIR\share\omc\scripts\PythonInterface\PySimulator\README.md"
   !insertmacro MUI_STARTMENU_WRITE_END
   ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OpenModelica Model" "$INSTDIR\icons\omedit.ico" "OpenModelica Connection Editor"
   ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook" "$INSTDIR\icons\OMNotebook.ico" "OpenModelica Notebook"

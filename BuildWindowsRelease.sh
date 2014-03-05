@@ -79,6 +79,10 @@ make -f 'Makefile.omdev.mingw' simulationruntimecmsvc
 echo "Building CPP runtime"
 make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 
+# get PySimulator
+# for now get the master from github since OpenModelica plugin is still not part of tagged release. This should be updated once PySimulator outs a new release.
+git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica/build/share/omc/scripts/PythonInterface/PySimulator
+
 # build the installer
 cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
 makensis OpenModelicaSetup.nsi
