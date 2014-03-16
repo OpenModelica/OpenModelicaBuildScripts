@@ -120,6 +120,7 @@ Section -Main SEC0000
   File "..\..\build\bin\OMOptim.exe"
   File "..\..\build\bin\omniORB416_vc10_rt.dll"
   File "..\..\build\bin\omnithread34_vc10_rt.dll"
+  File "..\..\build\bin\libgc-1.dll"
   File "..\..\build\bin\libiconv-2.dll"
   File "..\..\build\bin\libintl-8.dll"
   File "..\..\build\bin\libgomp-1.dll"
