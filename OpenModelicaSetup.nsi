@@ -285,18 +285,22 @@ Function .onInit
   ; Check to see if already installed
   ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" "UninstallString"
   IfFileExists $R2 +1 NotInstalled
-    MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-    "OpenModelica is already installed on your machine. $\n$\nClick `OK` to uninstall and install again. \
-    $\nClick `Cancel` to quit the setup." \
-    IDOK uninst
-    Quit
+    IfSilent uninst ; if silent install mode is enabled then also uninstall silently.
+      MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+      "OpenModelica is already installed on your machine. $\n$\nClick `OK` to uninstall and install again. \
+      $\nClick `Cancel` to quit the setup." \
+      IDOK uninst
+      Quit
 uninst:
   Push "\Uninstall.exe" ; divider str
   Push $R2 ; input string
   Call GetLastPart
   Pop $R1 ; last part
   Pop $R0 ; first part
-  ExecWait '$R2 _?=$R0' ; _? switch blocks until the uninstall is done.
+  IfSilent +1 +3 ; if silent install mode is enabled then also uninstall silently.
+    ExecWait "$R2 /S _?=$R0" ; _? switch blocks until the uninstall is done.
+    Goto +2
+  ExecWait "$R2 _?=$R0" ; _? switch blocks until the uninstall is done.
   RmDir /r $INSTDIR ; since we are running the Uninstall.exe so it was not deleted in the uninstallation process. Makesure we remove the $INSTDIR.
 NotInstalled:
   InitPluginsDir
@@ -305,6 +309,10 @@ NotInstalled:
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
   StrCpy $INSTDIR "$R0$(^Name)"
+  IfSilent +1 +3 ; in silent install mode set multiuser to AllUsers.
+    StrCpy $MultiUser.InstallMode "AllUsers"
+    Goto +2
+  StrCpy $MultiUser.InstallMode "CurrentUser"
 FunctionEnd
 
 # Uninstaller functions
