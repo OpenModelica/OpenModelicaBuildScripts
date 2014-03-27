@@ -37,6 +37,7 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "OpenModelica"
+!define MUI_FINISHPAGE_TITLE_3LINES
 !define MUI_UNICON "icons\Uninstall.ico"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
