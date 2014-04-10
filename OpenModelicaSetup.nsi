@@ -162,6 +162,9 @@ Section -Main SEC0000
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\..\build\share\*"
+  # Copy the OpenModelica webpage url shortcut
+  SetOutPath "$INSTDIR\share\doc\omc"
+  File "..\..\doc\OpenModelica Project Online.url"
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
