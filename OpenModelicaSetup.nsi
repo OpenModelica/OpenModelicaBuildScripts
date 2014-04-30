@@ -134,6 +134,7 @@ Section -Main SEC0000
   File /r "..\..\build\bin\sundials_*.dll"
   File /r "..\..\build\bin\boost_*.dll"
   File /r "..\..\build\bin\libboost_*.dll"
+  File /r "..\..\build\bin\libqjson*.dll*"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
