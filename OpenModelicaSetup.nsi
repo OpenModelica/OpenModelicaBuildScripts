@@ -111,7 +111,6 @@ Section -Main SEC0000
   SetOutPath "$INSTDIR\bin"
   File "..\..\build\bin\omc.exe"
   File "..\..\build\bin\OMCppSimulation.exe"
-  File "..\..\build\bin\fmigenerator.exe"
   File "..\..\build\bin\BreakProcess.exe"
   File "..\..\build\bin\OMPlot.exe"
   File "..\..\build\bin\OMVisualize.exe"
