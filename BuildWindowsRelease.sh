@@ -59,6 +59,8 @@ svn up . --accept theirs-full
 # build OpenModelica
 cd /c/dev/OpenModelica
 echo "Cleaning OpenModelica"
+rm -rf build/
+mkdir build/
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
 echo "Building OpenModelica"
