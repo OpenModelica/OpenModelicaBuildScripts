@@ -68,6 +68,12 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
 echo "Building OpenModelica second time to handle templates"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
 cd /c/dev/OpenModelica
+echo "Building OpenModelica bootstrapped compiler ..."
+cp build/bin/omc.exe build/bin/omc-rml.exe
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omc-bootstrapped
+cd /c/dev/OpenModelica
+cp build/bin/omc.exe build/bin/omc-bootstrapped.exe
+cp build/bin/omc-rml.exe build/bin/omc.exe
 echo "Installing Python scripting"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 #build OMClients
