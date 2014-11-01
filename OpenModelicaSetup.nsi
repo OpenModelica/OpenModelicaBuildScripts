@@ -175,7 +175,7 @@ Section -post SEC0001
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Connection Editor.lnk" "$INSTDIR\bin\OMEdit.exe" \
   "" "$INSTDIR\icons\omedit.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Notebook.lnk" "$INSTDIR\bin\OMNotebook.exe" \
-  "" "$INSTDIR\icons\OMNotebook.ico"
+  "" "$INSTDIR\icons\OMNotebook_icon.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Optimization Editor.lnk" "$INSTDIR\bin\OMOptim.exe" \
   "" "$INSTDIR\icons\omoptim.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Shell.lnk" "$INSTDIR\bin\OMShell.exe" \
@@ -203,8 +203,8 @@ Section -post SEC0001
   SetOutPath ""
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\PySimulator\README.lnk" "$INSTDIR\share\omc\scripts\PythonInterface\PySimulator\README.md"
   !insertmacro MUI_STARTMENU_WRITE_END
-  ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OpenModelica Model" "$INSTDIR\icons\omedit.ico" "OpenModelica Connection Editor"
-  ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook" "$INSTDIR\icons\OMNotebook.ico" "OpenModelica Notebook"
+  ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OpenModelica Connection Editor"
+  ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
   WriteRegStr HKLM "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
