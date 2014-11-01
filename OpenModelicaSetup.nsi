@@ -119,6 +119,10 @@ Section -Main SEC0000
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omnithread34_rt.dll"
   File "..\..\OSMC-License.txt"
+  # Copy the openssl binaries
+  File "bin\libeay32.dll"
+  File "bin\libssl32.dll"
+  File "bin\ssleay32.dll"
   # Create bin\iconengines directory and copy files in it
   SetOutPath "$INSTDIR\bin\iconengines"
   File "$%OMDEV%\tools\OMTools\dll\qsvgicon4.dll"
@@ -129,6 +133,7 @@ Section -Main SEC0000
   File "..\..\OMOptim\GUI\Resources\omoptim.ico"
   File "..\..\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
   File "..\..\OMShell\OMShellGUI\Resources\omshell.ico"
+  File "..\..\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
   File "..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
