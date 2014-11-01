@@ -203,8 +203,8 @@ Section -post SEC0001
   SetOutPath ""
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\PySimulator\README.lnk" "$INSTDIR\share\omc\scripts\PythonInterface\PySimulator\README.md"
   !insertmacro MUI_STARTMENU_WRITE_END
-  ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OpenModelica Connection Editor"
-  ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook"
+  ${registerExtension} "$INSTDIR\bin\OMEdit.exe" ".mo" "OMEdit - OpenModelica Connection Editor"
+  ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OMNotebook - OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
   WriteRegStr HKLM "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
