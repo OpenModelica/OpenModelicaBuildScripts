@@ -73,11 +73,9 @@ _____________________________________________________________________________
  
  
  
-!macro RegisterExtensionCall _EXECUTABLE _EXTENSION _DESCRIPTION _DEFAULTICON _EDITDESCRIPTION
+!macro RegisterExtensionCall _EXECUTABLE _EXTENSION _DESCRIPTION
   !verbose push
   !verbose ${_FileAssociation_VERBOSE}
-  Push `${_EDITDESCRIPTION}`
-  Push `${_DEFAULTICON}`
   Push `${_DESCRIPTION}`
   Push `${_EXTENSION}`
   Push `${_EXECUTABLE}`
@@ -116,12 +114,6 @@ _____________________________________________________________________________
   Exch 2
   Exch $R0 ;desc
   Exch 2
-  Exch 3
-  Exch $R3 ;icon
-  Exch 3
-  Exch 4
-  Exch $R4 ;edit desc
-  Exch 4
   Push $0
   Push $1
  
@@ -136,10 +128,10 @@ NoBackup:
   StrCmp $0 "" 0 Skip
     WriteRegStr HKCR "$R0" "" "$R0"
     WriteRegStr HKCR "$R0\shell" "" "open"
+    WriteRegStr HKCR "$R0\DefaultIcon" "" "$R2,0"
 Skip:
-  WriteRegStr HKCR "$R0\DefaultIcon" "" "$R3"
   WriteRegStr HKCR "$R0\shell\open\command" "" '"$R2" "%1"'
-  WriteRegStr HKCR "$R0\shell\edit" "" "Edit with $R4"
+  WriteRegStr HKCR "$R0\shell\edit" "" "Edit $R0"
   WriteRegStr HKCR "$R0\shell\edit\command" "" '"$R2" "%1"'
  
   Pop $1
