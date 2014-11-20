@@ -30,7 +30,7 @@ endif
 
 #ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-MAKEFLAGS += -j$(shell grep -c processor /proc/cpuinfo)
+MAKEFLAGS += -j$(shell grep -c ^processor /proc/cpuinfo)
 #endif
 
 # march=pentium4 used to be enabled because omc required sse2 regardless
@@ -80,14 +80,14 @@ build-stamp:  config.status
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
+	rm -f build-stamp
 	# Add here commands to clean up after the build process.
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir
 	dh_testroot
-	dh_prep 
+	dh_prep
 	dh_installdirs -popenmodelica -Pdebian/tmp
 	# Add here commands to install the package into debian/tmp.
 	$(MAKE) $(MAKEFLAGS) install DESTDIR=$(DEST)
@@ -99,7 +99,7 @@ install: build
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_installdocs
 	dh_installexamples
 	dh_install
@@ -118,4 +118,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+.PHONY: build clean binary-indep binary-arch binary install
