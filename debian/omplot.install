@@ -1,0 +1,3 @@
+debian/tmp/usr/bin/OMPlot
+debian/tmp/usr/lib/omc/libomqwt*
+debian/tmp/usr/lib/omc/libOMPlot*

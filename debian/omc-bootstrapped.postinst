@@ -1,0 +1,2 @@
+#!/bin/sh
+#update-alternatives --install /usr/bin/omc omc /usr/bin/omc-bootstrapped 50

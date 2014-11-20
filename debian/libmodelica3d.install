@@ -1,0 +1,4 @@
+debian/tmp/usr/lib/lib*.so
+debian/tmp/usr/lib/omc/libmodbus.a
+debian/tmp/usr/lib/omc/libmodcount.a
+debian/tmp/usr/lib/omlibrary-modelica3d/

@@ -1,0 +1,121 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# OpenModelica debian/rules that uses debhelper.
+# Based on a sample file with GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+ARCH ?= $(shell uname -m | sed s/i[0-9]86/x86/)
+
+# Some variables to install binaries under debian/tmp
+DEST   = $(CURDIR)/debian/tmp
+SRCD   = $(CURDIR)
+
+CFLAGS = -Wall
+
+#CC = gcc
+#CXX = g++
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+#ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+#  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+MAKEFLAGS += -j$(shell grep -c processor /proc/cpuinfo)
+#endif
+
+# march=pentium4 used to be enabled because omc required sse2 regardless
+# ifeq (x86,$(ARCH))
+#        CFLAGS += -march=pentium4
+# endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+configure: configure.in
+	autoconf
+
+config.status: configure
+	dh_testdir
+	echo $(DEB_BUILD_OPTIONS)
+	# Add here commands to configure the package.
+	CFLAGS="$(CFLAGS)" ./configure \
+	CC=clang CXX=clang++ OMPCC="gcc -fopenmp" \
+	--host=$(DEB_HOST_GNU_TYPE) \
+	--build=$(DEB_BUILD_GNU_TYPE) \
+	--prefix=/usr \
+	--with-lapack="-llapack -lblas" \
+	--with-omniORB=/usr \
+	--without-ipopt
+#       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
+#	--with-static-lpsolve=/usr
+#	--with-static-readline=/usr
+
+build: build-stamp
+
+build-stamp:  config.status
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes release mosh omlibrary qtclients
+	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes runtimeCPPinstall
+	mv build/bin/omc build/bin/omc-bootstrapped
+	# Qtclients will start make omc again
+	# This is a good thing as Susan will then run and regenerate SimCodeC
+	# Skip it due to ModelicaBuiltin not existing
+	# $(MAKE) release
+	# Skip the testsuite log. People can look it up on hudson
+	# bash -c "(ulimit -t 600 && cd testsuite/partest && /usr/bin/time -f '== Testsuite wall-time: %e' ./runtests.pl -nocolour)" > ./build/share/doc/omc/testsuite.txt 2>&1
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp 
+	# Add here commands to clean up after the build process.
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep 
+	dh_installdirs -popenmodelica -Pdebian/tmp
+	# Add here commands to install the package into debian/tmp.
+	$(MAKE) $(MAKEFLAGS) install DESTDIR=$(DEST)
+	# We add our own Debian-specific copyright file
+	rm -f $(DEST)/usr/share/doc/omc/COPYING
+	dh_install
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+	dh_install
+	dh_installmenu
+	dh_installmime
+	dh_installman
+	dh_link
+	dh_strip
+	# dh_compress -X.pdf -X.onb -X.c -X.h -X.mo -X.mos -Xomc_helptext.txt -X.py
+	dh_fixperms
+	dh_installdeb
+	dh_makeshlibs -V
+	dh_shlibdeps -l/usr/lib/omc -Lomc -- --ignore-missing-info
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 

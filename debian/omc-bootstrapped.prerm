@@ -1,0 +1,2 @@
+#!/bin/sh
+#update-alternatives --remove omc /usr/bin/omc-bootstrapped
