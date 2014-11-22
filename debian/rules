@@ -17,10 +17,8 @@ ARCH ?= $(shell uname -m | sed s/i[0-9]86/x86/)
 DEST   = $(CURDIR)/debian/tmp
 SRCD   = $(CURDIR)
 
-CFLAGS = -Wall
-
-#CC = gcc
-#CXX = g++
+CC = clang
+CXX = clang++
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -48,8 +46,7 @@ config.status: configure
 	dh_testdir
 	echo $(DEB_BUILD_OPTIONS)
 	# Add here commands to configure the package.
-	CFLAGS="$(CFLAGS)" ./configure \
-	CC=clang CXX=clang++ OMPCC="gcc -fopenmp" \
+	./configure CFLAGS="$(CFLAGS)" CC=$(CC) CXX=$(CXX) OMPCC="gcc -fopenmp" \
 	--host=$(DEB_HOST_GNU_TYPE) \
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
