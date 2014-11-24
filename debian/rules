@@ -22,8 +22,10 @@ CXX = clang++
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	CONF_OPTS=--disable-modelica3d
+	EXTRA_INSTALL=fake_modelica3d
 else
 	CONF_OPTS=
+	EXTRA_INSTALL
 endif
  
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -94,7 +96,7 @@ install: build
 	dh_prep
 	dh_installdirs -popenmodelica -Pdebian/tmp
 	# Add here commands to install the package into debian/tmp.
-	$(MAKE) $(MAKEFLAGS) install DESTDIR=$(DEST)
+	$(MAKE) $(MAKEFLAGS) install $(EXTRA_INSTALL) DESTDIR=$(DEST)
 	# We add our own Debian-specific copyright file
 	rm -f $(DEST)/usr/share/doc/omc/COPYING
 	dh_install
