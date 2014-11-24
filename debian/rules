@@ -20,6 +20,12 @@ SRCD   = $(CURDIR)
 CC = clang
 CXX = clang++
 
+ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
+	CONF_OPTS=--disable-modelica3d
+else
+	CONF_OPTS=
+endif
+ 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
@@ -52,7 +58,8 @@ config.status: configure
 	--prefix=/usr \
 	--with-lapack="-llapack -lblas" \
 	--with-omniORB=/usr \
-	--without-ipopt
+	--without-ipopt \
+	$(CONF_OPTS)
 #       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
 #	--with-static-lpsolve=/usr
 #	--with-static-readline=/usr
