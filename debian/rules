@@ -17,8 +17,16 @@ ARCH ?= $(shell uname -m | sed s/i[0-9]86/x86/)
 DEST   = $(CURDIR)/debian/tmp
 SRCD   = $(CURDIR)
 
-CC = clang
-CXX = clang++
+CLANGVER ?= $(shell clang --version | grep -o "clang version [0-9.]*" | cut "-d " -f3)
+
+# Try to compile with gcc rather than old gcc versions
+ifeq (3.0,$(CLANGVER))
+	CC = gcc
+	CXX = g++
+else
+	CC = clang
+	CXX = clang++
+endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	CONF_OPTS=--disable-modelica3d
