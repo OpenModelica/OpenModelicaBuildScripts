@@ -148,6 +148,9 @@ Section -Main SEC0000
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\..\build\share\*"
+  # copy figaro files
+  SetOutPath "$INSTDIR\share\VisualFigaro"
+  File /r "$%OMDEV%\lib\VisualFigaro\*"
   # Copy the OpenModelica webpage url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
   File "..\..\doc\OpenModelica Project Online.url"
@@ -183,6 +186,8 @@ Section -post SEC0001
   "" "$INSTDIR\icons\omshell.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Website.lnk" "$INSTDIR\share\doc\omc\OpenModelica Project Online.url" \
   "" "$INSTDIR\icons\IExplorer.ico"
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Visual Figaro.lnk" "$INSTDIR\share\VisualFigaro\jEdit4.5_VisualFigaro\jedit.exe"
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\GRIF.lnk" "$INSTDIR\share\VisualFigaro\GRIF.Tree32\Tree\Tree.bat"
   SetOutPath "$INSTDIR\"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Uninstall OpenModelica.lnk" "$INSTDIR\Uninstall.exe" \
   "" "$INSTDIR\icons\Uninstall.ico"
