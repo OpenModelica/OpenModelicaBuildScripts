@@ -26,7 +26,7 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_WELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
 !define MUI_WELCOMEPAGE_TITLE_3LINES
-!define MUI_WELCOMEPAGE_TEXT "The installer will guide you through the steps required to install $(^Name) on your computer.$\r$\n$\r$\n$\r$\nThe packge includes OpenModelica, a Modelica modeling, compilation and simulation environment based on free software."
+!define MUI_WELCOMEPAGE_TEXT "The installer will guide you through the steps required to install $(^Name) on your computer.$\r$\n$\r$\n$\r$\nThe package includes OpenModelica, a Modelica modeling, compilation and simulation environment based on free software."
 !define MUI_DIRECTORYPAGE_TEXT_TOP "Please do not install OpenModelica in a directory that contains spaces for example $\"C:\Program Files\OpenModelica$\". Keep if possible the default directory suggested by the installer."
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_NODISABLE
@@ -148,6 +148,23 @@ Section -Main SEC0000
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
+  ReadRegStr $R0 ${ENV_HKLM} OMDEV
+  ReadRegStr $R1 ${ENV_HKCU} OMDEV
+  ${If} $R0 == ""
+  ${AndIf} $R1 == ""
+    Goto KeepOMDEV
+  ${Else}
+    MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+    "OMDEV environment variable is set.  \
+    $\n$\nClick `OK` to remove it. \
+    $\nClick `Cancel` to keep it. If you choose to keep it then make sure you update it." \
+    IDOK RemoveOMDEV \
+    IDCANCEL KeepOMDEV
+  ${EndIf}
+RemoveOMDEV:
+  DeleteRegValue ${ENV_HKLM} OMDEV
+  DeleteRegValue ${ENV_HKCU} OMDEV
+KeepOMDEV:
   StrCmp $MultiUser.InstallMode "AllUsers" 0 +4
     WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
     WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
