@@ -212,8 +212,6 @@ Section -post SEC0001
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omoptim\OMOptimUsersGuide.pdf" \
-  "" "$INSTDIR\icons\PDF.ico"
   CreateDirectory "$SMPROGRAMS\$StartMenuGroup\PySimulator"
   SetOutPath ""
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\PySimulator\README.lnk" "$INSTDIR\share\omc\scripts\PythonInterface\PySimulator\README.md"
