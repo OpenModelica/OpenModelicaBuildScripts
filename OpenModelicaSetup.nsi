@@ -139,9 +139,6 @@ Section -Main SEC0000
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\..\build\share\*"
-  # copy figaro files
-  SetOutPath "$INSTDIR\share\VisualFigaro"
-  File /r "$%OMDEV%\lib\VisualFigaro\*"
   # Copy the OpenModelica webpage url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
   File "..\..\doc\OpenModelica Project Online.url"
@@ -195,8 +192,6 @@ Section -post SEC0001
   "" "$INSTDIR\icons\omshell.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\OpenModelica Website.lnk" "$INSTDIR\share\doc\omc\OpenModelica Project Online.url" \
   "" "$INSTDIR\icons\IExplorer.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Visual Figaro.lnk" "$INSTDIR\share\VisualFigaro\jEdit4.5_VisualFigaro\jedit.exe"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\GRIF.lnk" "$INSTDIR\share\VisualFigaro\GRIF.Tree32\Tree\Tree.bat"
   SetOutPath "$INSTDIR\"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Uninstall OpenModelica.lnk" "$INSTDIR\Uninstall.exe" \
   "" "$INSTDIR\icons\Uninstall.ico"
@@ -247,7 +242,7 @@ Section "Uninstall"
     SetShellVarContext current
   # make sure windows knows about the change i.e we created the environment variables.
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
-  # delete the shortcuts and the startment folder
+  # delete the shortcuts and the start menu folder
   Delete "$SMPROGRAMS\$R1\OpenModelica Connection Editor.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Notebook.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
@@ -259,8 +254,6 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - Modelica Tutorial by Peter Fritzson.pdf.lnk"
   Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - System Guide.pdf.lnk"
   Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica - Users Guide.pdf.lnk"
-  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica Connection Editor - User Manual.pdf.lnk"
-  Delete "$SMPROGRAMS\$R1\Documentation\OpenModelica Optimization Editor - Users Guide.pdf.lnk"
   RMDir "$SMPROGRAMS\$R1\Documentation"
   Delete "$SMPROGRAMS\$R1\PySimulator\README.lnk"
   RMDir "$SMPROGRAMS\$R1\PySimulator"
