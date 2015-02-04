@@ -148,6 +148,7 @@ Section -Main SEC0000
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
+  IfSilent KeepOMDEV ; if silent install mode is enabled then skip OMDEV message.
   ReadRegStr $R0 ${ENV_HKLM} OMDEV
   ReadRegStr $R1 ${ENV_HKCU} OMDEV
   ${If} $R0 == ""
