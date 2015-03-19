@@ -2,6 +2,7 @@ debian/testmodels/flat_dcmotor.mos                 usr/share/doc/omc/testmodels
 debian/tmp/usr/bin/omc-bootstrapped
 debian/tmp/usr/lib/omc/libOpenModelicaCompiler.so
 debian/tmp/usr/include/omc/c
+debian/tmp/usr/include/omc/scripting-API
 debian/tmp/usr/share/omc/scripts/*
 debian/tmp/usr/share/doc/omc/testmodels/*
 debian/tmp/usr/share/locale/*
@@ -10,7 +11,6 @@ debian/tmp/usr/lib/omc/libgc*
 # These are listed without wildcards to avoid Modelica3D a-files
 debian/tmp/usr/lib/omc/libantlr3.a
 debian/tmp/usr/lib/omc/libfmilib*
-debian/tmp/usr/lib/omc/libinteractive.a
 debian/tmp/usr/lib/omc/libModelicaExternalC*
 debian/tmp/usr/lib/omc/libModelicaStandardTables*
 debian/tmp/usr/lib/omc/libomcruntime.a
