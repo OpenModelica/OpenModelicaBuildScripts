@@ -45,7 +45,8 @@ Build-Depends: debhelper (>= 7.0.0),
  libgtkglext1-dev,
  libopenscenegraph-dev,
  libboost-all-dev,
- libdbus-1-dev
+ libdbus-1-dev,
+ pkg-config
 Standards-Version: 3.8.4
 
 Package: openmodelica
