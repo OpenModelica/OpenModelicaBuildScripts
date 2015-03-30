@@ -7,7 +7,7 @@ debian/tmp/usr/share/omc/scripts/*
 debian/tmp/usr/share/doc/omc/testmodels/*
 debian/tmp/usr/share/locale/*
 debian/tmp/usr/lib/omc/*.mo
-debian/tmp/usr/lib/omc/libgc*
+debian/tmp/usr/lib/omc/libomcgc*
 # These are listed without wildcards to avoid Modelica3D a-files
 debian/tmp/usr/lib/omc/libantlr3.a
 debian/tmp/usr/lib/omc/libfmilib*
