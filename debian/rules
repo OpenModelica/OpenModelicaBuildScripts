@@ -55,7 +55,7 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-configure: configure.in
+configure: configure.ac
 	autoconf
 
 config.status: configure
@@ -82,13 +82,7 @@ build-stamp:  config.status
 	# Add here commands to compile the package.
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes release mosh omlibrary qtclients
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes runtimeCPPinstall
-	mv build/bin/omc build/bin/omc-bootstrapped
-	# Qtclients will start make omc again
-	# This is a good thing as Susan will then run and regenerate SimCodeC
-	# Skip it due to ModelicaBuiltin not existing
-	# $(MAKE) release
 	# Skip the testsuite log. People can look it up on hudson
-	# bash -c "(ulimit -t 600 && cd testsuite/partest && /usr/bin/time -f '== Testsuite wall-time: %e' ./runtests.pl -nocolour)" > ./build/share/doc/omc/testsuite.txt 2>&1
 	touch build-stamp
 
 clean:

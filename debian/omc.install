@@ -1,5 +1,5 @@
 debian/testmodels/flat_dcmotor.mos                 usr/share/doc/omc/testmodels
-debian/tmp/usr/bin/omc-bootstrapped
+debian/tmp/usr/bin/omc
 debian/tmp/usr/lib/omc/libOpenModelicaCompiler.so
 debian/tmp/usr/include/omc/c
 debian/tmp/usr/include/omc/scripting-API
