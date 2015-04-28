@@ -4,6 +4,7 @@ debian/tmp/usr/lib/omc/libOpenModelicaCompiler.so
 debian/tmp/usr/include/omc/c
 debian/tmp/usr/include/omc/scripting-API
 debian/tmp/usr/share/omc/scripts/*
+debian/tmp/usr/share/omc/*.idl
 debian/tmp/usr/share/doc/omc/testmodels/*
 debian/tmp/usr/share/locale/*
 debian/tmp/usr/lib/omc/*.mo

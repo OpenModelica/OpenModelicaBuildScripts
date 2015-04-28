@@ -22,10 +22,7 @@ Build-Depends: debhelper (>= 7.0.0),
  liblpsolve55-dev (>= 5.5.0.10),
  openjdk-6-jdk | sun-java6-jdk,
  libomniorb4-dev,
- omniidl4 | omniidl (>= 4.0.0),
- omniidl4-python | omniidl-python,
- python-omniorb,
-# precise doesn't handle hdf5 properly
+ omniidl (>= 4.0.0) | omniidl4,
  libhdf5-serial-dev | libhdf5-dev,
  libhwloc-dev,
  gnuplot,
@@ -52,7 +49,6 @@ Package: openmodelica
 Section: math
 Architecture: any
 Depends: omc,
- ompython,
  omplot,
  omlib-modelica-3.2.1,
  omshell,
@@ -137,16 +133,6 @@ Depends: ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica
  This tool is essential for using the plot() command in omc.
-
-Package: ompython
-Section: math
-Architecture: any
-Depends: python-omniorb,
- python-pyparsing,
- ${shlibs:Depends},
- ${misc:Depends}
-Description: Python interface for OpenModelica
- A python CORBA interface for OpenModelica.
 
 Package: omedit
 Section: math
