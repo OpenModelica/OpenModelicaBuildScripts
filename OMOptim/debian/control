@@ -1,0 +1,19 @@
+Source: omoptim
+Section: math
+Priority: optional
+Maintainer: OpenModelica Build System <build@openmodelica.org>
+Build-Depends: debhelper (>= 9.0.0),
+ g++-4.4,
+ libqt4-dev (>= 4.4.3),
+ paradiseo,
+ omc
+Standards-Version: 3.9.6
+
+Package: omoptim
+Section: math
+Architecture: any
+Depends: omc,
+ gnuplot,
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: A Modelica optimization tool for OpenModelica
