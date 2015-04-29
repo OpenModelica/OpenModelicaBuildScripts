@@ -83,6 +83,7 @@ config.status: configure
 	--with-lapack="-llapack -lblas" \
 	--with-omniORB=/usr \
 	--without-ipopt \
+	--without-paradiseo
 	$(CONF_OPTS)
 #       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
 #	--with-static-lpsolve=/usr

@@ -5,6 +5,7 @@ Maintainer: OpenModelica Build System <build@openmodelica.org>
 Build-Depends: debhelper (>= 9.0.0),
  libqt4-dev (>= 4.4.3),
  autoconf,
+ omplot,
  omc
 Standards-Version: 3.9.6
 
