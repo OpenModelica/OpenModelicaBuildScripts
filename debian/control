@@ -178,7 +178,7 @@ Description: A text-based interface to OpenModelica (based on Qt)
 
 Package: libmodelica3d
 Section: math
-Architecture: any
+Architecture: i386 amd64
 Depends: omlib-modelicaservices-3.2.1-modelica3d,
  ${shlibs:Depends},
  ${misc:Depends}
