@@ -69,6 +69,8 @@ echo "Building OpenModelica second time to handle templates"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
+rm -rf OMPython
+git clone https://github.com/OpenModelica/OMPython -q -b master /c/dev/OpenModelica/OMPython
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 #build OMClients
 echo "Cleaning OMClients"
