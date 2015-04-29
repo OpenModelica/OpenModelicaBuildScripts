@@ -16,10 +16,6 @@ ARCH ?= $(shell uname -m | sed s/i[0-9]86/x86/)
 DEST   = $(CURDIR)/debian/tmp
 SRCD   = $(CURDIR)
 
-# Try to compile with gcc rather than old gcc versions
-CC = gcc-4.4
-CXX = g++-4.4
-
 MAKEFLAGS += -j$(shell grep -c ^processor /proc/cpuinfo)
 
 configure: configure.ac
@@ -29,11 +25,7 @@ config.status: configure
 	dh_testdir
 	echo $(DEB_BUILD_OPTIONS)
 	# Add here commands to configure the package.
-	./configure CFLAGS="$(CFLAGS)" CC=$(CC) CXX=$(CXX) \
-	--host=$(DEB_HOST_GNU_TYPE) \
-	--build=$(DEB_BUILD_GNU_TYPE) \
-	--prefix=/usr \
-	$(CONF_OPTS)
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr $(CONF_OPTS)
 
 build: config.status
 	dh_testdir
