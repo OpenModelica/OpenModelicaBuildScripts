@@ -117,7 +117,9 @@ endif
 
 	# Add here commands to compile the package.
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes release mosh omlibrary qtclients
+ifneq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes runtimeCPPinstall
+endif
 	# Skip the testsuite log. People can look it up on hudson
 	touch build-stamp
 
