@@ -1,4 +1,0 @@
-debian/desktops/omoptim.desktop                   usr/share/applications
-OMOptim/GUI/Resources/omoptim.ico                 usr/share/pixmaps
-debian/tmp/usr/bin/OMOptim
-debian/tmp/usr/lib/omc/libOMOptimBasis.*

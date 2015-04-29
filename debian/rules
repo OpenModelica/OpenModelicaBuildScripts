@@ -21,11 +21,25 @@ CLANGVER ?= $(shell clang --version | grep -o "clang version [0-9.]*" | cut "-d 
 
 # Try to compile with gcc rather than old gcc versions
 ifeq (3.0,$(CLANGVER))
+
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	CC = gcc
 	CXX = g++
 else
+  CC = $(DEB_HOST_GNU_TYPE)-gcc
+  CXX = $(DEB_HOST_GNU_TYPE)-g++
+endif
+
+else
+
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	CC = clang
 	CXX = clang++
+else
+	CC = clang -target $(DEB_HOST_GNU_TYPE)
+	CXX = clang++ -target $(DEB_HOST_GNU_TYPE)
+endif
+
 endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
