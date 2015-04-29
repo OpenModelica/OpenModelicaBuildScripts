@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# /etc files are usually not removed by apt; let's remove this one though
-rm -f /etc/profile.d/drmodelica.sh

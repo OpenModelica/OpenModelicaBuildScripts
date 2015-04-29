@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Remove old scripts that should no longer be used and did not have a proper
-# uninstaller. These defined environment variables that we luckily no longer
-# need since we made the package more conformant to Debian standards.
-rm -f /etc/profile.d/omnotebook.sh \
-  /etc/profile.d/openmodelica.sh \
-  /etc/profile.d/omlibrary.sh
