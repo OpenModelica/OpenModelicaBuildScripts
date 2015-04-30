@@ -1,25 +1,5 @@
 debian/testmodels/flat_dcmotor.mos                 usr/share/doc/omc/testmodels
 debian/tmp/usr/bin/omc
-debian/tmp/usr/lib/omc/libOpenModelicaCompiler.so
-debian/tmp/usr/include/omc/c
-debian/tmp/usr/include/omc/scripting-API
 debian/tmp/usr/share/omc/scripts/*
-debian/tmp/usr/share/omc/*.idl
 debian/tmp/usr/share/doc/omc/testmodels/*
 debian/tmp/usr/share/locale/*
-debian/tmp/usr/lib/omc/*.mo
-debian/tmp/usr/lib/omc/libomcgc*
-# These are listed without wildcards to avoid Modelica3D a-files
-debian/tmp/usr/lib/omc/libantlr3.a
-debian/tmp/usr/lib/omc/libfmilib*
-debian/tmp/usr/lib/omc/libModelicaExternalC*
-debian/tmp/usr/lib/omc/libModelicaStandardTables*
-debian/tmp/usr/lib/omc/libomcruntime.a
-debian/tmp/usr/lib/omc/libomparse.a
-debian/tmp/usr/lib/omc/libOpenModelicaFMIRuntimeC*
-debian/tmp/usr/lib/omc/libOpenModelicaRuntimeC*
-debian/tmp/usr/lib/omc/libSimulationRuntimeC.*
-debian/tmp/usr/lib/omc/liblis*
-debian/tmp/usr/lib/omc/libipopt*
-debian/tmp/usr/lib/omc/libcoin*
-debian/tmp/usr/lib/omc/libcminpack*

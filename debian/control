@@ -78,6 +78,8 @@ Depends: clang,
  zip,
  unzip,
  libdbus-1-dev,
+ omc-common,
+ libomc,
  ${shlibs:Depends},
  ${misc:Depends}
 Recommends: python-beautifulsoup,
@@ -89,18 +91,25 @@ Description: The OpenModelica Compiler
  such as OMShell (textual interface), OMNotebook (for teaching purposes)
  or OMEdit (graphical modeling).
 
-Package: omc-bootstrapped
+Package: libomc
 Section: math
 Architecture: any
-Priority: extra
-Depends: omc,
+Depends: ${shlibs:Depends},
  ${misc:Depends}
-Description: omc-bootstrapped transitional dummy package
- This is a transitional dummy package. It has been replaced by package omc and can safely be removed.
+Description: The OpenModelica Compiler lib dependencies
+ This is the core libraries of the OpenModelica project.
+
+Package: omc-common
+Section: math
+Architecture: all
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: The OpenModelica Compiler lib dependencies
+ This is the core libraries of the OpenModelica project.
 
 Package: omc-doc
 Section: math
-Architecture: any
+Architecture: all
 Depends: ${shlibs:Depends},
  ${misc:Depends}
 Description: OpenModelica manuals
@@ -108,7 +117,7 @@ Description: OpenModelica manuals
 
 Package: omc-java
 Section: math
-Architecture: any
+Architecture: all
 Depends: omc, ${shlibs:Depends},
  ${misc:Depends}
 Description: OpenModelica Java interface
@@ -117,9 +126,18 @@ Description: OpenModelica Java interface
 Package: omplot
 Section: math
 Architecture: any
-Depends: ${shlibs:Depends},
+Depends: libomplot,
+ ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica
+ This tool is essential for using the plot() command in omc.
+
+Package: libomplot
+Section: math
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: Plot tool for OpenModelica, lib dependencies
  This tool is essential for using the plot() command in omc.
 
 Package: omedit
