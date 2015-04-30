@@ -158,7 +158,7 @@ binary-arch: build install
 	dh_fixperms
 	dh_installdeb
 	dh_makeshlibs -V
-	dh_shlibdeps -l/usr/lib/omc -Lomc -- --ignore-missing-info
+	dh_shlibdeps -l/usr/lib/$(DEB_HOST_GNU_TYPE)/omc -Lomc -- --ignore-missing-info
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
