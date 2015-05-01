@@ -12,14 +12,7 @@ Name OpenModelica1.9.3Nightly
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
 
 # MultiUser Symbol Definitions
-!define MULTIUSER_EXECUTIONLEVEL Highest
-!define MULTIUSER_MUI
-!define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "${REGKEY}"
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME MultiUserInstallMode
-!define MULTIUSER_INSTALLMODE_COMMANDLINE
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "${REGKEY}"
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUE "Path"
+!define MULTIUSER_EXECUTIONLEVEL Admin
 
 # MUI Symbol Definitions
 !define MUI_ICON "icons\OpenModelica.ico"
@@ -34,6 +27,9 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "OpenModelica"
 !define MUI_FINISHPAGE_TITLE_3LINES
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT "Start OpenModelica Connection Editor (OMEdit)"
+!define MUI_FINISHPAGE_RUN_FUNCTION "LaunchOMEdit"
 !define MUI_UNICON "icons\Uninstall.ico"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
@@ -72,7 +68,6 @@ Var StartMenuGroup
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MULTIUSER_PAGE_INSTALLMODE
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE "DirectoryLeave"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
@@ -97,7 +92,6 @@ VIAddVersionKey CompanyWebsite "${URL}"
 VIAddVersionKey FileVersion "${VERSION}"
 VIAddVersionKey FileDescription ""
 VIAddVersionKey LegalCopyright ""
-InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide
 
 # Installer sections
@@ -166,15 +160,10 @@ RemoveOMDEV:
   DeleteRegValue ${ENV_HKLM} OMDEV
   DeleteRegValue ${ENV_HKCU} OMDEV
 KeepOMDEV:
-  StrCmp $MultiUser.InstallMode "AllUsers" 0 +4
-    WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
-    WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
-    Goto +3
-    WriteRegExpandStr ${ENV_HKCU} OPENMODELICAHOME "$INSTDIR\"
-    WriteRegExpandStr ${ENV_HKCU} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
+  WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
+  WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
   # make sure windows knows about the change i.e we created the environment variables.
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
-  WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
 Section -post SEC0001
@@ -218,7 +207,6 @@ Section -post SEC0001
   ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
-  WriteRegStr HKLM "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayName "$(^Name)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayVersion "${VERSION}"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" Publisher "${COMPANY}"
@@ -231,21 +219,12 @@ SectionEnd
 
 # Uninstaller sections
 Section "Uninstall"
+  DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
+  DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica"
   Delete $INSTDIR\Uninstall.exe
-  !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
-  ReadRegStr $R0 HKLM "SOFTWARE\OpenModelica" InstallMode
-  StrCmp $R0 "AllUsers" 0 +5
-    DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
-    DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
-    SetShellVarContext all
-    Goto +4
-    DeleteRegValue ${ENV_HKCU} OPENMODELICAHOME
-    DeleteRegValue ${ENV_HKCU} OPENMODELICALIBRARY
-    SetShellVarContext current
-  # make sure windows knows about the change i.e we created the environment variables.
-  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
   # delete the shortcuts and the start menu folder
+  !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
   Delete "$SMPROGRAMS\$R1\OpenModelica Connection Editor.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Notebook.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
@@ -261,16 +240,16 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$R1\PySimulator\README.lnk"
   RMDir "$SMPROGRAMS\$R1\PySimulator"
   RMDir "$SMPROGRAMS\$R1"
-  DeleteRegKey HKLM "SOFTWARE\OpenModelica"
   ${unregisterExtension} ".mo" "OpenModelica Connection Editor"
   ${unregisterExtension} ".onb" "OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
   DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
   DeleteRegValue HKLM "${REGKEY}" Path
-  DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
-  DeleteRegKey /IfEmpty HKLM "${REGKEY}"
+  DeleteRegKey HKLM "${REGKEY}"
   RmDir /r $INSTDIR
+  # make sure windows knows about the change i.e we created the environment variables.
+  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
 # Installer functions
@@ -307,10 +286,13 @@ NotInstalled:
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
   StrCpy $INSTDIR "$R0$(^Name)"
-  IfSilent +1 +3 ; in silent install mode set multiuser to AllUsers.
-    StrCpy $MultiUser.InstallMode "AllUsers"
-    Goto +2
-  StrCpy $MultiUser.InstallMode "CurrentUser"
+FunctionEnd
+
+Function LaunchOMEdit
+  ; Yes we need to set environment variables before starting OMEdit because nsis can't read the new environment variables set by the installer.
+  System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("OPENMODELICAHOME", "$INSTDIR\").r0'
+  System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("OPENMODELICALIBRARY", "$INSTDIR\lib\omlibrary").r0'
+  ExecShell "" "$INSTDIR\bin\OMEdit.exe"
 FunctionEnd
 
 # Uninstaller functions
