@@ -1,0 +1,17 @@
+# Common
+debian/tmp/usr/lib/*/omc/libomcgc*
+
+# FMIL
+debian/tmp/usr/lib/*/omc/libfmilib*
+
+# MSL-external
+debian/tmp/usr/lib/*/omc/libModelicaExternalC*
+debian/tmp/usr/lib/*/omc/libModelicaStandardTables*
+
+# Simulations
+debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
+debian/tmp/usr/lib/*/omc/libSimulationRuntimeC.*
+debian/tmp/usr/lib/*/omc/liblis*
+debian/tmp/usr/lib/*/omc/libipopt*
+debian/tmp/usr/lib/*/omc/libcoin*
+debian/tmp/usr/lib/*/omc/libcminpack*

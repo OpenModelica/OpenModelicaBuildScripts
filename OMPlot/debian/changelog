@@ -1,0 +1,4 @@
+omplot (@REV@-1) @DISTS@; urgency=low
+
+  * Automatic git build
+ -- OpenModelica Build System <build@openmodelica.org>  @TIME@

@@ -1,0 +1,27 @@
+Source: omplot
+Section: math
+Priority: optional
+Maintainer: OpenModelica Build System <build@openmodelica.org>
+Build-Depends: debhelper (>= 9.0.0),
+ libqt4-dev (>= 4.4.3),
+ autoconf,
+ omc-common
+Standards-Version: 3.9.6
+
+Package: omplot
+Section: math
+Architecture: any
+Depends: libomplot,
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Plot tool for OpenModelica
+ This tool is essential for using the plot() command in omc.
+
+Package: libomplot
+Section: math
+Multi-Arch: same
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: Plot tool for OpenModelica, lib dependencies
+ This tool is essential for using the plot() command in omc.
