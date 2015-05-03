@@ -1,3 +1,2 @@
 debian/tmp/usr/lib/*/omc/libomqwt*
 debian/tmp/usr/lib/*/omc/libOMPlot*
-debian/tmp/usr/include/omc/qwt

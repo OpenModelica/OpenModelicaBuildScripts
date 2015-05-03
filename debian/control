@@ -79,6 +79,7 @@ Depends: clang,
  libdbus-1-dev,
  omc-common,
  libomc,
+ libomcsimulation,
  ${shlibs:Depends},
  ${misc:Depends}
 Recommends: python-beautifulsoup,
@@ -100,6 +101,17 @@ Depends: omc-common,
  ${misc:Depends}
 Description: The OpenModelica Compiler lib dependencies
  This is the core libraries of the OpenModelica project.
+
+Package: libomc-dev
+Section: math
+Multi-Arch: same
+Architecture: any
+Depends: libomc,
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: The OpenModelica Compiler lib dependencies
+ This is the core libraries of the OpenModelica project.
+ Currently contains antlr3 include-files.
 
 Package: libomcsimulation
 Section: math
@@ -155,6 +167,16 @@ Architecture: any
 Depends: ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica, lib dependencies
+ This tool is essential for using the plot() command in omc.
+
+Package: libomplot-dev
+Section: math
+Multi-Arch: same
+Architecture: any
+Depends: libomplot,
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Plot tool for OpenModelica, development package
  This tool is essential for using the plot() command in omc.
 
 Package: omedit

@@ -1,7 +1,7 @@
 debian/tmp/usr/lib/*/omc/libOpenModelicaCompiler.so
 debian/tmp/usr/lib/*/omc/libOpenModelicaRuntimeC*
+debian/tmp/usr/lib/*/omc/lib*antlr3.so
 
 # These are not really needed
-#debian/tmp/usr/lib/*/omc/libantlr3.a
 #debian/tmp/usr/lib/*/omc/libomcruntime.a
 #debian/tmp/usr/lib/*/omc/libomparse.a
