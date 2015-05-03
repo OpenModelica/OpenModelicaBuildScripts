@@ -25,3 +25,13 @@ Depends: ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica, lib dependencies
  This tool is essential for using the plot() command in omc.
+
+Package: libomplot-dev
+Section: math
+Multi-Arch: foreign
+Architecture: all
+Depends: libomplot,
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Plot tool for OpenModelica, development headers
+ This tool is essential for using the plot() command in omc.
