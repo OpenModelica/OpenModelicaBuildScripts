@@ -12,8 +12,6 @@
 #  git command line clients (PUT IT LAST IN THE PATH!) http://git-scm.com/downloads
 #  OMDev in c:\OMDev
 #
-# use the git libraries!
-export GITLIBRARIES=Yes
 
 # get the ssh password via command line
 export SSHUSER=$1
@@ -35,9 +33,12 @@ svn up . --accept theirs-full
 
 # update OpenModelica
 cd /c/dev/OpenModelica
-svn up . --accept theirs-full
+git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
+git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || exit 1
+git clean -fdxq || exit 1
+git submodule status --recursive
 # get the revision
-export REVISION=`svn info | grep "Revision:" | cut -d " " -f 2`
+export REVISION=`git rev-parse --short HEAD`
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
 
@@ -65,8 +66,8 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
 echo "Building OpenModelica"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
-echo "Building OpenModelica second time to handle templates"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
+echo "Building OpenModelica libraries"
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omlibraries-all
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 rm -rf OMPython
@@ -90,14 +91,14 @@ make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica/build/share/omc/scripts/PythonInterface/PySimulator
 
 # build the installer
-cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
+cd /c/dev/OpenModelica/OMCompiler/Compiler/OpenModelicaSetup
 makensis OpenModelicaSetup.nsi
 # move the installer
 mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
 # gather the svn log
 cd /c/dev/OpenModelica
-svn log -v -r ${REVISION}:1 > ${OMC_INSTALL_FILE_PREFIX}-ChangeLog.txt
+git log --name-status --graph --submodule > ${OMC_INSTALL_FILE_PREFIX}-ChangeLog.txt
 
 # make the readme
 export DATESTR=`date +"%Y-%m-%d_%H-%M"`
@@ -165,5 +166,4 @@ cd public_html/omc/builds/windows/nightly-builds/
 mv -f OpenModelica* older/
 ENDSSH
 scp OpenModelica* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/
-
 echo "All done!"

@@ -99,7 +99,7 @@ Section -Main SEC0000
   SetOverwrite on
   # Create bin directory and copy files in it
   SetOutPath "$INSTDIR\bin"
-  File "..\..\build\bin\*"
+  File "..\..\..\build\bin\*"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
@@ -115,30 +115,30 @@ Section -Main SEC0000
   # Create icons directory and copy files in it
   SetOutPath "$INSTDIR\icons"
   File /r /x "*.svn" "icons\*"
-  File "..\..\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
-  File "..\..\OMOptim\GUI\Resources\omoptim.ico"
-  File "..\..\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
-  File "..\..\OMShell\OMShellGUI\Resources\omshell.ico"
-  File "..\..\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
-  File "..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
+  File "..\..\..\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
+  File "..\..\..\OMOptim\GUI\Resources\omoptim.ico"
+  File "..\..\..\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
+  File "..\..\..\OMShell\OMShellGUI\Resources\omshell.ico"
+  File "..\..\..\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
+  File "..\..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
-  File /r /x "*.svn" "..\..\build\include\omc\*"
+  File /r /x "*.svn" "..\..\..\build\include\omc\*"
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
-  File /r /x "*.svn" "..\..\build\lib\*"
+  File /r /x "*.svn" "..\..\..\build\lib\*"
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
-  File /r /x "*.svn" /x "*.git" "..\..\build\share\*"
+  File /r /x "*.svn" /x "*.git" "..\..\..\build\share\*"
   # copy figaro files
   SetOutPath "$INSTDIR\share\jEdit4.5_Visual_Figaro"
   File /r /x "*.svn" "$%OMDEV%\lib\jEdit4.5_Visual_Figaro\*"
   # Copy the OpenModelica webpage url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
-  File "..\..\doc\OpenModelica Project Online.url"
+  File "..\..\..\doc\OpenModelica Project Online.url"
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
