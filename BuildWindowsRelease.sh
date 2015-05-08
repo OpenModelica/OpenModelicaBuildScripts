@@ -31,6 +31,9 @@ export OMDEV=/c/OMDev/
 cd /c/OMDev/
 svn up . --accept theirs-full
 
+# remove OpenModelicaSetup
+rm -rf /c/dev/OpenModelica/OMCompiler/Compiler/OpenModelicaSetup
+
 # update OpenModelica
 cd /c/dev/OpenModelica
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
@@ -41,6 +44,9 @@ git submodule status --recursive
 export REVISION=`git rev-parse --short HEAD`
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
+
+cd /c/dev/OpenModelica/OMCompiler/Compiler/
+svn co https://openmodelica.org/svn/OpenModelica/installers/windows/OpenModelicaSetup OpenModelicaSetup
 
 # test if exists and exit if it does
 if [ -d "${OMC_INSTALL_PREFIX}" ]; then
