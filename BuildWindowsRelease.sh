@@ -54,7 +54,7 @@ mkdir -p ${OMC_INSTALL_PREFIX}
 export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-revision-${REVISION}"
 
 # update OpenModelicaSetup
-cd /c/dev/OpenModelica/Compiler/OpenModelicaSetup
+cd /c/dev/OpenModelica/OMCompiler/Compiler/OpenModelicaSetup
 svn up . --accept theirs-full
 
 # build OpenModelica
