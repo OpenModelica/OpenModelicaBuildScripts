@@ -34,7 +34,7 @@ svn up . --accept theirs-full
 # update OpenModelica
 cd /c/dev/OpenModelica
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
-git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn -e /OpenModelicaSetup" || exit 1
+git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn -e Compiler/OpenModelicaSetup" || exit 1
 git clean -fdxq || exit 1
 git submodule status --recursive
 # get the revision
