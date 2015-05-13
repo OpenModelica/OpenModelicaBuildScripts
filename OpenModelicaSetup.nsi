@@ -115,12 +115,12 @@ Section -Main SEC0000
   # Create icons directory and copy files in it
   SetOutPath "$INSTDIR\icons"
   File /r /x "*.svn" "icons\*"
-  File "..\..\..\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
-  File "..\..\..\OMOptim\GUI\Resources\omoptim.ico"
-  File "..\..\..\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
-  File "..\..\..\OMShell\OMShellGUI\Resources\omshell.ico"
-  File "..\..\..\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
-  File "..\..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
+  File "..\..\..\OMEdit\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
+  File "..\..\..\OMOptim\OMOptim\GUI\Resources\omoptim.ico"
+  File "..\..\..\OMPlot\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
+  File "..\..\..\OMShell\OMShell\OMShellGUI\Resources\omshell.ico"
+  File "..\..\..\OMNotebook\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
+  # File "..\..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
   File /r /x "*.svn" "..\..\..\build\include\omc\*"
