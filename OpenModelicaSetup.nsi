@@ -126,7 +126,9 @@ Section -Main SEC0000
   File /r /x "*.svn" "..\..\..\build\include\omc\*"
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
-  File /r /x "*.svn" "..\..\..\build\lib\*"
+  !cd "..\..\..\build\"
+  File /r /x "*.svn" "lib\*"
+  !cd "..\OMCompiler\Compiler\OpenModelicaSetup\"
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
