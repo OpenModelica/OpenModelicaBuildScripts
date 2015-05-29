@@ -1,6 +1,5 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
-#
 
 Name OpenModelica1.9.3Nightly
 
@@ -12,7 +11,10 @@ Name OpenModelica1.9.3Nightly
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
 
 # MultiUser Symbol Definitions
-!define MULTIUSER_EXECUTIONLEVEL Admin
+!define MULTIUSER_EXECUTIONLEVEL Highest
+!define MULTIUSER_MUI
+!define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER
+!define MULTIUSER_INSTALLMODE_COMMANDLINE
 
 # MUI Symbol Definitions
 !define MUI_ICON "icons\OpenModelica.ico"
@@ -21,7 +23,7 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !define MUI_WELCOMEPAGE_TEXT "The installer will guide you through the steps required to install $(^Name) on your computer.$\r$\n$\r$\n$\r$\nThe package includes OpenModelica, a Modelica modeling, compilation and simulation environment based on free software."
 !define MUI_DIRECTORYPAGE_TEXT_TOP "Please do not install OpenModelica in a directory that contains spaces for example $\"C:\Program Files\OpenModelica$\". Keep if possible the default directory suggested by the installer."
-!define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT SHCTX
 !define MUI_STARTMENUPAGE_NODISABLE
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
@@ -68,6 +70,7 @@ Var StartMenuGroup
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
+!insertmacro MULTIUSER_PAGE_INSTALLMODE
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE "DirectoryLeave"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
@@ -99,12 +102,12 @@ Section -Main SEC0000
   SetOverwrite on
   # Create bin directory and copy files in it
   SetOutPath "$INSTDIR\bin"
-  File "..\..\..\build\bin\*"
+  File "..\build\bin\*"
   File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
   File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omnithread34_rt.dll"
-  File "..\..\OSMC-License.txt"
+  File "..\OMCompiler\OSMC-License.txt"
   # Copy the openssl binaries
   File "bin\libeay32.dll"
   File "bin\libssl32.dll"
@@ -115,32 +118,33 @@ Section -Main SEC0000
   # Create icons directory and copy files in it
   SetOutPath "$INSTDIR\icons"
   File /r /x "*.svn" "icons\*"
-  File "..\..\..\OMEdit\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
-  File "..\..\..\OMOptim\OMOptim\GUI\Resources\omoptim.ico"
-  File "..\..\..\OMPlot\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
-  File "..\..\..\OMShell\OMShell\OMShellGUI\Resources\omshell.ico"
-  File "..\..\..\OMNotebook\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
-  # File "..\..\..\OMVisualize\OMVisualizeGUI\Resources\icons\omvisualize.ico"
+  File "..\OMEdit\OMEdit\OMEditGUI\Resources\icons\omedit.ico"
+  File "..\OMOptim\OMOptim\GUI\Resources\omoptim.ico"
+  File "..\OMPlot\OMPlot\OMPlotGUI\Resources\icons\omplot.ico"
+  File "..\OMShell\OMShell\OMShellGUI\Resources\omshell.ico"
+  File "..\OMNotebook\OMNotebook\OMNotebookGUI\Resources\OMNotebook_icon.ico"
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
-  File /r /x "*.svn" "..\..\..\build\include\omc\*"
+  File /r /x "*.svn" "..\build\include\omc\*"
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
-  !cd "..\..\..\build\"
-  File /r /x "*.svn" "lib\*"
-  !cd "..\OMCompiler\Compiler\OpenModelicaSetup\"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\*"
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
-  File /r /x "*.svn" /x "*.git" "..\..\..\build\share\*"
+  File /r /x "*.svn" /x "*.git" "..\build\share\*"
   # copy figaro files
   SetOutPath "$INSTDIR\share\jEdit4.5_Visual_Figaro"
   File /r /x "*.svn" "$%OMDEV%\lib\jEdit4.5_Visual_Figaro\*"
   # Copy the OpenModelica webpage url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
-  File "..\..\..\doc\OpenModelica Project Online.url"
+  File "..\doc\OpenModelica Project Online.url"
+  # create the file with InstallMode
+  FileOpen $4 "$INSTDIR\InstallMode.txt" w
+  FileWrite $4 $MultiUser.InstallMode
+  FileClose $4
   # set the rights for all users
   AccessControl::GrantOnFile "$INSTDIR" "(BU)" "FullAccess"
   # create environment variables
@@ -162,14 +166,18 @@ RemoveOMDEV:
   DeleteRegValue ${ENV_HKLM} OMDEV
   DeleteRegValue ${ENV_HKCU} OMDEV
 KeepOMDEV:
-  WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
-  WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
+  StrCmp $MultiUser.InstallMode "AllUsers" 0 +4
+    WriteRegExpandStr ${ENV_HKLM} OPENMODELICAHOME "$INSTDIR\"
+    WriteRegExpandStr ${ENV_HKLM} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
+    Goto +3
+    WriteRegExpandStr ${ENV_HKCU} OPENMODELICAHOME "$INSTDIR\"
+    WriteRegExpandStr ${ENV_HKCU} OPENMODELICALIBRARY "$INSTDIR\lib\omlibrary"
   # make sure windows knows about the change i.e we created the environment variables.
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
 Section -post SEC0001
-  WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
+  WriteRegStr SHCTX "${REGKEY}" Path $INSTDIR
   WriteUninstaller $INSTDIR\Uninstall.exe
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   # set the output path to temp directory which is used as a start in option for shortcuts.
@@ -209,24 +217,36 @@ Section -post SEC0001
   ${registerExtension} "$INSTDIR\bin\OMNotebook.exe" ".onb" "OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayName "$(^Name)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayVersion "${VERSION}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" Publisher "${COMPANY}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" URLInfoAbout "${URL}"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayIcon $INSTDIR\Uninstall.exe
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" UninstallString $INSTDIR\Uninstall.exe
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoModify 1
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoRepair 1
+  WriteRegStr SHCTX "SOFTWARE\OpenModelica" InstallMode $MultiUser.InstallMode
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayName "$(^Name)"
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayVersion "${VERSION}"
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" Publisher "${COMPANY}"
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" URLInfoAbout "${URL}"
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" DisplayIcon $INSTDIR\Uninstall.exe
+  WriteRegStr SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" UninstallString $INSTDIR\Uninstall.exe
+  WriteRegDWORD SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoModify 1
+  WriteRegDWORD SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" NoRepair 1
 SectionEnd
 
 # Uninstaller sections
 Section "Uninstall"
-  DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
-  DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica"
+  FileOpen $4 "$INSTDIR\InstallMode.txt" r
+  FileSeek $4 0 ; we want to start reading at the 0th byte
+  FileRead $4 $1 ; we read until the end of line (including carriage return and new line) and save it to $1
+  FileClose $4 ; and close the file
+  StrCmp $1 "AllUsers" 0 +5
+    DeleteRegValue ${ENV_HKLM} OPENMODELICAHOME
+    DeleteRegValue ${ENV_HKLM} OPENMODELICALIBRARY
+    SetShellVarContext all
+    Goto +4
+    DeleteRegValue ${ENV_HKCU} OPENMODELICAHOME
+    DeleteRegValue ${ENV_HKCU} OPENMODELICALIBRARY
+    SetShellVarContext current
+  DeleteRegKey SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica"
   Delete $INSTDIR\Uninstall.exe
   # delete the shortcuts and the start menu folder
   !insertmacro MUI_STARTMENU_GETFOLDER Application $R1
+  # delete the shortcuts and the start menu folder  
   Delete "$SMPROGRAMS\$R1\OpenModelica Connection Editor.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Notebook.lnk"
   Delete "$SMPROGRAMS\$R1\OpenModelica Optimization Editor.lnk"
@@ -246,11 +266,11 @@ Section "Uninstall"
   ${unregisterExtension} ".onb" "OpenModelica Notebook"
   # make sure windows knows about the change
   !insertmacro UPDATEFILEASSOC
-  DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
-  DeleteRegValue HKLM "${REGKEY}" Path
-  DeleteRegKey HKLM "${REGKEY}"
+  DeleteRegValue SHCTX "${REGKEY}" StartMenuGroup
+  DeleteRegValue SHCTX "${REGKEY}" Path
+  DeleteRegKey SHCTX "${REGKEY}"
   RmDir /r $INSTDIR
-  # make sure windows knows about the change i.e we created the environment variables.
+  # make sure windows knows about the change i.e we deleted the environment variables.
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
@@ -262,7 +282,7 @@ Function .onInit
   Pop $1  ; Month
   Pop $2  ; Year
   ; Check to see if already installed
-  ReadRegStr $R2 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" "UninstallString"
+  ReadRegStr $R2 SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenModelica" "UninstallString"
   IfFileExists $R2 +1 NotInstalled
     IfSilent uninst ; if silent install mode is enabled then also uninstall silently.
       MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
@@ -288,6 +308,10 @@ NotInstalled:
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
   StrCpy $INSTDIR "$R0$(^Name)"
+  IfSilent +1 +3 ; in silent install mode set multiuser to AllUsers.
+    StrCpy $MultiUser.InstallMode "AllUsers"
+    Goto +2
+  StrCpy $MultiUser.InstallMode "CurrentUser"
 FunctionEnd
 
 Function LaunchOMEdit

@@ -55,7 +55,7 @@ mkdir -p ${OMC_INSTALL_PREFIX}
 export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-revision-${REVISION}"
 
 # update OpenModelicaSetup
-cd /c/dev/OpenModelica/OMCompiler/Compiler/OpenModelicaSetup
+cd /c/dev/OpenModelica/OpenModelicaSetup
 svn up . --accept theirs-full
 
 # build OpenModelica
@@ -92,7 +92,7 @@ make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica/build/share/omc/scripts/PythonInterface/PySimulator
 
 # build the installer
-cd /c/dev/OpenModelica/OMCompiler/Compiler/OpenModelicaSetup
+cd /c/dev/OpenModelica/OpenModelicaSetup
 makensis OpenModelicaSetup.nsi
 # move the installer
 mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe

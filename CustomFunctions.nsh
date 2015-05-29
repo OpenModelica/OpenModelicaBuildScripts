@@ -5,6 +5,13 @@
 Function DirectoryLeave
   # Call the CheckForSpaces function.
   Push $INSTDIR # Input string (install path).
+  Call isEmptyDir
+  Pop $0
+  StrCmp $0 0 +1 +2
+    MessageBox MB_OK|MB_ICONEXCLAMATION "The installation directory is not empty. This either means OpenModelica is already installed at $INSTDIR OR \
+    you might have unnecessary files in $INSTDIR. It is recommended to install OpenModelica in an empty directory."
+    Abort
+  Push $INSTDIR # Input string (install path).
   Call CheckForSpaces
   Pop $R0 # The function returns the number of spaces found in the input string.
   # Check if any spaces exist in $INSTDIR.
@@ -15,10 +22,36 @@ Function DirectoryLeave
     Goto +2
       StrCpy $R1 "s"
     # Show message box then take the user back to the Directory page.
-    MessageBox MB_OK|MB_ICONEXCLAMATION "The Installaton directory \
+    MessageBox MB_OK|MB_ICONEXCLAMATION "The installation directory \
     has $R0 space$R1.$\nPlease remove the space$R1."
     Abort
   NoSpaces:
+FunctionEnd
+
+# checks if the directory is empty or not.
+Function isEmptyDir
+  # Stack ->                    # Stack: <directory>
+  Exch $0                       # Stack: $0
+  Push $1                       # Stack: $1, $0
+  FindFirst $0 $1 "$0\*.*"
+  strcmp $1 "." 0 _notempty
+    FindNext $0 $1
+    strcmp $1 ".." 0 _notempty
+      ClearErrors
+      FindNext $0 $1
+      IfErrors 0 _notempty
+        FindClose $0
+        Pop $1                  # Stack: $0
+        StrCpy $0 1
+        Exch $0                 # Stack: 1 (true)
+        goto _end
+     _notempty:
+       FindClose $0
+       ClearErrors
+       Pop $1                   # Stack: $0
+       StrCpy $0 0
+       Exch $0                  # Stack: 0 (false)
+  _end:
 FunctionEnd
 
 # checks the spaces in a string and returns the number of spaces found.
