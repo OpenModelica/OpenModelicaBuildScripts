@@ -39,7 +39,7 @@ git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git 
 git clean -fdxq -e OpenModelicaSetup || exit 1
 git submodule status --recursive
 # get the revision
-export REVISION=`git rev-parse --short HEAD`
+export REVISION=`git describe --match "v*.*" --always`
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
 
@@ -52,8 +52,7 @@ fi
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
 # make the file prefix
-export OM_REVISION=`git describe --match "v*.*" --always`
-export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${OM_REVISION}"
+export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${REVISION}"
 
 # update OpenModelicaSetup
 cd /c/dev/OpenModelica/OpenModelicaSetup
@@ -106,7 +105,7 @@ git log --name-status --graph --submodule > ${OMC_INSTALL_FILE_PREFIX}-ChangeLog
 export DATESTR=`date +"%Y-%m-%d_%H-%M"`
 echo "Automatic build of OpenModelica by testwin.openmodelica.org at date: ${DATESTR} from revision: ${REVISION}" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
-echo "Read OpenModelica-revision-${REVISION}-ChangeLog.txt for more info on changes." >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
+echo "Read OpenModelica-${REVISION}-ChangeLog.txt for more info on changes." >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo "See also (match revision ${REVISION} to build jobs):" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo "  https://test.openmodelica.org/hudson/" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
