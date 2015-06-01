@@ -52,7 +52,8 @@ fi
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
 # make the file prefix
-export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-revision-${REVISION}"
+export OM_REVISION=`git describe --match "v*.*" --always`
+export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${OM_REVISION}"
 
 # update OpenModelicaSetup
 cd /c/dev/OpenModelica/OpenModelicaSetup
