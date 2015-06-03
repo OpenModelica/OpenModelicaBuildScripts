@@ -1,16 +1,18 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2013-Feb-22 14:03:46
 
-# this function is called when user leaves the destination folder textbox. We use this function to find out if the destination folder has spaces or not.
+# this function is called when user leaves the destination folder textbox. We use this function to find out if the destination folder has spaces or not and if destination folder is empty or not.
 Function DirectoryLeave
+  # only check for if directory is empty when directory really exists.
+  IfFileExists $INSTDIR\*.* +1 +7
+    Push $INSTDIR # Input string (install path).
+    Call isEmptyDir
+    Pop $0
+    StrCmp $0 0 +1 +3
+      MessageBox MB_OK|MB_ICONEXCLAMATION "The installation directory is not empty. This either means OpenModelica is already installed at $INSTDIR OR \
+      you might have unnecessary files in $INSTDIR. It is recommended to install OpenModelica in an empty directory."
+      Abort
   # Call the CheckForSpaces function.
-  Push $INSTDIR # Input string (install path).
-  Call isEmptyDir
-  Pop $0
-  StrCmp $0 0 +1 +2
-    MessageBox MB_OK|MB_ICONEXCLAMATION "The installation directory is not empty. This either means OpenModelica is already installed at $INSTDIR OR \
-    you might have unnecessary files in $INSTDIR. It is recommended to install OpenModelica in an empty directory."
-    Abort
   Push $INSTDIR # Input string (install path).
   Call CheckForSpaces
   Pop $R0 # The function returns the number of spaces found in the input string.
