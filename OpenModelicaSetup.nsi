@@ -70,7 +70,6 @@ Var StartMenuGroup
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MULTIUSER_PAGE_INSTALLMODE
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE "DirectoryLeave"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
@@ -308,10 +307,12 @@ NotInstalled:
   # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
   StrCpy $INSTDIR $R0
   StrCpy $INSTDIR "$R0$(^Name)"
-  IfSilent +1 +3 ; in silent install mode set multiuser to AllUsers.
+  IfSilent +1 +4 ; in silent install mode set multiuser to AllUsers.
     StrCpy $MultiUser.InstallMode "AllUsers"
-    Goto +2
+    SetShellVarContext all
+    Goto +3
   StrCpy $MultiUser.InstallMode "CurrentUser"
+  SetShellVarContext current
 FunctionEnd
 
 Function LaunchOMEdit
