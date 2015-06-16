@@ -95,6 +95,8 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	--without-paradiseo \
 	--disable-omshell-terminal \
 	--without-lpsolve \
+	--with-cppruntime \
+	--without-omlibrary \
 	$(CONF_OPTS)
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes omc-no-sim
 	mv build cross-build
