@@ -47,10 +47,10 @@ endif
 endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
-	CONF_OPTS=--disable-modelica3d
+	CONF_OPTS=--disable-modelica3d --without-cppruntime
 	EXTRA_INSTALL=fake_modelica3d
 else
-	CONF_OPTS=
+	CONF_OPTS=--with-cppruntime
 	EXTRA_INSTALL=
 endif
 
@@ -111,9 +111,6 @@ endif
 	--with-omniORB=/usr \
 	--without-ipopt \
 	--without-paradiseo \
-ifneq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
-	--with-cppruntime \
-endif
 	--without-omlibrary \
 	$(CONF_OPTS) $(CONF_OPTS_CROSS)
 	# Add here commands to configure the package.
