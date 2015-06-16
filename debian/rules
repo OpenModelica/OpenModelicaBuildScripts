@@ -111,6 +111,8 @@ endif
 	--with-omniORB=/usr \
 	--without-ipopt \
 	--without-paradiseo \
+	--with-cppruntime \
+	--without-omlibrary \
 	$(CONF_OPTS) $(CONF_OPTS_CROSS)
 	# Add here commands to configure the package.
 #       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
