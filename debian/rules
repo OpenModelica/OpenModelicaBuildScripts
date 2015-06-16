@@ -111,7 +111,9 @@ endif
 	--with-omniORB=/usr \
 	--without-ipopt \
 	--without-paradiseo \
+ifneq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	--with-cppruntime \
+endif
 	--without-omlibrary \
 	$(CONF_OPTS) $(CONF_OPTS_CROSS)
 	# Add here commands to configure the package.
@@ -120,10 +122,7 @@ endif
 #	--with-static-readline=/usr
 
 	# Add here commands to compile the package.
-	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes release mosh omlibrary qtclients
-ifneq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
-	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes runtimeCPPinstall
-endif
+	$(MAKE) $(MAKEFLAGS)
 	# Skip the testsuite log. People can look it up on hudson
 	touch build-stamp
 
