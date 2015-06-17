@@ -236,15 +236,6 @@ Depends: omc,
  ${misc:Depends}
 Description: A text-based interface to OpenModelica (based on Qt)
 
-Package: libmodelica3d
-Section: math
-Architecture: i386 amd64
-Multi-Arch: same
-Depends: omlib-modelicaservices-3.2.1-modelica3d,
- ${shlibs:Depends},
- ${misc:Depends}
-Description: A lightweight, platform-independent 3D-visualisation library for Modelica
-
 Package: libomccpp
 Section: math
 Architecture: i386 amd64

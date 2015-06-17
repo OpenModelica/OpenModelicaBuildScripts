@@ -47,8 +47,8 @@ endif
 endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
-	CONF_OPTS=--disable-modelica3d --without-cppruntime
-	EXTRA_INSTALL=fake_modelica3d
+	CONF_OPTS=--without-cppruntime
+	EXTRA_INSTALL=
 else
 	CONF_OPTS=--with-cppruntime
 	EXTRA_INSTALL=
@@ -97,6 +97,7 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	--without-lpsolve \
 	--with-cppruntime \
 	--without-omlibrary \
+	--disable-modelica3d \
 	$(CONF_OPTS)
 	$(MAKE) $(MAKEFLAGS) NOLIBRARIES=Yes omc-no-sim
 	mv build cross-build
@@ -112,6 +113,7 @@ endif
 	--without-ipopt \
 	--without-paradiseo \
 	--without-omlibrary \
+	--disable-modelica3d \
 	$(CONF_OPTS) $(CONF_OPTS_CROSS)
 	# Add here commands to configure the package.
 #       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
