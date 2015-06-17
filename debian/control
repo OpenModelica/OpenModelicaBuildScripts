@@ -36,15 +36,15 @@ Standards-Version: 3.9.5
 Package: openmodelica
 Section: math
 Architecture: any
-Depends: omc,
- omplot,
+Depends: omc (<< 20000),
+ omplot (<< 20000),
  omlib-modelica-3.2.1,
- omshell,
- omshell-terminal,
- omnotebook,
- drmodelica,
- drcontrol,
- omedit,
+ omshell (<< 20000),
+ omshell-terminal (<< 20000),
+ omnotebook (<< 20000),
+ drmodelica (<< 20000),
+ drcontrol (<< 20000),
+ omedit (<< 20000),
 # omoptim,
  ${misc:Depends}
 Description: A complete Modelica environment
@@ -95,8 +95,8 @@ Package: libomc
 Section: math
 Multi-Arch: same
 Architecture: any
-Depends: omc-common,
- libomcsimulation,
+Depends: omc-common (<< 20000),
+ libomcsimulation (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica Compiler lib dependencies
@@ -106,7 +106,7 @@ Package: libomc-dev
 Section: math
 Multi-Arch: same
 Architecture: any
-Depends: libomc,
+Depends: libomc (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica Compiler lib dependencies
@@ -117,7 +117,7 @@ Package: libomcsimulation
 Section: math
 Multi-Arch: same
 Architecture: any
-Depends: omc-common,
+Depends: omc-common (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica Compiler simulation library dependencies
@@ -146,7 +146,7 @@ Package: omc-java
 Section: math
 Multi-Arch: foreign
 Architecture: all
-Depends: omc, ${shlibs:Depends},
+Depends: omc (<< 20000), ${shlibs:Depends},
  ${misc:Depends}
 Description: OpenModelica Java interface
  Contains jar-files to interface with OpenModelica
@@ -154,7 +154,7 @@ Description: OpenModelica Java interface
 Package: omplot
 Section: math
 Architecture: any
-Depends: libomplot,
+Depends: libomplot (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica
@@ -173,7 +173,7 @@ Package: libomplot-dev
 Section: math
 Multi-Arch: same
 Architecture: any
-Depends: libomplot,
+Depends: libomplot (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: Plot tool for OpenModelica, development package
@@ -182,7 +182,7 @@ Description: Plot tool for OpenModelica, development package
 Package: omedit
 Section: math
 Architecture: any
-Depends: omc,
+Depends: omc (<< 20000),
  omlib-modelica-3.2.1,
  omlib-modelicareference,
  ${shlibs:Depends},
@@ -193,7 +193,7 @@ Description: A Modelica connection editor for OpenModelica
 Package: omnotebook
 Section: math
 Architecture: any
-Depends: omc,
+Depends: omc (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Recommends: drmodelica,
@@ -204,7 +204,7 @@ Package: drmodelica
 Section: math
 Multi-Arch: foreign
 Architecture: all
-Depends: omnotebook,
+Depends: omnotebook (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: An OMNotebook course in the Modelica language
@@ -215,7 +215,7 @@ Package: drcontrol
 Section: math
 Multi-Arch: foreign
 Architecture: all
-Depends: omnotebook,
+Depends: omnotebook (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: An OMNotebook course in basic control theory
@@ -223,7 +223,7 @@ Description: An OMNotebook course in basic control theory
 Package: omshell-terminal
 Section: math
 Architecture: any
-Depends: omc,
+Depends: omc (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: A text-based interface to OpenModelica (based on readline)
@@ -231,7 +231,7 @@ Description: A text-based interface to OpenModelica (based on readline)
 Package: omshell
 Section: math
 Architecture: any
-Depends: omc,
+Depends: omc (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Description: A text-based interface to OpenModelica (based on Qt)
