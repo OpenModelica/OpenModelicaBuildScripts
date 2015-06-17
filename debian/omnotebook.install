@@ -1,5 +1,5 @@
 debian/tmp/usr/share/omnotebook/*.onb                      usr/share/omnotebook
 debian/desktops/omnotebook.desktop                         usr/share/applications
-OMNotebook/OMNotebookGUI/Resources/OMNotebook_icon.svg     usr/share/pixmaps
+OMNotebook/OMNotebook/OMNotebookGUI/Resources/OMNotebook_icon.svg     usr/share/pixmaps
 debian/tmp/usr/bin/OMNotebook
 debian/tmp/usr/share/omnotebook/*.xml
