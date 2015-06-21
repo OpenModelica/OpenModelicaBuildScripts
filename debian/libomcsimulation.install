@@ -15,3 +15,5 @@ debian/tmp/usr/lib/*/omc/liblis*
 debian/tmp/usr/lib/*/omc/libipopt*
 debian/tmp/usr/lib/*/omc/libcoin*
 debian/tmp/usr/lib/*/omc/libcminpack*
+debian/tmp/usr/lib/omc/libumfpack*
+debian/tmp/usr/lib/omc/libamd*
