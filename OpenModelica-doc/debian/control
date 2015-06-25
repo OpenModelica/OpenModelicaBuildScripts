@@ -1,0 +1,15 @@
+Source: openmodelica-doc
+Section: math
+Priority: optional
+Maintainer: OpenModelica Build System <build@openmodelica.org>
+Build-Depends: debhelper (>= 9.0.0)
+Standards-Version: 3.9.6
+
+Package: omc-doc
+Section: math
+Multi-Arch: foreign
+Architecture: all
+Conflicts: omc-doc
+Depends: ${misc:Depends}
+Description: Documentation for OpenModelica
+ Documentation for all parts of OpenModelica.
