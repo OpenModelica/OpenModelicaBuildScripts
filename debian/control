@@ -133,15 +133,6 @@ Depends: ${shlibs:Depends},
 Description: The OpenModelica Compiler lib dependencies
  This is the core libraries of the OpenModelica project.
 
-Package: omc-doc
-Section: math
-Multi-Arch: foreign
-Architecture: all
-Depends: ${shlibs:Depends},
- ${misc:Depends}
-Description: OpenModelica manuals
- Contains large pdf-manuals for OpenModelica
-
 Package: omc-java
 Section: math
 Multi-Arch: foreign
