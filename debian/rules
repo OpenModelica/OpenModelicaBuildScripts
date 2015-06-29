@@ -153,7 +153,6 @@ binary-arch: build install
 	dh_install
 	dh_installmenu
 	dh_installmime
-	dh_installman
 	dh_link
 	dh_strip
 	# dh_compress -X.pdf -X.onb -X.c -X.h -X.mo -X.mos -Xomc_helptext.txt -X.py
