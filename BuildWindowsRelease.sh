@@ -18,7 +18,7 @@ export SSHUSER=$1
 export MAKETHREADS=$2
 
 # set the path to our tools
-export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk170/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
+export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
 export OPENMODELICAHOME="c:\\dev\\OpenModelica\\build"
