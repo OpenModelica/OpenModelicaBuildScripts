@@ -137,9 +137,10 @@ Section -Main SEC0000
   # copy figaro files
   SetOutPath "$INSTDIR\share\jEdit4.5_Visual_Figaro"
   File /r /x "*.svn" "$%OMDEV%\lib\jEdit4.5_Visual_Figaro\*"
-  # Copy the OpenModelica webpage url shortcut
+  # Copy the OpenModelica web page & users guide url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
   File "..\doc\OpenModelica Project Online.url"
+  File "..\doc\OpenModelicaUsersGuide.url"
   # create the file with InstallMode
   FileOpen $4 "$INSTDIR\InstallMode.txt" w
   FileWrite $4 $MultiUser.InstallMode
@@ -206,7 +207,9 @@ Section -post SEC0001
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - System Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaSystem.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.pdf" \
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.url" \
+  "" "$INSTDIR\icons\IExplorer.ico"
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide-latest.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
   CreateDirectory "$SMPROGRAMS\$StartMenuGroup\PySimulator"
   SetOutPath ""
