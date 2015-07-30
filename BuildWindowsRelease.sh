@@ -102,7 +102,8 @@ git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenMod
 
 # build the installer
 cd /c/dev/OpenModelica/OpenModelicaSetup
-makensis OpenModelicaSetup.nsi
+makensis OpenModelicaSetup.nsi > trace.txt 2>&1
+cat trace.txt
 # move the installer
 mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
