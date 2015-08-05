@@ -91,9 +91,9 @@ make -f 'Makefile.omdev.mingw' runtimeCPPinstall
 
 # wget the html & pdf versions of OpenModelica users guide
 cd /c/dev/OpenModelica/build/share/doc/omc
-wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/OpenModelicaUsersGuide-latest.html.tar.xz
-tar -xJf OpenModelicaUsersGuide-latest.html.tar.xz
-rm OpenModelicaUsersGuide-latest.html.tar.xz
+wget --no-check-certificate https://openmodelica.org/doc/openmodelica-doc-latest.tar.xz
+tar -xJf openmodelica-doc-latest.tar.xz --strip-components=2
+rm openmodelica-doc-latest.tar.xz
 wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/OpenModelicaUsersGuide-latest.pdf
 
 # get PySimulator
