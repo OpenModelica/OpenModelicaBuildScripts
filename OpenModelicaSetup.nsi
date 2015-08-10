@@ -199,17 +199,15 @@ Section -post SEC0001
   "" "$INSTDIR\icons\Uninstall.ico"
   CreateDirectory "$SMPROGRAMS\$StartMenuGroup\Documentation"
   SetOutPath ""
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - API - HowTo.pdf.lnk" "$INSTDIR\share\doc\omc\OMC_API-HowTo.pdf" \
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.url" \
+  "" "$INSTDIR\icons\IExplorer.ico"
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide-latest.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaMetaProgramming.pdf" \
+  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - MetaProgramming Guide.pdf.lnk" "$INSTDIR\share\doc\omc\SystemDocumentation\OpenModelicaMetaProgramming.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Modelica Tutorial by Peter Fritzson.pdf.lnk" "$INSTDIR\share\doc\omc\ModelicaTutorialFritzson.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
   CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - System Guide.pdf.lnk" "$INSTDIR\share\doc\omc\SystemDocumentation\OpenModelicaSystem.pdf" \
-  "" "$INSTDIR\icons\PDF.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide.url" \
-  "" "$INSTDIR\icons\IExplorer.ico"
-  CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Documentation\OpenModelica - Users Guide.pdf.lnk" "$INSTDIR\share\doc\omc\OpenModelicaUsersGuide-latest.pdf" \
   "" "$INSTDIR\icons\PDF.ico"
   CreateDirectory "$SMPROGRAMS\$StartMenuGroup\PySimulator"
   SetOutPath ""
