@@ -85,9 +85,9 @@ cd /c/dev/OpenModelica
 echo "Building MSVC compiled runtime"
 make -f 'Makefile.omdev.mingw' simulationruntimecmsvc
 echo "Building MSVC CPP runtime"
-make -f 'Makefile.omdev.mingw' runtimeCPPmsvcinstall
+make -f 'Makefile.omdev.mingw' BUILDTYPE=Release runtimeCPPmsvcinstall
 echo "Building CPP runtime"
-make -f 'Makefile.omdev.mingw' runtimeCPPinstall
+make -f 'Makefile.omdev.mingw' BUILDTYPE=Release runtimeCPPinstall
 
 # wget the html & pdf versions of OpenModelica users guide
 cd /c/dev/OpenModelica/build/share/doc/omc
