@@ -40,7 +40,6 @@ else
 	CC = $(DEB_HOST_GNU_TYPE)-gcc
 # clang++ seems unable to find some bits stuff in C++ includes
   CXX = $(DEB_HOST_GNU_TYPE)-g++
-  LDFLAGS = -Wl,-rpath-link /lib/$(DEB_HOST_GNU_TYPE)
 	NATIVE_CC = clang
 	NATIVE_CXX = clang++
 	CONF_OPTS_CROSS = --with-omc="`pwd`/cross-build/bin/omc"
