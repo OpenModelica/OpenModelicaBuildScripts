@@ -40,6 +40,8 @@ else
 	CC = $(DEB_HOST_GNU_TYPE)-gcc
 # clang++ seems unable to find some bits stuff in C++ includes
   CXX = $(DEB_HOST_GNU_TYPE)-g++
+# Even GCC needs special flags because libreadline seems messed up
+  LDFLAGS = -Wl,-rpath-link -Wl,/lib/$(DEB_HOST_GNU_TYPE)
 	NATIVE_CC = clang
 	NATIVE_CXX = clang++
 	CONF_OPTS_CROSS = --with-omc="`pwd`/cross-build/bin/omc"
@@ -105,7 +107,7 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	$(MAKE) clean
 endif
 	# Cross-compile done, now configure for real
-	./configure CFLAGS="$(CFLAGS)" CC=$(CC) CXX=$(CXX) OMPCC="gcc -fopenmp" \
+	./configure CFLAGS="$(CFLAGS)" CC=$(CC) CXX=$(CXX) LDFLAGS=$(LDFLAGS) OMPCC="gcc -fopenmp" \
 	--host=$(DEB_HOST_GNU_TYPE) \
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
