@@ -106,7 +106,7 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	$(MAKE) clean
 endif
 	# Cross-compile done, now configure for real
-	./configure CFLAGS="$(CFLAGS)" CC=$(CC) CXX=$(CXX) LDFLAGS="$(LDFLAGS)" OMPCC="gcc -fopenmp" \
+	./configure CFLAGS="$(CFLAGS)" CC="$(CC)" CXX="$(CXX)" LDFLAGS="$(LDFLAGS)" OMPCC="gcc -fopenmp" \
 	--host=$(DEB_HOST_GNU_TYPE) \
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
