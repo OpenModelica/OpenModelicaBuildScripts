@@ -11,6 +11,7 @@ debian/tmp/usr/lib/*/omc/libModelicaStandardTables*
 # Simulations
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
 debian/tmp/usr/lib/*/omc/libSimulationRuntimeC.*
+debian/tmp/usr/lib/*/omc/libbtf*
 debian/tmp/usr/lib/*/omc/libklu*
 debian/tmp/usr/lib/*/omc/liblis*
 debian/tmp/usr/lib/*/omc/libipopt*
