@@ -112,7 +112,6 @@ endif
 	--prefix=/usr \
 	--with-lapack="-llapack -lblas" \
 	--with-omniORB=/usr \
-	--without-ipopt \
 	--without-paradiseo \
 	--without-omlibrary \
 	--disable-modelica3d \

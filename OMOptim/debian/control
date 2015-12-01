@@ -9,6 +9,7 @@ Build-Depends: debhelper (>= 9.0.0),
  autoconf,
  omc-common,
  libomplot-dev,
+ cmake
 Standards-Version: 3.9.6
 
 Package: omoptim
