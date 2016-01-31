@@ -134,6 +134,10 @@ Section -Main SEC0000
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\msys"
   File /r /x "*.svn" "$%OMDEV%\tools\msys\*"
+  # create the file with InstallMode
+  FileOpen $4 "$INSTDIR\msys\etc\fstab" w
+  FileWrite $4 "$INSTDIR\MinGW   /mingw"
+  FileClose $4
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
