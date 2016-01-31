@@ -1,11 +1,11 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 
-Name OpenModelica1.9.4-dev
+Name OpenModelica1.9.4-dev.beta1
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.9.4-dev
+!define VERSION 1.9.4-dev.beta1
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -131,6 +131,9 @@ Section -Main SEC0000
   # Create MinGW directory and copy files in it
   SetOutPath "$INSTDIR\MinGW"
   File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
+  # Create msys directory and copy files in it
+  SetOutPath "$INSTDIR\msys"
+  File /r /x "*.svn" "$%OMDEV%\tools\msys\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
