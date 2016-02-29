@@ -5,8 +5,8 @@ debian/tmp/usr/lib/*/omc/libomcgc*
 debian/tmp/usr/lib/*/omc/libfmilib*
 
 # MSL-external
-debian/tmp/usr/lib/*/omc/libModelicaExternalC*
-debian/tmp/usr/lib/*/omc/libModelicaStandardTables*
+debian/tmp/usr/lib/*/omc/libModelica*
+debian/tmp/usr/lib/*/omc/libzlib*
 
 # Simulations
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
