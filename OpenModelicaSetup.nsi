@@ -1,11 +1,11 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 
-Name OpenModelica1.9.4-dev.beta2
+Name OpenModelica1.9.4
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.9.4-dev.beta2
+!define VERSION 1.9.4
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -134,10 +134,6 @@ Section -Main SEC0000
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\msys"
   File /r /x "*.svn" "$%OMDEV%\tools\msys\*"
-  # create the file with InstallMode
-  FileOpen $4 "$INSTDIR\msys\etc\fstab" w
-  FileWrite $4 "$INSTDIR\MinGW   /mingw"
-  FileClose $4
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
@@ -184,6 +180,11 @@ KeepOMDEV:
 SectionEnd
 
 Section -post SEC0001
+  # create the file with InstallMode
+  FileOpen $4 "$INSTDIR\msys\etc\fstab" w
+  FileWrite $4 "$INSTDIR\MinGW   /mingw"
+  FileClose $4
+  # do post installation actions
   WriteRegStr SHCTX "${REGKEY}" Path $INSTDIR
   WriteUninstaller $INSTDIR\Uninstall.exe
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
