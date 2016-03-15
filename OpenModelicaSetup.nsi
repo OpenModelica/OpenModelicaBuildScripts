@@ -1,11 +1,11 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 
-Name OpenModelica1.9.5-dev
+Name OpenModelica1.10.0-dev
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.9.5-dev
+!define VERSION 1.10.0-dev
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -86,7 +86,7 @@ OutFile "OpenModelica.exe"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.9.5.0
+VIProductVersion 1.10.0.0
 VIAddVersionKey ProductName "OpenModelica"
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
