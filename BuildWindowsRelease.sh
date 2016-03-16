@@ -16,6 +16,7 @@
 # get the ssh password via command line
 export SSHUSER=$1
 export MAKETHREADS=$2
+export GIT_BRANCH=$3
 
 # set the path to our tools
 export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
@@ -39,6 +40,10 @@ git reset --hard origin/master && git checkout master && git pull --recurse-subm
 git submodule update --init --recursive || exit 1
 git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || exit 1
 git clean -fdxq -e OpenModelicaSetup || exit 1
+git checkout $GIT_BRANCH
+cd OMCompiler
+git checkout $GIT_BRANCH
+cd ..
 git submodule status --recursive
 # get the revision
 export REVISION=`git describe --match "v*.*" --always`
