@@ -19,3 +19,4 @@ debian/tmp/usr/lib/*/omc/libcoin*
 debian/tmp/usr/lib/*/omc/libcminpack*
 debian/tmp/usr/lib/*/omc/libumfpack*
 debian/tmp/usr/lib/*/omc/lib*amd*
+debian/tmp/usr/lib/*/omc/libomopc*
