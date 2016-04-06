@@ -79,7 +79,8 @@ cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 rm -rf OMPython
 git clone https://github.com/OpenModelica/OMPython -q -b master /c/dev/OpenModelica/OMPython
-make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
+# TODO! FIXME! OMPython!
+# make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 cd /c/dev/OpenModelica
 echo "Building MSVC compiled runtime"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} simulationruntimecmsvc
