@@ -1,11 +1,11 @@
 # Adeel Asghar [adeel.asghar@liu.se]
 # 2011-jul-29 21:01:29
 
-Name OpenModelica1.10.0-dev
+Name OpenModelica1.10.0-dev-32bit
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.10.0-dev
+!define VERSION 1.10.0-dev-32bit
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -102,18 +102,13 @@ Section -Main SEC0000
   # Create bin directory and copy files in it
   SetOutPath "$INSTDIR\bin"
   File "..\build\bin\*"
-  File /r /x "*.svn" /x "qsvgicon4.dll" "$%OMDEV%\tools\OMTools\dll\*"
-  File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniORB416_rt.dll"
-  File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omniDynamic416_rt.dll"
-  File "$%OMDEV%\lib\omniORB-4.1.6-mingw\bin\x86_win32\omnithread34_rt.dll"
   File "..\OMCompiler\OSMC-License.txt"
   # Copy the openssl binaries
   File "bin\libeay32.dll"
   File "bin\libssl32.dll"
   File "bin\ssleay32.dll"
-  # Create bin\iconengines directory and copy files in it
-  SetOutPath "$INSTDIR\bin\iconengines"
-  File "$%OMDEV%\tools\OMTools\dll\qsvgicon4.dll"
+  # Create bin\plugings\* directories
+  File /r /x "*.svn" "$%OMDEV%\tools\msys\mingw32\share\qt5\plugins\*"
   # Create icons directory and copy files in it
   SetOutPath "$INSTDIR\icons"
   File /r /x "*.svn" "icons\*"
@@ -128,12 +123,9 @@ Section -Main SEC0000
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
   File /r /x "*.svn" /x "*.git" "..\build\lib\*"
-  # Create MinGW directory and copy files in it
-  SetOutPath "$INSTDIR\MinGW"
-  File /r /x "*.svn" "$%OMDEV%\tools\MinGW\*"
   # Create msys directory and copy files in it
-  SetOutPath "$INSTDIR\msys"
-  File /r /x "*.svn" "$%OMDEV%\tools\msys\*"
+  SetOutPath "$INSTDIR\tools\msys"
+  File /r /x "group" /x "passwd" /x "mingw64" /x "pacman.log" "$%OMDEV%\tools\msys\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
@@ -180,10 +172,9 @@ KeepOMDEV:
 SectionEnd
 
 Section -post SEC0001
-  # create the file with InstallMode
-  FileOpen $4 "$INSTDIR\msys\etc\fstab" w
-  FileWrite $4 "$INSTDIR\MinGW   /mingw"
-  FileClose $4
+  # generate group and passwd files for this machine!
+  Exec '"$INSTDIR\tools\msys\usr\bin\mkpasswd.exe" -l -c > $INSTDIR\tools\msys\etc\passwd'
+  Exec '"$INSTDIR\tools\msys\usr\bin\mkgroup.exe" -l -c > $INSTDIR\tools\msys\etc\group'
   # do post installation actions
   WriteRegStr SHCTX "${REGKEY}" Path $INSTDIR
   WriteUninstaller $INSTDIR\Uninstall.exe

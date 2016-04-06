@@ -4,10 +4,8 @@
 # 2013-10-03
 #
 # expects to have these things installed:
-#  python 2.7.x (you need to run easy_install joblib simplejson requests in the cmd line in python\Scripts)
 #  nsis installer
 #  TortoiseSVN command line tools
-#  Qt 4.8.0
 #  jdk
 #  git command line clients (PUT IT LAST IN THE PATH!) http://git-scm.com/downloads
 #  OMDev in c:\OMDev
@@ -16,10 +14,11 @@
 # get the ssh password via command line
 export SSHUSER=$1
 export MAKETHREADS=$2
-export GIT_BRANCH=$3
+export PLATFORM=$3 # 32bit or 64bit
+export GIT_BRANCH=$4
 
 # set the path to our tools
-export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
+export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin:
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
 export OPENMODELICAHOME="c:\\dev\\OpenModelica\\build"
@@ -50,17 +49,17 @@ git submodule status --recursive
 export REVISION=`git describe --match "v*.*" --always`
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
+# make the file prefix
+export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${REVISION}-${PLATFORM}"
 
 # test if exists and exit if it does
-if [ -d "${OMC_INSTALL_PREFIX}" ]; then
-	echo "Revision ${OMC_INSTALL_PREFIX} already exists! Exiting ..."
+if [ -f "${OMC_INSTALL_FILE_PREFIX}.exe" ]; then
+	echo "Revision ${OMC_INSTALL_FILE_PREFIX}.exe already exists! Exiting ..."
 	exit 0
 fi
 
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
-# make the file prefix
-export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${REVISION}"
 
 # update OpenModelicaSetup
 cd /c/dev/OpenModelica/OpenModelicaSetup
@@ -71,29 +70,23 @@ cd /c/dev/OpenModelica
 echo "Cleaning OpenModelica"
 rm -rf build/
 mkdir build/
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} gitclean || true
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica
-echo "Building OpenModelica"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
-echo "Building OpenModelica libraries"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omlibrary-all
+echo "Building OpenModelica and OpenModelica libraries"
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omc omc-diff omlibrary-all qtclients
 cd /c/dev/OpenModelica
 echo "Installing Python scripting"
 rm -rf OMPython
 git clone https://github.com/OpenModelica/OMPython -q -b master /c/dev/OpenModelica/OMPython
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
-#build OMClients
-echo "Cleaning OMClients"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean-qtclients
-echo "Building OMClients"
-make -f 'Makefile.omdev.mingw' -j2 qtclients
+make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 cd /c/dev/OpenModelica
 echo "Building MSVC compiled runtime"
-make -f 'Makefile.omdev.mingw' simulationruntimecmsvc
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} simulationruntimecmsvc
 echo "Building MSVC CPP runtime"
-make -f 'Makefile.omdev.mingw' BUILDTYPE=Release runtimeCPPmsvcinstall
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPmsvcinstall
 echo "Building CPP runtime"
-make -f 'Makefile.omdev.mingw' BUILDTYPE=Release runtimeCPPinstall
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPinstall
 
 # wget the html & pdf versions of OpenModelica users guide
 cd /c/dev/OpenModelica/build/share/doc/omc
@@ -108,10 +101,10 @@ git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenMod
 
 # build the installer
 cd /c/dev/OpenModelica/OpenModelicaSetup
-makensis OpenModelicaSetup.nsi > trace.txt 2>&1
+makensis OpenModelicaSetup${PLATFORM}.nsi > trace.txt 2>&1
 cat trace.txt
 # move the installer
-mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
+mv OpenModelica${PLATFORM}.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
 # gather the svn log
 cd /c/dev/OpenModelica
@@ -125,7 +118,6 @@ echo "Read OpenModelica-${REVISION}-ChangeLog.txt for more info on changes." >> 
 echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo "See also (match revision ${REVISION} to build jobs):" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo "  https://test.openmodelica.org/hudson/" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
-echo "  http://test.openmodelica.org/~marsj/MSL31/BuildModelRecursive.html" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo "  http://test.openmodelica.org/~marsj/MSL32/BuildModelRecursive.html" >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 echo " " >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 cat >> ${OMC_INSTALL_FILE_PREFIX}-README.txt <<DELIMITER
@@ -179,8 +171,8 @@ cd ${OMC_INSTALL_PREFIX}
 # move the last nightly build to the older location
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
-cd public_html/omc/builds/windows/nightly-builds/
+cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 mv -f OpenModelica* older/
 ENDSSH
-scp OpenModelica* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/
+scp OpenModelica* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 echo "All done!"
