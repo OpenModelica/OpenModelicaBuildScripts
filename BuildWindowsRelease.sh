@@ -105,7 +105,7 @@ cd /c/dev/OpenModelica/OpenModelicaSetup
 makensis OpenModelicaSetup${PLATFORM}.nsi > trace.txt 2>&1
 cat trace.txt
 # move the installer
-mv OpenModelica${PLATFORM}.exe ${OMC_INSTALL_FILE_PREFIX}.exe
+mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
 # gather the svn log
 cd /c/dev/OpenModelica
