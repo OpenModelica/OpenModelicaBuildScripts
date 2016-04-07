@@ -125,7 +125,7 @@ Section -Main SEC0000
   File /r /x "*.svn" /x "*.git" "..\build\lib\*"
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
-  File /r /x "group" /x "passwd" /x "mingw32" /x "pacman.log" "$%OMDEV%\tools\msys\*"
+  File /r /x "group" /x "passwd" /x "mingw32" /x "pacman.log" /x "tmp\*.*" "$%OMDEV%\tools\msys\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"

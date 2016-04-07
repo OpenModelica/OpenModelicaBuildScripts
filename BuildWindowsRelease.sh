@@ -18,7 +18,9 @@ export PLATFORM=$3 # 32bit or 64bit
 export GIT_BRANCH=$4
 
 # set the path to our tools
-export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin:
+export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin
+# make sure we use the windows temp directory and not the msys/tmp one!
+export TMP=$tmp TEMP=$temp
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
 export OPENMODELICAHOME="c:\\dev\\OpenModelica\\build"
