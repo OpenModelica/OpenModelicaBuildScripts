@@ -20,11 +20,15 @@ export GIT_BRANCH=$4
 # set the path to our tools
 export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin
 # make sure we use the windows temp directory and not the msys/tmp one!
+rm -rf ${TMP}/*
+rm -rf ${TEMP}/*
 export TMP=$tmp TEMP=$temp
+rm -rf ${TMP}/*
+rm -rf ${TEMP}/*
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
-export OPENMODELICAHOME="c:\\dev\\OpenModelica\\build"
-export OPENMODELICALIBRARY="c:\\dev\\OpenModelica\\build\\lib\\omlibrary"
+export OPENMODELICAHOME="c:\\dev\\OpenModelica${PLATFORM}\\build"
+export OPENMODELICALIBRARY="c:\\dev\\OpenModelica${PLATFORM}\\build\\lib\\omlibrary"
 
 # have OMDEV in Msys version
 export OMDEV=/c/OMDev/
@@ -34,7 +38,7 @@ cd /c/OMDev/
 svn up . --accept theirs-full
 
 # update OpenModelica
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 # delete the build directory
 rm -rf build
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
@@ -64,26 +68,26 @@ fi
 mkdir -p ${OMC_INSTALL_PREFIX}
 
 # update OpenModelicaSetup
-cd /c/dev/OpenModelica/OpenModelicaSetup
+cd /c/dev/OpenModelica${PLATFORM}/OpenModelicaSetup
 svn up . --accept theirs-full
 
 # build OpenModelica
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 echo "Cleaning OpenModelica"
 rm -rf build/
-mkdir build/
+mkdir -p build/
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} gitclean || true
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 echo "Building OpenModelica and OpenModelica libraries"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omc omc-diff omlibrary-all qtclients
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 echo "Installing Python scripting"
 rm -rf OMPython
-git clone https://github.com/OpenModelica/OMPython -q -b master /c/dev/OpenModelica/OMPython
+git clone https://github.com/OpenModelica/OMPython -q -b master /c/dev/OpenModelica${PLATFORM}/OMPython
 # TODO! FIXME! OMPython!
 # make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 echo "Building MSVC compiled runtime"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} simulationruntimecmsvc
 echo "Building MSVC CPP runtime"
@@ -92,7 +96,7 @@ echo "Building CPP runtime"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPinstall
 
 # wget the html & pdf versions of OpenModelica users guide
-cd /c/dev/OpenModelica/build/share/doc/omc
+cd /c/dev/OpenModelica${PLATFORM}/build/share/doc/omc
 wget --no-check-certificate https://openmodelica.org/doc/openmodelica-doc-latest.tar.xz
 tar -xJf openmodelica-doc-latest.tar.xz --strip-components=2
 rm openmodelica-doc-latest.tar.xz
@@ -100,17 +104,17 @@ wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/
 
 # get PySimulator
 # for now get the master from github since OpenModelica plugin is still not part of tagged release. This should be updated once PySimulator outs a new release.
-git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica/build/share/omc/scripts/PythonInterface/PySimulator
+git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica${PLATFORM}/build/share/omc/scripts/PythonInterface/PySimulator
 
 # build the installer
-cd /c/dev/OpenModelica/OpenModelicaSetup
+cd /c/dev/OpenModelica${PLATFORM}/OpenModelicaSetup
 makensis OpenModelicaSetup${PLATFORM}.nsi > trace.txt 2>&1
 cat trace.txt
 # move the installer
 mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
 
 # gather the svn log
-cd /c/dev/OpenModelica
+cd /c/dev/OpenModelica${PLATFORM}
 git log --name-status --graph --submodule > ${OMC_INSTALL_FILE_PREFIX}-ChangeLog.txt
 
 # make the readme
@@ -158,7 +162,7 @@ echo "Read more about OpenModelica at https://openmodelica.org" >> ${OMC_INSTALL
 echo "Contact us at OpenModelica@ida.liu.se for further issues or questions." >> ${OMC_INSTALL_FILE_PREFIX}-README.txt
 
 # make the testsuite-trace
-#cd /c/dev/OpenModelica
+#cd /c/dev/OpenModelica${PLATFORM}
 #echo "Running testsuite trace"
 #make -f 'Makefile.omdev.mingw' ${MAKETHREADS} testlogwindows > tmpTime.log 2>&1
 
