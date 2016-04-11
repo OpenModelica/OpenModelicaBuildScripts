@@ -181,5 +181,5 @@ ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 mv -f OpenModelica* older/
 ENDSSH
-scp OpenModelica* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
+scp OpenModelica*${PLATFORM}* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 echo "All done!"
