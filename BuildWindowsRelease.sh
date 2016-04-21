@@ -108,7 +108,7 @@ git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenMod
 
 # get Figaro
 cd /c/dev/OpenModelica${PLATFORM}/build/share/doc/omc
-wget --no-check-certificate https://sourceforge.net/p/visualfigaro/code/HEAD/tree/Trunk/Package/4_Packages_livrables/jEdit4.5_VisualFigaro.zip?format=raw
+wget --no-check-certificate -O jEdit4.5_VisualFigaro.zip https://sourceforge.net/p/visualfigaro/code/HEAD/tree/Trunk/Package/4_Packages_livrables/jEdit4.5_VisualFigaro.zip?format=raw
 unzip jEdit4.5_VisualFigaro.zip
 rm jEdit4.5_VisualFigaro.zip
 
