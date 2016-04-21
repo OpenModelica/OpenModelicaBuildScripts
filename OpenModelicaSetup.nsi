@@ -71,7 +71,6 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 
 # Variables
 Var StartMenuGroup
-Var ReversePlatfrormNumber
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
@@ -131,10 +130,9 @@ Section -Main SEC0000
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
   StrCmp ${PLATFORMVERSION} "32" 0 +3
-    StrCpy $ReversePlatfrormNumber "64"
+    File /r /x "group" /x "passwd" /x "mingw64" /x "pacman.log" /x "tmp\*.*" "$%OMDEV%\tools\msys\*"
     Goto +2
-    StrCpy $ReversePlatfrormNumber "32"
-  File /r /x "group" /x "passwd" /x "mingw$ReversePlatfrormNumber" /x "pacman.log" /x "tmp\*.*" "$%OMDEV%\tools\msys\*"
+    File /r /x "group" /x "passwd" /x "mingw32" /x "pacman.log" /x "tmp\*.*" "$%OMDEV%\tools\msys\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
