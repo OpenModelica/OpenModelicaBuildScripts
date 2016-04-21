@@ -129,9 +129,6 @@ Section -Main SEC0000
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
-  # copy figaro files
-  SetOutPath "$INSTDIR\share\jEdit4.5_Visual_Figaro"
-  File /r /x "*.svn" "$%OMDEV%\lib\jEdit4.5_Visual_Figaro\*"
   # Copy the OpenModelica web page & users guide url shortcut
   SetOutPath "$INSTDIR\share\doc\omc"
   File "..\doc\OpenModelica Project Online.url"

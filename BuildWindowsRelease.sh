@@ -106,6 +106,12 @@ wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/
 # for now get the master from github since OpenModelica plugin is still not part of tagged release. This should be updated once PySimulator outs a new release.
 git clone https://github.com/PySimulator/PySimulator -q -b master /c/dev/OpenModelica${PLATFORM}/build/share/omc/scripts/PythonInterface/PySimulator
 
+# get Figaro
+cd /c/dev/OpenModelica${PLATFORM}/build/share/doc/omc
+wget --no-check-certificate https://sourceforge.net/p/visualfigaro/code/HEAD/tree/Trunk/Package/4_Packages_livrables/jEdit4.5_VisualFigaro.zip?format=raw
+unzip jEdit4.5_VisualFigaro.zip
+rm jEdit4.5_VisualFigaro.zip
+
 # build the installer
 cd /c/dev/OpenModelica${PLATFORM}/OpenModelicaSetup
 makensis OpenModelicaSetup${PLATFORM}.nsi > trace.txt 2>&1
