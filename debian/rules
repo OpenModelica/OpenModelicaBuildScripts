@@ -40,7 +40,8 @@ else
 # clang++ seems unable to find some bits stuff in C++ includes
   CXX = $(DEB_HOST_GNU_TYPE)-g++
 # Even GCC needs special flags because libreadline seems messed up
-  LDFLAGS = -Wl,-rpath-link -Wl,/lib/$(DEB_HOST_GNU_TYPE) -Wl,-rpath-link -Wl,/usr/lib/$(DEB_HOST_GNU_TYPE) -Wl,--unresolved-symbols=ignore-all
+# Readline needed this, but messes up other libraries: -Wl,--unresolved-symbols=ignore-all
+  LDFLAGS = -Wl,-rpath-link -Wl,/lib/$(DEB_HOST_GNU_TYPE) -Wl,-rpath-link -Wl,/usr/lib/$(DEB_HOST_GNU_TYPE)
 	NATIVE_CC = clang
 	NATIVE_CXX = clang++
 	CONF_OPTS_CROSS = --with-omc="`pwd`/cross-build/bin/omc"
