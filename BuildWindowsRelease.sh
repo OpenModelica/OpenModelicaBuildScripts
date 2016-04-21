@@ -114,7 +114,7 @@ rm jEdit4.5_VisualFigaro.zip
 
 # build the installer
 cd /c/dev/OpenModelica${PLATFORM}/OpenModelicaSetup
-makensis OpenModelicaSetup${PLATFORM}.nsi > trace.txt 2>&1
+makensis //DPLATFORMVERSION="${PLATFORM::-3}" OpenModelicaSetup.nsi > trace.txt 2>&1
 cat trace.txt
 # move the installer
 mv OpenModelica.exe ${OMC_INSTALL_FILE_PREFIX}.exe
