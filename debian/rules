@@ -108,11 +108,12 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	$(MAKE) clean
 endif
 	# Cross-compile done, now configure for real
+	# wily armhf requires -lm for blas...
 	./configure CFLAGS="$(CFLAGS)" CC="$(CC)" CXX="$(CXX)" LDFLAGS="$(LDFLAGS)" OMPCC="gcc -fopenmp" \
 	--host=$(DEB_HOST_GNU_TYPE) \
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
-	--with-lapack="-llapack -lblas" \
+	--with-lapack="-llapack -lblas -lm" \
 	--with-omniORB=/usr \
 	--without-paradiseo \
 	--without-omlibrary \
