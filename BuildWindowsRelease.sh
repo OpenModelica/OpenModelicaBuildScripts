@@ -1,4 +1,4 @@
-#!/bin/sh -xe
+#!/bin/sh -x
 # script to build the OpenModelica nightly-build
 # Adrian Pop [adrian.pop@liu.se]
 # 2013-10-03
