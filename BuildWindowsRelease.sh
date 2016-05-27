@@ -52,7 +52,9 @@ git clean -fdxq -e OpenModelicaSetup || exit 1
 # cd ..
 git submodule status --recursive
 # get the revision
+cd OMCompiler
 export REVISION=`git describe --match "v*.*" --always`
+cd ..
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/dev/OpenModelica_releases/${REVISION}/"
 # make the file prefix
