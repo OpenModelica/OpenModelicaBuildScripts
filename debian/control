@@ -26,10 +26,7 @@ Build-Depends: debhelper (>= 9.0.0),
  libexpat1-dev,
  libsundials-serial-dev,
  libsundials-kinsol1,
- libgtkglext1-dev,
  libboost-dev [armhf] | libboost-all-dev [!armhf],
- libopenscenegraph-dev [!armhf],
- libdbus-1-dev,
  pkg-config
 Standards-Version: 3.9.5
 
