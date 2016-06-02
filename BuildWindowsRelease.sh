@@ -44,7 +44,7 @@ rm -rf build
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
 git submodule update --init --recursive || exit 1
 git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || exit 1
-git clean -fdxq -e OpenModelicaSetup || exit 1
+git clean -fdxq -e OpenModelicaSetup || true
 # This needs more work, redo!
 # git checkout $GIT_BRANCH
 # cd OMCompiler
@@ -78,10 +78,12 @@ cd /c/dev/OpenModelica${PLATFORM}
 echo "Cleaning OpenModelica"
 rm -rf build/
 mkdir -p build/
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} gitclean || true
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} gitclean || make -f 'Makefile.omdev.mingw' ${MAKETHREADS} gitclean || true
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica${PLATFORM}
 echo "Building OpenModelica and OpenModelica libraries"
+# make sure we break on error!
+set +e
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omc omc-diff omlibrary-all qtclients
 cd /c/dev/OpenModelica${PLATFORM}
 echo "Installing Python scripting"
