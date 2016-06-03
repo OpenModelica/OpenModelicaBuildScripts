@@ -19,6 +19,9 @@ export GIT_BRANCH=$4
 
 # set the path to our tools
 export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin
+
+# don't exit on error
+set +e
 # make sure we use the windows temp directory and not the msys/tmp one!
 rm -rf ${TMP}/*
 rm -rf ${TEMP}/*
@@ -43,7 +46,7 @@ cd /c/dev/OpenModelica${PLATFORM}
 rm -rf build
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
 git submodule update --init --recursive || exit 1
-git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || exit 1
+git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || true
 git clean -fdxq -e OpenModelicaSetup || true
 # This needs more work, redo!
 # git checkout $GIT_BRANCH
@@ -83,7 +86,7 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS} clean
 cd /c/dev/OpenModelica${PLATFORM}
 echo "Building OpenModelica and OpenModelica libraries"
 # make sure we break on error!
-set +e
+set -e
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omc omc-diff omlibrary-all qtclients
 cd /c/dev/OpenModelica${PLATFORM}
 echo "Installing Python scripting"
