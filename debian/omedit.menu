@@ -1,8 +1,8 @@
-?package(omnotebook):                                \
+?package(omedit):                                \
        needs="X11"                                   \
        section="Applications/Science/Mathematics"    \
        title="OMEdit"                                \
-       command="/usr/bin/OMNotebook"                 \
+       command="/usr/bin/OMEdit"                 \
        hints="Programming,Simulation,Science"        \
        icon="/usr/share/pixmaps/OMEdit_icon.png"     \
        longtitle="OpenModelica Connection Editor"    \
