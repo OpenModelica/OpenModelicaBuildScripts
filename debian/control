@@ -35,6 +35,7 @@ Build-Depends: debhelper (>= 9.0.0),
  libsundials-serial-dev,
  libsundials-kinsol1,
  libboost-all-dev,
+ libopenscenegraph-dev,
  pkg-config
 Standards-Version: 3.9.5
 
