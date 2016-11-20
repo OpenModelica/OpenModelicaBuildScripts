@@ -16,6 +16,7 @@
 # get the ssh password via command line
 export SSHUSER=$1
 export MAKETHREADS=$2
+export GIT_TAG=$3
 
 # set the path to our tools
 export PATH=$PATH:/c/bin/python273:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/bin/git/bin:
@@ -35,11 +36,15 @@ svn up . --accept theirs-full
 cd /c/OM19/OpenModelica
 # delete the build directory
 rm -rf build
-git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
-git submodule update --init --recursive || exit 1
-git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || exit 1
+git reset --hard "origin/$GIT_TAG" && git checkout "$GIT_TAG" && git pull --recurse-submodules && git fetch --tags || exit 1
+git checkout -f "$GIT_TAG" || exit 1
+git reset --hard "origin/$GIT_TAG" || exit 1
+git submodule update --force --init --recursive || exit 1
+git submodule foreach --recursive  "git fetch --tags && git reset --hard && git clean -fdxq -e /git -e /svn" || exit 1
 git clean -fdxq -e OpenModelicaSetup || exit 1
+git status
 git submodule status --recursive
+
 # get the revision
 export REVISION=`git describe --match "v*.*" --always`
 # Directory prefix
