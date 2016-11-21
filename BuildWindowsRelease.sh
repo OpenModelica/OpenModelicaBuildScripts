@@ -78,7 +78,7 @@ cd /c/OM19/OpenModelica
 echo "Building OpenModelica"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS}
 echo "Building OpenModelica libraries"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} omlibrary-all
+make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} omlibrary-all
 cd /c/OM19/OpenModelica
 echo "Installing Python scripting"
 rm -rf OMPython
