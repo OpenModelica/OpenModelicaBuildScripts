@@ -53,16 +53,16 @@ export REVISION=`git describe --match "v*.*" --always`
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/OM19/OpenModelica_releases/${REVISION}/"
 
-# test if exists and exit if it does
-if [ -d "${OMC_INSTALL_PREFIX}" ]; then
-	echo "Revision ${OMC_INSTALL_PREFIX} already exists! Exiting ..."
-	exit 0
-fi
-
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
 # make the file prefix
 export OMC_INSTALL_FILE_PREFIX="${OMC_INSTALL_PREFIX}OpenModelica-${REVISION}"
+
+# test if exists and exit if it does
+if [ -f "${OMC_INSTALL_FILE_PREFIX}.exe" ]; then
+	echo "Revision ${OMC_INSTALL_FILE_PREFIX}.exe already exists! Exiting ..."
+	exit 0
+fi
 
 # update OpenModelicaSetup
 cd /c/OM19/OpenModelica/OpenModelicaSetup
