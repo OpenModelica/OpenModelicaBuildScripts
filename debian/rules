@@ -64,7 +64,7 @@ else
 	CFLAGS += -O2
 endif
 
-ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+#ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 MAKEFLAGS += -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #endif
