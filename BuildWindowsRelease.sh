@@ -57,9 +57,9 @@ git submodule status --recursive
 
 
 # get the revision
-cd OMCompiler
+# cd OMCompiler
 export REVISION=`git describe --match "v*.*" --always`
-cd ..
+# cd ..
 # Directory prefix
 export OMC_INSTALL_PREFIX="/c/OM111/OpenModelica_releases/${REVISION}/"
 # make the file prefix
@@ -194,7 +194,7 @@ cd ${OMC_INSTALL_PREFIX}
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
 cd public_html/omc/builds/windows/releases/1.11maintenance/${PLATFORM}/
-mv -f OpenModelica* older/
+mv -f OpenModelica* older/ || true
 ENDSSH
 scp OpenModelica*${PLATFORM}* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/releases/1.11maintenance/${PLATFORM}/
 echo "All done!"
