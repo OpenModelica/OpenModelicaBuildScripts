@@ -194,7 +194,9 @@ Depends: omc (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
 Recommends: drmodelica,
- drcontrol
+ drcontrol,
+ texlive-latex-base,
+ dvipng
 Description: A Mathematica-style Notebook for OpenModelica
 
 Package: drmodelica
