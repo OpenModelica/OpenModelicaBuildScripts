@@ -5,11 +5,11 @@
   !error "Argument PLATFORMVERSION is not set. Call with argument /DPLATFORMVERSION=32 or /DPLATFORMVERSION=64"
 !endif
 
-Name OpenModelica1.11.0-dev-${PLATFORMVERSION}bit
+Name OpenModelica1.12.0-dev-${PLATFORMVERSION}bit
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.11.0-dev-${PLATFORMVERSION}bit
+!define VERSION 1.12.0-dev-${PLATFORMVERSION}bit
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
@@ -134,12 +134,36 @@ Section -Main SEC0000
         /x "moc.exe" /x "qt*.qch" /x "Qt5*.dll" /x "libwx*.*" /x "libgtk*.*" /x "qtcreator" /x "rcc.exe" \
         /x "testcon.exe" /x "libsicu*.*" /x "libicu*.*" /x "wx*.dll" /x "libosg*.*" /x "Adwaita" /x "OpenSceneGraph" /x "gtk-doc" \
         /x "poppler" /x "man" /x "locale" /x "libdbus.*" /x "tcl*.*" /x "avcodec*.*" /x "windeployqt.exe" /x "python3.5" /x "mingw_osg*.*" \
+        /x "ActiveQt" /x "Qt3DCore" /x "Qt3DInput" /x "Qt3DLogic" /x "Qt3DQuick" /x "Qt3DQuickInput" \
+        /x "Qt3DQuickRender" /x "Qt3DRender" /x "QtBluetooth" /x "QtCLucene" /x "QtConcurrent" /x "QtCore" \
+        /x "QtDBus" /x "QtDesigner" /x "QtDesignerComponents" /x "QtGui" /x "QtHelp" /x "QtLabsControls" \
+        /x "QtLabsTemplates" /x "QtLocation" /x "QtMultimedia" /x "QtMultimediaQuick_p" /x "QtMultimediaWidgets" \
+        /x "QtNetwork" /x "QtNfc" /x "QtOpenGL" /x "QtOpenGLExtensions" /x "QtPlatformHeaders" /x "QtPlatformSupport" \
+        /x "QtPositioning" /x "QtPrintSupport" /x "QtQml" /x "QtQmlDevTools" /x "QtQuick" /x "QtQuickParticles" \
+        /x "QtQuickTest" /x "QtQuickWidgets" /x "QtScript" /x "QtScriptTools" /x "QtSensors" /x "QtSerialBus" \
+        /x "QtSerialPort" /x "QtSql" /x "QtSvg" /x "QtTest" /x "QtUiPlugin" /x "QtUiTools" /x "QtWebChannel" \
+        /x "QtWebKit" /x "QtWebKitWidgets" /x "QtWebSockets" /x "QtWidgets" /x "QtWinExtras" /x "QtXml" /x "QtXmlPatterns" \
+        /x "osg" /x "osgAnimation" /x "osgDB" /x "osgFX" /x "osgGA" /x "osgManipulator" /x "osgParticle" /x "osgPresentation"
+        /x "osgQt" /x "osgShadow" /x "osgSim" /x "osgTerrain" /x "osgText" /x "osgUI" /x "osgUtil" /x "osgViewer" \
+        /x "osgVolume" /x "osgWidget" \
         "$%OMDEV%\tools\msys\*"
    Goto +2
    File /r /x "mingw32" /x "group" /x "passwd" /x "pacman.log" /x "tmp\*.*" /x "*.pyc" /x "libopenblas.*" /x "libQt5*.*" \
         /x "moc.exe" /x "qt*.qch" /x "Qt5*.dll" /x "libwx*.*" /x "libgtk*.*" /x "qtcreator" /x "rcc.exe" \
         /x "testcon.exe" /x "libsicu*.*" /x "libicu*.*" /x "wx*.dll" /x "libosg*.*" /x "Adwaita" /x "OpenSceneGraph" /x "gtk-doc" \
         /x "poppler" /x "man" /x "locale" /x "libdbus.*" /x "tcl*.*" /x "avcodec*.*" /x "windeployqt.exe" /x "python3.5" /x "mingw_osg*.*" \
+        /x "ActiveQt" /x "Qt3DCore" /x "Qt3DInput" /x "Qt3DLogic" /x "Qt3DQuick" /x "Qt3DQuickInput" \
+        /x "Qt3DQuickRender" /x "Qt3DRender" /x "QtBluetooth" /x "QtCLucene" /x "QtConcurrent" /x "QtCore" \
+        /x "QtDBus" /x "QtDesigner" /x "QtDesignerComponents" /x "QtGui" /x "QtHelp" /x "QtLabsControls" \
+        /x "QtLabsTemplates" /x "QtLocation" /x "QtMultimedia" /x "QtMultimediaQuick_p" /x "QtMultimediaWidgets" \
+        /x "QtNetwork" /x "QtNfc" /x "QtOpenGL" /x "QtOpenGLExtensions" /x "QtPlatformHeaders" /x "QtPlatformSupport" \
+        /x "QtPositioning" /x "QtPrintSupport" /x "QtQml" /x "QtQmlDevTools" /x "QtQuick" /x "QtQuickParticles" \
+        /x "QtQuickTest" /x "QtQuickWidgets" /x "QtScript" /x "QtScriptTools" /x "QtSensors" /x "QtSerialBus" \
+        /x "QtSerialPort" /x "QtSql" /x "QtSvg" /x "QtTest" /x "QtUiPlugin" /x "QtUiTools" /x "QtWebChannel" \
+        /x "QtWebKit" /x "QtWebKitWidgets" /x "QtWebSockets" /x "QtWidgets" /x "QtWinExtras" /x "QtXml" /x "QtXmlPatterns" \
+        /x "osg" /x "osgAnimation" /x "osgDB" /x "osgFX" /x "osgGA" /x "osgManipulator" /x "osgParticle" /x "osgPresentation"
+        /x "osgQt" /x "osgShadow" /x "osgSim" /x "osgTerrain" /x "osgText" /x "osgUI" /x "osgUtil" /x "osgViewer" \
+        /x "osgVolume" /x "osgWidget" \
         "$%OMDEV%\tools\msys\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
