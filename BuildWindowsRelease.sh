@@ -31,8 +31,8 @@ rm -rf ${TMP}/*
 rm -rf ${TEMP}/*
 
 # set the OPENMODELICAHOME and OPENMODELICALIBRARY
-export OPENMODELICAHOME="c:\\dev\\OM111\\OpenModelica${PLATFORM}\\build"
-export OPENMODELICALIBRARY="c:\\dev\\OM111\\OpenModelica${PLATFORM}\\build\\lib\\omlibrary"
+export OPENMODELICAHOME="c:/dev/OM111/OpenModelica${PLATFORM}/build"
+export OPENMODELICALIBRARY="c:/dev/OM111/OpenModelica${PLATFORM}/build/lib/omlibrary"
 
 # have OMDEV in Msys version
 export OMDEV=/c/OM111/OMDev/
