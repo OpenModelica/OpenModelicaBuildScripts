@@ -115,7 +115,7 @@ endif
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
 	--with-lapack="-llapack -lblas -lm" \
-	--with-omniORB=/usr \
+	--with-omniORB \
 	--without-paradiseo \
 	--without-omlibrary \
 	--disable-modelica3d \
