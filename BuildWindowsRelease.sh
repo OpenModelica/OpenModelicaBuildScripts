@@ -98,9 +98,9 @@ git clone https://github.com/OpenModelica/OMPython -q -b master /c/OM111/OpenMod
 make -k -f 'Makefile.omdev.mingw' ${MAKETHREADS} install-python
 cd /c/OM111/OpenModelica${PLATFORM}
 echo "Building MSVC compiled runtime"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} simulationruntimecmsvc
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} simulationruntimecmsvc VSVERSION=2010
 echo "Building MSVC CPP runtime"
-make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPmsvcinstall
+make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPmsvcinstall VSVERSION=2010
 echo "Building CPP runtime"
 make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPinstall
 
