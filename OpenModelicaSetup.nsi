@@ -129,7 +129,7 @@ Section -Main SEC0000
   File /r /x "*.svn" /x "*.git" "..\build\lib\*"
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
-  StrCmp ${PLATFORMVERSION} "32" 0 +3
+!if ${PLATFORMVERSION} == "32"
    File /r /x "mingw64" /x "group" /x "passwd" /x "pacman.log" /x "tmp\*.*" /x "*.pyc" /x "libQt5*.*" \
         /x "moc.exe" /x "qt*.qch" /x "Qt5*.dll" /x "libwx*.*" /x "libgtk*.*" /x "qtcreator" /x "rcc.exe" \
         /x "testcon.exe" /x "libsicu*.*" /x "libicu*.*" /x "wx*.dll" /x "libosg*.*" /x "Adwaita" /x "OpenSceneGraph" /x "gtk-doc" \
@@ -147,7 +147,7 @@ Section -Main SEC0000
         /x "osgQt" /x "osgShadow" /x "osgSim" /x "osgTerrain" /x "osgText" /x "osgUI" /x "osgUtil" /x "osgViewer" \
         /x "osgVolume" /x "osgWidget" \
         "$%OMDEV%\tools\msys\*"
-   Goto +2
+!else
    File /r /x "mingw32" /x "group" /x "passwd" /x "pacman.log" /x "tmp\*.*" /x "*.pyc" /x "libQt5*.*" \
         /x "moc.exe" /x "qt*.qch" /x "Qt5*.dll" /x "libwx*.*" /x "libgtk*.*" /x "qtcreator" /x "rcc.exe" \
         /x "testcon.exe" /x "libsicu*.*" /x "libicu*.*" /x "wx*.dll" /x "libosg*.*" /x "Adwaita" /x "OpenSceneGraph" /x "gtk-doc" \
@@ -165,6 +165,7 @@ Section -Main SEC0000
         /x "osgQt" /x "osgShadow" /x "osgSim" /x "osgTerrain" /x "osgText" /x "osgUI" /x "osgUtil" /x "osgViewer" \
         /x "osgVolume" /x "osgWidget" \
         "$%OMDEV%\tools\msys\*"
+!endif
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
