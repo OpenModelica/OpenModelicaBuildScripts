@@ -192,7 +192,7 @@ cd ${OMC_INSTALL_PREFIX}
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
 cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
-mv -f OpenModelica* older/
+mv -f OpenModelica* older/ || true
 ENDSSH
 scp OpenModelica*${PLATFORM}* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 echo "All done!"
