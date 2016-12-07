@@ -75,14 +75,11 @@ Section: math
 Architecture: any
 Depends: clang,
  build-essential,
- gnuplot,
- xsltproc,
  libexpat1-dev,
  libsundials-serial-dev,
  liblapack-dev,
  zip,
  unzip,
- libdbus-1-dev,
  omc-common,
  libomc,
  libomcsimulation,
@@ -90,6 +87,8 @@ Depends: clang,
  ${misc:Depends}
 Recommends: python-beautifulsoup,
  omplot,
+ gnuplot,
+ xsltproc,
  libsaxonb-java
 Description: The OpenModelica Compiler
  This is the core of the OpenModelica project. It can be used stand-alone as
