@@ -36,7 +36,8 @@ Build-Depends: debhelper (>= 9.0.0),
  libsundials-kinsol1,
  libboost-all-dev,
  libopenscenegraph-dev,
- pkg-config
+ pkg-config,
+ lsb-release
 Standards-Version: 3.9.5
 
 Package: openmodelica
