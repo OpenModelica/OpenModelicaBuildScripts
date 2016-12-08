@@ -87,7 +87,7 @@ Depends: clang,
  ${misc:Depends}
 Recommends: python-beautifulsoup,
  omplot,
- gnuplot,
+ gnuplot-nox,
  xsltproc,
  libsaxonb-java
 Description: The OpenModelica Compiler
