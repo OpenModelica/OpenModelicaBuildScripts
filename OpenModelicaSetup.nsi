@@ -126,7 +126,8 @@ Section -Main SEC0000
   File /r /x "*.svn" "..\build\include\omc\*"
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
-  File /r /x "*.svn" /x "*.git" "..\build\lib\*"
+  # adrpo: filter out ThermoSysPro 3.0 and leave just ThermoSysPro 3.1
+  File /r /x "*.svn" /x "*.git" /x "ThermoSysPro 3.0" "..\build\lib\*"
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
 !if ${PLATFORMVERSION} == "32"
