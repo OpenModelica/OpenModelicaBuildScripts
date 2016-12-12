@@ -52,6 +52,7 @@ endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	CONF_OPTS=--without-cppruntime
+	CFLAGS += -march=armv6 -marm -mtune=cortex-a53
 	EXTRA_INSTALL=
 else
 	CONF_OPTS=--with-cppruntime
