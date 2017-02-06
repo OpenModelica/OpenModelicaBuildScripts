@@ -107,9 +107,10 @@ make -f 'Makefile.omdev.mingw' ${MAKETHREADS} BUILDTYPE=Release runtimeCPPinstal
 # wget the html & pdf versions of OpenModelica users guide
 cd /c/OM111/OpenModelica${PLATFORM}/build/share/doc/omc
 wget --no-check-certificate https://openmodelica.org/doc/openmodelica-doc-v1.11.0.tar.xz
-tar -xJf openmodelica-doc-latest.tar.xz --strip-components=2
-rm openmodelica-doc-latest.tar.xz
+tar -xJf openmodelica-doc-v1.11.0.tar.xz --strip-components=2
+rm openmodelica-doc-v1.11.0.tar.xz
 wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/OpenModelicaUsersGuide-v1.11.0.pdf
+cp OpenModelicaUsersGuide-v1.11.0.pdf OpenModelicaUsersGuide-latest.pdf
 
 # get PySimulator
 # for now get the master from github since OpenModelica plugin is still not part of tagged release. This should be updated once PySimulator outs a new release.
