@@ -201,7 +201,7 @@ scp OpenModelica*${PLATFORM}* ${SSHUSER}@build.openmodelica.org:public_html/omc/
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
 cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
-ln -s `ls *.exe` OpenModelica-latest.exe
+ln -s ${OMC_INSTALL_FILE_PREFIX}.exe OpenModelica-latest.exe
 md5sum OpenModelica-latest.exe | cut -f 1 -d ' ' > OpenModelica-latest.md5sum
 ENDSSH
 echo "All done!"
