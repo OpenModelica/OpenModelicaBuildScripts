@@ -203,11 +203,12 @@ ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
 pwd
 pwd
-echo "ln -s ${OMC_INSTALL_FILE_PREFIX}.exe OpenModelica-latest.exe"
-ln -s ${OMC_INSTALL_FILE_PREFIX}.exe OpenModelica-latest.exe
-ls
+echo "ln -s OpenModelica-${REVISION}-${PLATFORM}.exe OpenModelica-latest.exe"
+ln -s OpenModelica-${REVISION}-${PLATFORM}.exe OpenModelica-latest.exe
+ls -lah
 echo "md5sum OpenModelica-latest.exe | cut -f 1 -d ' ' > OpenModelica-latest.md5sum"
 md5sum OpenModelica-latest.exe | cut -f 1 -d ' ' > OpenModelica-latest.md5sum
-ls
+cat OpenModelica-latest.md5sum
+ls -lah
 ENDSSH
 echo "All done!"
