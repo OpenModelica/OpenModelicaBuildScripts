@@ -23,7 +23,6 @@ BuildRequires: libtool
 BuildRequires: uuid-devel
 BuildRequires: hdf5-devel
 BuildRequires: boost-devel
-BuildRequires: openscenegraph-devel
 BuildRequires: hwloc-devel
 BuildRequires: java
 BuildRequires: gcc
