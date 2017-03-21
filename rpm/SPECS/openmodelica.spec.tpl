@@ -14,8 +14,18 @@ Group: Development/Tools
 SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_%{version}.orig.tar.xz
 URL: https://openmodelica.org/
 
+# Recommended (for the repo): git rpm-build rpmdevtools epel-release
 BuildRequires: automake
-BuildRequires: omniORB
+BuildRequires: omniORB-devel
+BuildRequires: expat-devel
+BuildRequires: lapack-devel
+BuildRequires: libtool
+BuildRequires: uuid-devel
+BuildRequires: hdf5-devel
+BuildRequires: boost-devel
+BuildRequires: openscenegraph-devel
+BuildRequires: hwloc-devel
+BuildRequires: java
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
@@ -38,7 +48,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -q -n openmodelica_%{version}
 
 autoconf
-./configure CC=clang CXX=g++ CFLAGS="-Os" CXXFLAGS="-Os" --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
+./configure CC=clang CXX=g++ CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/lib*/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
 
 %build
 
