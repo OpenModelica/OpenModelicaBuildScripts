@@ -47,7 +47,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -q -n openmodelica_%{version}
 
 autoconf
-./configure CC=clang CXX=g++ CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/lib*/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
+./configure CC=clang CXX=g++ CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
 
 %build
 
