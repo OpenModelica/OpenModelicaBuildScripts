@@ -8,7 +8,7 @@
 Summary: OpenModelica
 Name: openmodelica-BRANCH
 Version: VERSION
-Release: RELEASENUM
+Release: RELEASENUM%{dist}
 License: OSMC-PL
 Group: Development/Tools
 # spectool -g -R SPECS/xxx.spec
