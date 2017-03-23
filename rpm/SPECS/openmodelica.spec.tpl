@@ -11,6 +11,8 @@ Version: VERSION
 Release: RELEASENUM
 License: OSMC-PL
 Group: Development/Tools
+# spectool -g -R SPECS/xxx.spec
+# sudo yum-builddep SPECS/xxx.spec
 SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_%{version}.orig.tar.xz
 URL: https://openmodelica.org/
 
@@ -24,10 +26,15 @@ BuildRequires: uuid-devel
 BuildRequires: hdf5-devel
 BuildRequires: boost-devel
 BuildRequires: hwloc-devel
+BuildRequires: readline-devel
+BuildRequires: gettext
+BuildRequires: cmake
 BuildRequires: java
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
+BuildRequires: qt5-linguist
+BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: qt5-qt3d-devel
