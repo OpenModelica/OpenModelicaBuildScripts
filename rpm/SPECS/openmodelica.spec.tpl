@@ -39,9 +39,11 @@ BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: qt5-qt3d-devel
 BuildRequires: qt5-qtwebkit-devel
+BuildRequires: qt5-qtxmlpatterns-devel
 BuildRequires: lpsolve-devel
 
-Requires: clang
+# We should use clang, but OMEdit doesn't compile with it due to odd default qmake flags
+Requires: gcc
 Requires: gcc-c++
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -54,7 +56,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -q -n openmodelica_%{version}
 
 autoconf
-./configure CC=clang CXX=g++ CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
 
 %build
 
