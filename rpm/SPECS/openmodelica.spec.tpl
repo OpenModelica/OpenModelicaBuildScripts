@@ -8,7 +8,7 @@
 Summary: OpenModelica
 Name: NAME
 Version: VERSION
-Release: RELEASENUM%{shortdist}
+Release: RELEASENUM.%{shortdist}
 License: OSMC-PL
 Group: Development/Tools
 # spectool -g -R SPECS/xxx.spec
