@@ -6,7 +6,7 @@
 %define        __os_install_post %{_dbpath}/brp-compress
 
 Summary: OpenModelica
-Name: openmodelica-BRANCH
+Name: NAME
 Version: VERSION
 Release: RELEASENUM%{dist}
 License: OSMC-PL
@@ -56,7 +56,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -q -n openmodelica_%{version}
 
 autoconf
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/openmodelica-BRANCH --without-omlibrary
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/%{name} --without-omlibrary
 
 %build
 
