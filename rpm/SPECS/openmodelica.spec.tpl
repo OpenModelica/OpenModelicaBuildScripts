@@ -65,14 +65,15 @@ make -j8
 %install
 rm -rf %{buildroot}
 make install DESTDIR="%{buildroot}"
-ln -s /usr/lib/omlibrary %{buildroot}/opt/openmodelica-BRANCH/lib/
+mkdir -p %{buildroot}/opt/%{name}/lib/
+ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-/opt/openmodelica-BRANCH/*
+/opt/%{name}/*
 
 %changelog
 * DATE  OpenModelica <openmodelica@ida.liu.se> ${version}-1
