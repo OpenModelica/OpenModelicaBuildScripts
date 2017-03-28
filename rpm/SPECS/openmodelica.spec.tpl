@@ -17,6 +17,7 @@ SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_%{version
 URL: https://openmodelica.org/
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
+BuildRequires: epel-release
 BuildRequires: automake
 BuildRequires: omniORB-devel
 BuildRequires: expat-devel
