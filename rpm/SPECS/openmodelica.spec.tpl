@@ -47,6 +47,7 @@ BuildRequires: lpsolve-devel
 Requires: gcc
 Requires: gcc-c++
 Requires: epel-release
+Requires: lapack-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
