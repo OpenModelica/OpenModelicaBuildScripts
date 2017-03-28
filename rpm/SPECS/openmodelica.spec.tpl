@@ -45,6 +45,7 @@ BuildRequires: lpsolve-devel
 # We should use clang, but OMEdit doesn't compile with it due to odd default qmake flags
 Requires: gcc
 Requires: gcc-c++
+Requires: epel-release
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
