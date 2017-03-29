@@ -7,13 +7,13 @@
 
 Summary: OpenModelica
 Name: NAME
-Version: VERSION
+Version: RPMVERSION
 Release: RELEASENUM%{?dist}
 License: OSMC-PL
 Group: Development/Tools
 # spectool -g -R SPECS/xxx.spec
 # sudo yum-builddep SPECS/xxx.spec
-SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_%{version}.orig.tar.xz
+SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_DEBVERSION.orig.tar.xz
 URL: https://openmodelica.org/
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
