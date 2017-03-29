@@ -67,7 +67,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %prep
 
-%setup -q -n openmodelica_%{version}
+%setup -q -n openmodelica_DEBVERSION
 
 autoconf
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/%{name} --without-omlibrary
