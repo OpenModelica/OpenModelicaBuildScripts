@@ -17,7 +17,11 @@ SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_%{version
 URL: https://openmodelica.org/
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
+%if 0%{?rhel} > 0
+# CentOS / RHEL requires the EPEL repository (for omniORB, etc)
 BuildRequires: epel-release
+Requires: epel-release
+%endif
 BuildRequires: automake
 BuildRequires: omniORB-devel
 BuildRequires: expat-devel
@@ -50,7 +54,6 @@ BuildRequires: lpsolve-devel
 # We should use clang, but OMEdit doesn't compile with it due to odd default qmake flags
 Requires: gcc
 Requires: gcc-c++
-Requires: epel-release
 Requires: lapack-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
