@@ -31,6 +31,8 @@ BuildRequires: readline-devel
 BuildRequires: gettext
 BuildRequires: cmake
 BuildRequires: java
+BuildRequires: tar
+BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
