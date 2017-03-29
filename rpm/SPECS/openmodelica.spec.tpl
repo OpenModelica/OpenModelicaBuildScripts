@@ -51,6 +51,10 @@ BuildRequires: qt5-qtwebkit-devel
 BuildRequires: qt5-qtxmlpatterns-devel
 BuildRequires: lpsolve-devel
 
+%if 0%{?fedora} >= 25
+BuildRequires: OpenSceneGraph-devel
+%endif
+
 # We should use clang, but OMEdit doesn't compile with it due to odd default qmake flags
 Requires: gcc
 Requires: gcc-c++
