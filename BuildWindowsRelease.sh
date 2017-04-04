@@ -42,18 +42,8 @@ svn up . --accept theirs-full
 
 # update OpenModelica
 cd /c/dev/OpenModelica${PLATFORM}
-# delete the build directory
-rm -rf build
 git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
 git submodule update --init --recursive || exit 1
-git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || true
-git clean -fdxq -e OpenModelicaSetup || true
-# This needs more work, redo!
-# git checkout $GIT_BRANCH
-# cd OMCompiler
-# git checkout $GIT_BRANCH
-# cd ..
-git submodule status --recursive
 # get the revision
 cd OMCompiler
 export REVISION=`git describe --match "v*.*" --always`
@@ -68,6 +58,17 @@ if [ -f "${OMC_INSTALL_FILE_PREFIX}.exe" ]; then
 	echo "Revision ${OMC_INSTALL_FILE_PREFIX}.exe already exists! Exiting ..."
 	exit 0
 fi
+
+# clean 
+rm -rf build
+git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || true
+git clean -fdxq -e OpenModelicaSetup || true
+# This needs more work, redo!
+# git checkout $GIT_BRANCH
+# cd OMCompiler
+# git checkout $GIT_BRANCH
+# cd ..
+git submodule status --recursive
 
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
