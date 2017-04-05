@@ -60,6 +60,7 @@ BuildRequires: OpenSceneGraph-devel
 Requires: gcc
 Requires: gcc-c++
 Requires: lapack-devel
+Suggests: omlib-all
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
