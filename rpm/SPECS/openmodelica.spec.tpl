@@ -65,7 +65,7 @@ Requires: lapack-devel
 %if 0%{?fedora} >= 24
 Suggests: omlib-all
 %else
-Depends: omlib-all
+Requires: omlib-all
 %endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
