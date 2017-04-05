@@ -1,0 +1,12 @@
+diff -ru openmodelica_1.9.7~2-g3a02b55/OMEdit/qjson/CMakeLists.txt openmodelica_1.9.7~2-g3a02b55-patched/OMEdit/qjson/CMakeLists.txt
+--- openmodelica_1.9.7~2-g3a02b55/OMEdit/qjson/CMakeLists.txt	2017-04-05 11:43:10.000000000 +0200
++++ openmodelica_1.9.7~2-g3a02b55-patched/OMEdit/qjson/CMakeLists.txt	2017-04-05 12:49:25.474488878 +0200
+@@ -41,7 +41,7 @@
+ SET(QT_USE_IMPORTED_TARGETS TRUE)
+ 
+ option(QT4_BUILD "Force building with Qt4 even if Qt5 is found")
+-set(QT4_BUILD ON)
++set(QT4_BUILD OFF)
+ 
+ IF (NOT QT4_BUILD)
+   FIND_PACKAGE( Qt5Core QUIET )

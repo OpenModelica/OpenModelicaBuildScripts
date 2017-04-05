@@ -14,6 +14,7 @@ Group: Development/Tools
 # spectool -g -R SPECS/xxx.spec
 # sudo yum-builddep SPECS/xxx.spec
 SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_DEBVERSION.orig.tar.xz
+PATCHES
 URL: https://openmodelica.org/
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
@@ -68,6 +69,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %prep
 
 %setup -q -n openmodelica_DEBVERSION
+
+PATCHCMDS
 
 autoconf
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/%{name} --without-omlibrary
