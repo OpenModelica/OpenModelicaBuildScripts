@@ -60,7 +60,13 @@ BuildRequires: OpenSceneGraph-devel
 Requires: gcc
 Requires: gcc-c++
 Requires: lapack-devel
+
+# CentOS doesn't have suggests
+%if 0%{?fedora} >= 24
 Suggests: omlib-all
+%else
+Depends: omlib-all
+%endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
