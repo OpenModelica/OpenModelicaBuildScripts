@@ -134,7 +134,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /opt/%{name}/*
 
-%ghost {_bindir}/omc
+%ghost %{_bindir}/omc
 %ghost %{_bindir}/OMEdit
 %ghost %{_bindir}/OMShell
 %ghost %{_bindir}/OMShell-terminal
