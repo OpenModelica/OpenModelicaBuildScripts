@@ -83,7 +83,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 PATCHCMDS
 
 autoconf
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB --without-cppruntime --without-omc --prefix=/opt/%{name} --without-omlibrary
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB CONFIGUREFLAGS --without-omc --prefix=/opt/%{name} --without-omlibrary
 
 %build
 
