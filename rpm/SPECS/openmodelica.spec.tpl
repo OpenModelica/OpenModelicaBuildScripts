@@ -133,7 +133,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 /opt/%{name}/*
-
+%{_bindir}/*-BRANCH
 %ghost %{_bindir}/omc
 %ghost %{_bindir}/OMEdit
 %ghost %{_bindir}/OMShell
