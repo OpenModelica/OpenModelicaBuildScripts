@@ -92,7 +92,7 @@ make -j8
 %install
 rm -rf %{buildroot}
 make install DESTDIR="%{buildroot}"
-mkdir -p %{buildroot}/opt/%{name}/lib/
+mkdir -p %{buildroot}/opt/%{name}/lib/ %{buildroot}%{_bindir}
 ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
 ln -s /opt/%{name}/bin/omc %{buildroot}%{_bindir}/omc-BRANCH
 ln -s /opt/%{name}/bin/OMEdit %{buildroot}%{_bindir}/OMEdit-BRANCH
