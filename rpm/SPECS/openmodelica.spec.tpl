@@ -61,6 +61,9 @@ Requires: gcc
 Requires: gcc-c++
 Requires: lapack-devel
 
+Requires(post): %{_sbindir}/update-alternatives
+Requires(postun): %{_sbindir}/update-alternatives
+
 # CentOS doesn't have suggests
 %if 0%{?fedora} >= 24
 Suggests: omlib-all
@@ -91,6 +94,38 @@ rm -rf %{buildroot}
 make install DESTDIR="%{buildroot}"
 mkdir -p %{buildroot}/opt/%{name}/lib/
 ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
+ln -s /opt/%{name}/bin/omc %{buildroot}%{_bindir}/omc-BRANCH
+ln -s /opt/%{name}/bin/OMEdit %{buildroot}%{_bindir}/OMEdit-BRANCH
+ln -s /opt/%{name}/bin/OMShell %{buildroot}%{_bindir}/OMShell-BRANCH
+ln -s /opt/%{name}/bin/OMShell-terminal %{buildroot}%{_bindir}/OMShell-terminal-BRANCH
+ln -s /opt/%{name}/bin/OMNotebook %{buildroot}%{_bindir}/OMNotebook-BRANCH
+ln -s /opt/%{name}/bin/OMPlot %{buildroot}%{_bindir}/OMPlot-BRANCH
+touch %{buildroot}%{_bindir}/omc
+touch %{buildroot}%{_bindir}/OMEdit
+touch %{buildroot}%{_bindir}/OMShell
+touch %{buildroot}%{_bindir}/OMShell-terminal
+touch %{buildroot}%{_bindir}/OMNotebook
+touch %{buildroot}%{_bindir}/OMPlot
+
+%postun
+if [ "$1" -ge "1" ]; then
+  if [ "`readlink %{_sysconfdir}/alternatives/openmodelica`" == "%{_bindir}/omc-BRANCH" ]; then
+    %{_sbindir}/alternatives --set openmodelica %{_bindir}/omc-BRANCH
+  fi
+fi
+
+%post
+%{_sbindir}/update-alternatives --install %{_bindir}/omc openmodelica %{_bindir}/omc-BRANCH PRIORITY \
+  --slave %{_bindir}/OMEdit openmodelica-OMEdit %{_bindir}/OMEdit-BRANCH \
+  --slave %{_bindir}/OMShell openmodelica-OMShell %{_bindir}/OMShell-BRANCH \
+  --slave %{_bindir}/OMShell-terminal openmodelica-OMShell-terminal %{_bindir}/OMShell-terminal-BRANCH \
+  --slave %{_bindir}/OMNotebook openmodelica-OMNotebook %{_bindir}/OMNotebook-BRANCH \
+  --slave %{_bindir}/OMPlot openmodelica-OMPlot %{_bindir}/OMPlot-BRANCH
+
+%preun
+if [ $1 = 0 ]; then
+  %{_sbindir}/update-alternatives --remove openmodelica %{_bindir}/omc-BRANCH
+fi
 
 %clean
 rm -rf %{buildroot}
@@ -98,6 +133,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 /opt/%{name}/*
+
+%ghost {_bindir}/omc
+%ghost %{_bindir}/OMEdit
+%ghost %{_bindir}/OMShell
+%ghost %{_bindir}/OMShell-terminal
+%ghost %{_bindir}/OMNotebook
+%ghost %{_bindir}/OMPlot
 
 %changelog
 * DATE  OpenModelica <openmodelica@ida.liu.se> ${version}-1
