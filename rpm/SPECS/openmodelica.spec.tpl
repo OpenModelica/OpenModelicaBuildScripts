@@ -55,7 +55,6 @@ BuildRequires: lpsolve-devel
 BuildRequires: devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran
 Requires: devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-4/root/usr/bin/gcc CXX=/opt/rh/devtoolset-4/root/usr/bin/g++ FC=/opt/rh/devtoolset-4/root/usr/bin/gfortran
-source /opt/rh/devtoolset-4/enable
 %endif
 
 %if 0%{?fedora} >= 25
@@ -88,6 +87,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 PATCHCMDS
 
+%if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
+source /opt/rh/devtoolset-4/enable
+%endif
 autoconf
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
 
