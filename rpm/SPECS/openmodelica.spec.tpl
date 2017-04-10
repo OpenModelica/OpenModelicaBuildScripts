@@ -14,6 +14,7 @@ Group: Development/Tools
 # spectool -g -R SPECS/xxx.spec
 # sudo yum-builddep SPECS/xxx.spec
 SOURCE0 : https://build.openmodelica.org/apt/pool/contrib/openmodelica_DEBVERSION.orig.tar.xz
+SOURCE1 : https://openmodelica.org/doc/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 PATCHES
 URL: https://openmodelica.org/
 
@@ -84,6 +85,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %prep
 
 %setup -q -n openmodelica_DEBVERSION
+tar xJf %{_sourcedir} openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 
 PATCHCMDS
 
@@ -100,7 +102,7 @@ make -j8
 %install
 rm -rf %{buildroot}
 make install DESTDIR="%{buildroot}"
-mkdir -p %{buildroot}/opt/%{name}/lib/ %{buildroot}%{_bindir}
+mkdir -p %{buildroot}/opt/%{name}/lib/ %{buildroot}/opt/%{name}/share/doc/omc/ %{buildroot}%{_bindir}
 ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
 ln -s /opt/%{name}/bin/omc %{buildroot}%{_bindir}/omc-BRANCH
 ln -s /opt/%{name}/bin/OMEdit %{buildroot}%{_bindir}/OMEdit-BRANCH
@@ -114,6 +116,7 @@ touch %{buildroot}%{_bindir}/OMShell
 touch %{buildroot}%{_bindir}/OMShell-terminal
 touch %{buildroot}%{_bindir}/OMNotebook
 touch %{buildroot}%{_bindir}/OMPlot
+cp -a openmodelica-doc*/* %{buildroot}/opt/%{name}/share/doc/omc/
 
 %postun
 if [ "$1" -ge "1" ]; then
