@@ -85,7 +85,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %prep
 
 %setup -q -n openmodelica_DEBVERSION
-tar xJf %{_sourcedir} openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
+tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 
 PATCHCMDS
 
