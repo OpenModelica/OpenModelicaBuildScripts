@@ -170,7 +170,7 @@ Section -Main SEC0000
   SetOutPath "$INSTDIR\OMTLMSimulator\bin"
   File /r "c:\dev\OMTLMSimulator\bin\*"
   SetOutPath "$INSTDIR\OMTLMSimulator\Documentation"
-  File /r "c:\dev\OMTLMSimulator\Documentation\*.pdf"
+  File /oname=OMTLMSimulator.pdf "c:\dev\OMTLMSimulator\Documentation\TLMPlugin.pdf"
   SetOutPath "$INSTDIR\OMTLMSimulator\CompositeModels"
   File /r "c:\dev\OMTLMSimulator\CompositeModels\*"
   # Create share directory and copy files in it
