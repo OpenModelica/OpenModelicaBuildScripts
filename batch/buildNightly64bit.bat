@@ -17,10 +17,10 @@ if not exist "c:\dev\" (
   md c:\dev\
 )
 
-if not exist "c:\dev\TLMPlugin\" (
-  echo Checkout c:\dev\TLMPlugin
+if not exist "c:\dev\OMTLMSimulator\" (
+  echo Checkout c:\dev\OMTLMSimulator
   cd c:\dev\
-  git clone https://github.com/OpenModelica/OMTLMSimulator TLMPlugin
+  git clone https://github.com/OpenModelica/OMTLMSimulator.git OMTLMSimulator
 )
 
 if not exist "c:\dev\OpenModelica_releases" (

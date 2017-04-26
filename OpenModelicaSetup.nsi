@@ -166,6 +166,13 @@ Section -Main SEC0000
       /x "osgVolume" /x "osgWidget" \
       "$%OMDEV%\tools\msys\*"
 !endif
+  # create OMTLMSimulator directory
+  SetOutPath "$INSTDIR\OMTLMSimulator\bin"
+  File /r "c:\dev\OMTLMSimulator\bin\*"
+  SetOutPath "$INSTDIR\OMTLMSimulator\Documentation"
+  File /r "c:\dev\OMTLMSimulator\Documentation\*.pdf"
+  SetOutPath "$INSTDIR\OMTLMSimulator\CompositeModels"
+  File /r "c:\dev\OMTLMSimulator\CompositeModels\*"
   # Create share directory and copy files in it
   SetOutPath "$INSTDIR\share"
   File /r /x "*.svn" /x "*.git" "..\build\share\*"
