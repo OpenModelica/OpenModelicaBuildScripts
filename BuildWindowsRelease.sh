@@ -127,7 +127,7 @@ cd /c/dev/OMTLMSimulator
 git reset --hard origin/master && git checkout master && git pull && git fetch --tags || exit 1
 git checkout master
 export BITS=`echo $PLATFORM | sed -e s/bit//g`
-make ABI=WINDOWS${PLATFORM} install
+make ABI=WINDOWS${BITS} install
 
 # build the installer
 cd /c/dev/OpenModelica${PLATFORM}/OpenModelicaSetup
