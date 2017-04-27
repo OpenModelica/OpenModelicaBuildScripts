@@ -126,6 +126,7 @@ rm jEdit4.5_VisualFigaro.zip
 cd /c/dev/OMTLMSimulator
 git reset --hard origin/master && git checkout master && git pull && git fetch --tags || exit 1
 git checkout master
+git clean -fdx
 export BITS=`echo $PLATFORM | sed -e s/bit//g`
 make ABI=WINDOWS${BITS} install
 
