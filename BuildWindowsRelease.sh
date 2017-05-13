@@ -124,13 +124,18 @@ wget --no-check-certificate -O jEdit4.5_VisualFigaro.zip https://build.openmodel
 unzip jEdit4.5_VisualFigaro.zip
 rm jEdit4.5_VisualFigaro.zip
 
-# update and build the OMTLMSimulator
+# clone OMTLMSimulator if not existing
+if [ ! -d "/c/dev/OMTLMSimulator" ]; then
+	cd /c/dev/
+	git clone https://github.com/OpenModelica/OMTLMSimulator
+fi
 cd /c/dev/OMTLMSimulator
 git reset --hard origin/master && git checkout master && git pull && git fetch --tags || exit 1
 git checkout master
 git clean -fdx
 export BITS=`echo $PLATFORM | sed -e s/bit//g`
 make ABI=WINDOWS${BITS} install
+
 
 # build the installer
 cd /c/OM112/OpenModelica${PLATFORM}/OpenModelicaSetup
