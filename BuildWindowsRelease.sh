@@ -15,7 +15,8 @@
 export SSHUSER=$1
 export MAKETHREADS=$2
 export PLATFORM=$3 # 32bit or 64bit
-export GIT_BRANCH=$4
+export GIT_TAG=$4
+export OPENMODELICA_BRANCH=$GIT_TAG
 
 # set the path to our tools
 export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin
@@ -42,8 +43,12 @@ svn up . --accept theirs-full
 
 # update OpenModelica
 cd /c/dev/OpenModelica${PLATFORM}
-git reset --hard origin/master && git checkout master && git pull --recurse-submodules && git fetch --tags || exit 1
-git submodule update --init --recursive || exit 1
+git fetch && git fetch --tags
+git reset --hard "$OPENMODELICA_BRANCH" && git checkout "$OPENMODELICA_BRANCH" && git fetch && git fetch --tags || exit 1
+git checkout -f "$OPENMODELICA_BRANCH" || exit 1
+git reset --hard "$OPENMODELICA_BRANCH" || exit 1
+git submodule update --force --init --recursive || exit 1
+
 # get the revision
 cd OMCompiler
 export REVISION=`git describe --match "v*.*" --always`
@@ -59,17 +64,12 @@ if [ -f "${OMC_INSTALL_FILE_PREFIX}.exe" ]; then
 	exit 0
 fi
 
-# clean 
+# clean
 rm -rf build
-git submodule foreach --recursive  "git fetch --tags && git clean -fdxq -e /git -e /svn" || true
-git clean -fdxq -e OpenModelicaSetup || true
-# This needs more work, redo!
-# git checkout $GIT_BRANCH
-# cd OMCompiler
-# git checkout $GIT_BRANCH
-# cd ..
+git submodule foreach --recursive  "git fetch --tags && git reset --hard && git clean -fdxq -e /git -e /svn" || exit 1
+git clean -fdxq -e OpenModelicaSetup || exit 1
+git status
 git submodule status --recursive
-
 # create the revision directory
 mkdir -p ${OMC_INSTALL_PREFIX}
 
@@ -109,6 +109,7 @@ wget --no-check-certificate https://openmodelica.org/doc/openmodelica-doc-latest
 tar -xJf openmodelica-doc-latest.tar.xz --strip-components=2
 rm openmodelica-doc-latest.tar.xz
 wget --no-check-certificate https://openmodelica.org/doc/OpenModelicaUsersGuide/OpenModelicaUsersGuide-latest.pdf
+#cp OpenModelicaUsersGuide-latest.pdf OpenModelicaUsersGuide-latest.pdf
 
 # get PySimulator
 # for now get the master from github since OpenModelica plugin is still not part of tagged release. This should be updated once PySimulator outs a new release.
@@ -203,7 +204,6 @@ cd ${OMC_INSTALL_PREFIX}
 ssh ${SSHUSER}@build.openmodelica.org <<ENDSSH
 #commands to run on remote host
 cd public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
-rm -rf OpenModelica-latest.*
 mv -f OpenModelica* older/ || true
 ENDSSH
 scp OpenModelica*${PLATFORM}* ${SSHUSER}@build.openmodelica.org:public_html/omc/builds/windows/nightly-builds/${PLATFORM}/
