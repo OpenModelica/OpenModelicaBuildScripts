@@ -44,7 +44,8 @@ svn up . --accept theirs-full
 # update OpenModelica
 cd /c/dev/OpenModelica${PLATFORM}
 git fetch && git fetch --tags
-git reset --hard "$OPENMODELICA_BRANCH" && git checkout "$OPENMODELICA_BRANCH" && git fetch && git fetch --tags || exit 1
+
+git reset --hard "$OPENMODELICA_BRANCH" && git checkout "$OPENMODELICA_BRANCH" && git pull --recurse-submodules && git fetch && git fetch --tags || exit 1
 git checkout -f "$OPENMODELICA_BRANCH" || exit 1
 git reset --hard "$OPENMODELICA_BRANCH" || exit 1
 git submodule update --force --init --recursive || exit 1
