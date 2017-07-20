@@ -130,6 +130,9 @@ Section -Main SEC0000
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
   File /r /x "*.svn" /x "*.git" "..\build\lib\*"
+  SetOutPath "$INSTDIR\tools"
+  # copy the setup file / readme
+  File "$%OMDEV%\tools\MSYS_SETUP*"
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
 !if ${PLATFORMVERSION} == "32"
