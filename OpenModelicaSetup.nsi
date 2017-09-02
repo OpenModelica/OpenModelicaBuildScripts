@@ -113,6 +113,9 @@ Section -Main SEC0000
   File "bin\ssleay32.dll"
   # Create bin\plugings\* directories
   File /r /x "*.svn" "$%OMDEV%\tools\msys\mingw${PLATFORMVERSION}\share\qt5\plugins\*"
+  # Create the bin\osgPlugins-3.5.1 directory
+  SetOutPath "$INSTDIR\bin\osgPlugins-3.5.1"
+  File /r /x "*.svn" "$%OMDEV%\tools\msys\mingw${PLATFORMVERSION}\bin\osgPlugins-3.5.1\*"
   # Create icons directory and copy files in it
   SetOutPath "$INSTDIR\icons"
   File /r /x "*.svn" "icons\*"
@@ -127,6 +130,9 @@ Section -Main SEC0000
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib"
   File /r /x "*.svn" /x "*.git" "..\build\lib\*"
+  SetOutPath "$INSTDIR\tools"
+  # copy the setup file / readme
+  File "$%OMDEV%\tools\MSYS_SETUP*"
   # Create msys directory and copy files in it
   SetOutPath "$INSTDIR\tools\msys"
 !if ${PLATFORMVERSION} == "32"
