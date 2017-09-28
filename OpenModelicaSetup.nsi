@@ -214,7 +214,7 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libr
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section3)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Section -Main SEC0000
