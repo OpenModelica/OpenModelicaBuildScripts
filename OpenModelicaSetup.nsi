@@ -75,6 +75,7 @@ Var StartMenuGroup
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE "DirectoryLeave"
+!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
@@ -101,7 +102,8 @@ VIAddVersionKey LegalCopyright ""
 ShowUninstDetails hide
 
 # Installer sections
-Section -Main SEC0000
+Section "OpenModelica Core" Section1
+  SectionIn RO
   SetOverwrite on
   # Create bin directory and copy files in it
   SetOutPath "$INSTDIR\bin"
@@ -111,7 +113,7 @@ Section -Main SEC0000
   File "bin\libeay32.dll"
   File "bin\libssl32.dll"
   File "bin\ssleay32.dll"
-  # Create bin\plugings\* directories
+  # Copy the qt plugins
   File /r /x "*.svn" "$%OMDEV%\tools\msys\mingw${PLATFORMVERSION}\share\qt5\plugins\*"
   # Create the bin\osgPlugins-3.5.1 directory
   SetOutPath "$INSTDIR\bin\osgPlugins-3.5.1"
@@ -127,9 +129,13 @@ Section -Main SEC0000
   # Create include\omc directory and copy files in it
   SetOutPath "$INSTDIR\include\omc"
   File /r /x "*.svn" "..\build\include\omc\*"
-  # Create lib directory and copy files in it
-  SetOutPath "$INSTDIR\lib"
-  File /r /x "*.svn" /x "*.git" "..\build\lib\*"
+  # Create lib\omc directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omc"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omc\*"
+  # Create lib\python directory and copy files in it
+  SetOutPath "$INSTDIR\lib\python"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\python\*"
+  # Create tools directory and copy files in it
   SetOutPath "$INSTDIR\tools"
   # copy the setup file / readme
   File "$%OMDEV%\tools\MSYS_SETUP*"
@@ -186,7 +192,33 @@ Section -Main SEC0000
   SetOutPath "$INSTDIR\share\doc\omc"
   File "..\doc\OpenModelica Project Online.url"
   File "..\doc\OpenModelicaUsersGuide.url"
-  # create the file with InstallMode
+SectionEnd
+
+Section "Modelica Standard Library" Section2
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica *"
+SectionEnd
+
+Section "Open-Source Modelica Libraries" Section3
+  # Create lib directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica *" "..\build\lib\omlibrary\*"
+SectionEnd
+
+LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
+LangString DESC_Section2 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
+LangString DESC_Section3 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libraries."
+
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section3)
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+Section -Main SEC0000
+    # create the file with InstallMode
   FileOpen $4 "$INSTDIR\InstallMode.txt" w
   FileWrite $4 $MultiUser.InstallMode
   FileClose $4
