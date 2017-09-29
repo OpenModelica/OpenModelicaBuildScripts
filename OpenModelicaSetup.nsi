@@ -200,7 +200,8 @@ Section "Modelica Standard Library" Section2
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2" \
        "..\build\lib\omlibrary\ModelicaReference" "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       "..\build\lib\omlibrary\Complex 3.2.2.mo"
+       "..\build\lib\omlibrary\Complex 3.2.2.mo" "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
+       "..\build\lib\omlibrary\Modelica_Synchronous *"
 SectionEnd
 
 Section "Open-Source Modelica Libraries" Section3
@@ -208,7 +209,8 @@ Section "Open-Source Modelica Libraries" Section3
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica 3.2.2" \
        /x "..\build\lib\omlibrary\ModelicaReference" /x "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       /x "..\build\lib\omlibrary\Complex 3.2.2.mo" "..\build\lib\omlibrary\*"
+       /x "..\build\lib\omlibrary\Complex 3.2.2.mo" /x "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
+       /x "..\build\lib\omlibrary\Modelica_Synchronous *" "..\build\lib\omlibrary\*"
 SectionEnd
 
 LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
