@@ -198,13 +198,17 @@ Section "Modelica Standard Library" Section2
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica *"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2" \
+       "..\build\lib\omlibrary\ModelicaReference" "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
+       "..\build\lib\omlibrary\Complex 3.2.2.mo"
 SectionEnd
 
 Section "Open-Source Modelica Libraries" Section3
   # Create lib directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica *" "..\build\lib\omlibrary\*"
+  File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica 3.2.2" \
+       /x "..\build\lib\omlibrary\ModelicaReference" /x "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
+       /x "..\build\lib\omlibrary\Complex 3.2.2.mo" "..\build\lib\omlibrary\*"
 SectionEnd
 
 LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
