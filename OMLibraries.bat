@@ -4,7 +4,7 @@ REM 2 Starting number for Section IDs
 
 cd %1
 set /a SECTIONID=%2
-echo SectionGroup "Open-Source Modelica Libraries" SectionGroup1
+echo SectionGroup "Open-Source Modelica Libraries" SectionGroup2
 setlocal disableDelayedExpansion
 :: Load the file path "array"
 for /f "tokens=1* delims=:" %%A in ('dir /b^|findstr /n "^"') do (
@@ -37,5 +37,5 @@ for /l %%N in (1 1 %file.count%) do (
   )
 )
 echo SectionGroupEnd
-echo LangString DESC_SectionGroup1 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libraries."
+echo LangString DESC_SectionGroup2 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libraries."
 :EOF

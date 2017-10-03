@@ -196,24 +196,48 @@ Section "OpenModelica Core" Section1
 SectionEnd
 LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
 
-Section "Modelica Standard Library" Section2
+SectionGroup "Modelica Standard Library" SectionGroup1
+
+Section "Complex 3.2.2.mo" Section2
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2" \
-       "..\build\lib\omlibrary\ModelicaReference" "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       "..\build\lib\omlibrary\Complex 3.2.2.mo"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Complex 3.2.2.mo"
 SectionEnd
-LangString DESC_Section2 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
+
+Section "Modelica 3.2.2" Section3
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2"
+SectionEnd
+
+Section "ModelicaReference" Section4
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaReference"
+SectionEnd
+
+Section "ModelicaServices 3.2.2" Section5
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaServices 3.2.2"
+SectionEnd
+
+SectionGroupEnd
+
+LangString DESC_SectionGroup1 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
 
 # OMLibraries.bat file generates the section group for open-source libraries in a file OMLibraries.nsh
-!system '"OMLibraries.bat" "..\build\lib\omlibrary" 3 > OMLibraries.nsh'
+!system '"OMLibraries.bat" "..\build\lib\omlibrary" 6 > OMLibraries.nsh'
 !include "OMLibraries.nsh"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
   !insertmacro MUI_DESCRIPTION_TEXT ${SectionGroup1} $(DESC_SectionGroup1)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SectionGroup2} $(DESC_SectionGroup2)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Section -Main SEC0000
@@ -356,6 +380,7 @@ SectionEnd
 
 # Installer functions
 Function .onInit
+  !insertmacro SetSectionFlag ${SectionGroup1} ${SF_RO}
   # Read the current local time of the system and then extract the year from it. This value is then used in Branding Text.
   Call GetLocalTime
   Pop $0  ; Day
