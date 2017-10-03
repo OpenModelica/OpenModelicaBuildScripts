@@ -26,6 +26,7 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_WELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !define MUI_WELCOMEPAGE_TEXT "The installer will guide you through the steps required to install $(^Name) on your computer.$\r$\n$\r$\n$\r$\nThe package includes OpenModelica, a Modelica modeling, compilation and simulation environment based on free software."
+!define MUI_COMPONENTSPAGE_SMALLDESC
 !define MUI_DIRECTORYPAGE_TEXT_TOP "Please do not install OpenModelica in a directory that contains spaces for example $\"C:\Program Files\OpenModelica$\". Keep if possible the default directory suggested by the installer."
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT SHCTX
 !define MUI_STARTMENUPAGE_NODISABLE
@@ -193,6 +194,7 @@ Section "OpenModelica Core" Section1
   File "..\doc\OpenModelica Project Online.url"
   File "..\doc\OpenModelicaUsersGuide.url"
 SectionEnd
+LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
 
 Section "Modelica Standard Library" Section2
   SectionIn RO
@@ -200,27 +202,18 @@ Section "Modelica Standard Library" Section2
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2" \
        "..\build\lib\omlibrary\ModelicaReference" "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       "..\build\lib\omlibrary\Complex 3.2.2.mo" "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
-       "..\build\lib\omlibrary\Modelica_Synchronous *"
+       "..\build\lib\omlibrary\Complex 3.2.2.mo"
 SectionEnd
-
-Section "Open-Source Modelica Libraries" Section3
-  # Create lib directory and copy files in it
-  SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica 3.2.2" \
-       /x "..\build\lib\omlibrary\ModelicaReference" /x "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       /x "..\build\lib\omlibrary\Complex 3.2.2.mo" /x "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
-       /x "..\build\lib\omlibrary\Modelica_Synchronous *" "..\build\lib\omlibrary\*"
-SectionEnd
-
-LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
 LangString DESC_Section2 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
-LangString DESC_Section3 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libraries."
+
+# OMLibraries.bat file generates the section group for open-source libraries in a file OMLibraries.nsh
+!system '"OMLibraries.bat" "..\build\lib\omlibrary" 3 > OMLibraries.nsh'
+!include "OMLibraries.nsh"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SectionGroup1} $(DESC_SectionGroup1)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Section -Main SEC0000
