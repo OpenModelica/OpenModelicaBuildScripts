@@ -26,6 +26,7 @@ BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Fun
 !define MUI_WELCOMEFINISHPAGE_BITMAP "images\openmodelica.bmp"
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !define MUI_WELCOMEPAGE_TEXT "The installer will guide you through the steps required to install $(^Name) on your computer.$\r$\n$\r$\n$\r$\nThe package includes OpenModelica, a Modelica modeling, compilation and simulation environment based on free software."
+!define MUI_COMPONENTSPAGE_SMALLDESC
 !define MUI_DIRECTORYPAGE_TEXT_TOP "Please do not install OpenModelica in a directory that contains spaces for example $\"C:\Program Files\OpenModelica$\". Keep if possible the default directory suggested by the installer."
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT SHCTX
 !define MUI_STARTMENUPAGE_NODISABLE
@@ -193,34 +194,50 @@ Section "OpenModelica Core" Section1
   File "..\doc\OpenModelica Project Online.url"
   File "..\doc\OpenModelicaUsersGuide.url"
 SectionEnd
+LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
 
-Section "Modelica Standard Library" Section2
+SectionGroup "Modelica Standard Library" SectionGroup1
+
+Section "Complex 3.2.2.mo" Section2
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2" \
-       "..\build\lib\omlibrary\ModelicaReference" "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       "..\build\lib\omlibrary\Complex 3.2.2.mo" "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
-       "..\build\lib\omlibrary\Modelica_Synchronous *"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Complex 3.2.2.mo"
 SectionEnd
 
-Section "Open-Source Modelica Libraries" Section3
-  # Create lib directory and copy files in it
+Section "Modelica 3.2.2" Section3
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
-  File /r /x "*.svn" /x "*.git" /x "..\build\lib\omlibrary\Modelica 3.2.2" \
-       /x "..\build\lib\omlibrary\ModelicaReference" /x "..\build\lib\omlibrary\ModelicaServices 3.2.2" \
-       /x "..\build\lib\omlibrary\Complex 3.2.2.mo" /x "..\build\lib\omlibrary\Modelica_DeviceDrivers *" \
-       /x "..\build\lib\omlibrary\Modelica_Synchronous *" "..\build\lib\omlibrary\*"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2"
 SectionEnd
 
-LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features."
-LangString DESC_Section2 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
-LangString DESC_Section3 ${LANG_ENGLISH} "Installs the Open-Source Modelica Libraries."
+Section "ModelicaReference" Section4
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaReference"
+SectionEnd
+
+Section "ModelicaServices 3.2.2" Section5
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaServices 3.2.2"
+SectionEnd
+
+SectionGroupEnd
+
+LangString DESC_SectionGroup1 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
+
+# OMLibraries.bat file generates the section group for open-source libraries in a file OMLibraries.nsh
+!system '"OMLibraries.bat" "..\build\lib\omlibrary" 6 > OMLibraries.nsh'
+!include "OMLibraries.nsh"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SectionGroup1} $(DESC_SectionGroup1)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SectionGroup2} $(DESC_SectionGroup2)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Section -Main SEC0000
@@ -363,6 +380,7 @@ SectionEnd
 
 # Installer functions
 Function .onInit
+  !insertmacro SetSectionFlag ${SectionGroup1} ${SF_RO}
   # Read the current local time of the system and then extract the year from it. This value is then used in Branding Text.
   Call GetLocalTime
   Pop $0  ; Day
