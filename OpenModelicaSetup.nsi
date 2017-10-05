@@ -198,32 +198,81 @@ LangString DESC_Section1 ${LANG_ENGLISH} "Installs all the OpenModelica features
 
 SectionGroup "Modelica Standard Library" SectionGroup1
 
-Section "Complex 3.2.2.mo" Section2
+Section "Complex 3.2.1.mo"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Complex 3.2.1.mo"
+SectionEnd
+
+Section "Modelica 3.2.1"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.1"
+SectionEnd
+
+Section "ModelicaTest 3.2.1"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaTest 3.2.1"
+SectionEnd
+
+Section "ModelicaServices 3.2.1"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaServices 3.2.1"
+SectionEnd
+
+Section "Complex 3.2.2.mo"
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Complex 3.2.2.mo"
 SectionEnd
 
-Section "Modelica 3.2.2" Section3
+Section "Modelica 3.2.2"
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica 3.2.2"
 SectionEnd
 
-Section "ModelicaReference" Section4
+Section "ModelicaTest 3.2.2"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaTest 3.2.2"
+SectionEnd
+
+Section "ModelicaReference"
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaReference"
 SectionEnd
 
-Section "ModelicaServices 3.2.2" Section5
+Section "ModelicaServices 3.2.2"
   SectionIn RO
   # Create lib\omlibrary directory and copy files in it
   SetOutPath "$INSTDIR\lib\omlibrary"
   File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\ModelicaServices 3.2.2"
+SectionEnd
+
+Section "Modelica_DeviceDrivers 1.5.0"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica_DeviceDrivers 1.5.0"
+SectionEnd
+
+Section "Modelica_Synchronous 0.92.1"
+  SectionIn RO
+  # Create lib\omlibrary directory and copy files in it
+  SetOutPath "$INSTDIR\lib\omlibrary"
+  File /r /x "*.svn" /x "*.git" "..\build\lib\omlibrary\Modelica_Synchronous 0.92.1"
 SectionEnd
 
 SectionGroupEnd
@@ -231,7 +280,7 @@ SectionGroupEnd
 LangString DESC_SectionGroup1 ${LANG_ENGLISH} "Installs the Modelica Standard Library."
 
 # OMLibraries.bat file generates the section group for open-source libraries in a file OMLibraries.nsh
-!system '"OMLibraries.bat" "..\build\lib\omlibrary" 6 > OMLibraries.nsh'
+!system '"OMLibraries.bat" "..\build\lib\omlibrary" > OMLibraries.nsh'
 !include "OMLibraries.nsh"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
