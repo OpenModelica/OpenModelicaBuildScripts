@@ -5,11 +5,11 @@
   !error "Argument PLATFORMVERSION is not set. Call with argument /DPLATFORMVERSION=32 or /DPLATFORMVERSION=64"
 !endif
 
-Name OpenModelica1.12.0-dev.beta2-${PLATFORMVERSION}bit
+Name OpenModelica1.12.0-dev.beta3-${PLATFORMVERSION}bit
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\OpenModelica"
-!define VERSION 1.12.0-dev.beta2-${PLATFORMVERSION}bit
+!define VERSION 1.12.0-dev.beta3-${PLATFORMVERSION}bit
 !define COMPANY "Open Source Modelica Consortium (OSMC) and Linköping University (LiU)."
 !define URL "http://www.openmodelica.org/"
 BrandingText "Copyright $2 OpenModelica"  ; The $2 variable is filled in the Function .onInit after calling GetLocalTime function.
