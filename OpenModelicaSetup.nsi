@@ -341,10 +341,16 @@ uninst:
 NotInstalled:
   InitPluginsDir
   !insertmacro MULTIUSER_INIT
-  ${GetDrives} "HDD" "HardDiskDrives"
-  # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
-  StrCpy $INSTDIR $R0
-  StrCpy $INSTDIR "$R0$(^Name)"
+  ; check for /D flag
+  ${If} $INSTDIR != ""
+    ; /D was used so we don't set the installation path
+  ${Else}
+    ${GetDrives} "HDD" "HardDiskDrives"
+    # after calling GetDrives $R0 will contain the first available drive letter e.g "C:\"
+    StrCpy $INSTDIR $R0
+    StrCpy $INSTDIR "$R0$(^Name)"
+  ${EndIf}
+  ; check for /S flag
   IfSilent +1 +4 ; in silent install mode set multiuser to AllUsers.
     StrCpy $MultiUser.InstallMode "AllUsers"
     SetShellVarContext all
