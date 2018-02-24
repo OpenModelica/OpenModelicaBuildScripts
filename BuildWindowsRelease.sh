@@ -19,7 +19,7 @@ export GIT_TAG=$4
 export OPENMODELICA_BRANCH=$GIT_TAG
 
 # set the path to our tools
-export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin;/c/bin/git/usr/bin
+export PATH=$PATH:/c/Program\ Files/TortoiseSVN/bin/:/c/bin/jdk/bin:/c/bin/nsis/:/c/bin/git/bin:/c/bin/git/usr/bin
 
 # don't exit on error
 set +e
