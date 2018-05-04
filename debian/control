@@ -83,11 +83,11 @@ Depends: clang,
  libomcsimulation,
  ${shlibs:Depends},
  ${misc:Depends}
-Recommends: python-beautifulsoup,
- omplot,
+Recommends: omplot,
  gnuplot-nox,
  xsltproc,
  libsaxonb-java
+Suggests: python-beautifulsoup
 Description: The OpenModelica Compiler
  This is the core of the OpenModelica project. It can be used stand-alone as
  a compiler. It is recommended to use it together with an OpenModelica client,
