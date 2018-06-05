@@ -1,0 +1,20 @@
+ARG DISTRO=bionic
+FROM ubuntu:${DISTRO}
+
+MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
+ENV DEBIAN_FRONTEND noninteractive
+
+ADD https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control control
+ADD https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt requirements.txt
+
+RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io \
+    && mk-build-deps --install -t 'apt-get --force-yes -y' control \
+    && pip2 install --no-cache-dir -r requirements.txt \
+    && pip3 install --no-cache-dir -r requirements.txt \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -f control requirements.txt
+
+WORKDIR /data
+VOLUME ["/data"]
