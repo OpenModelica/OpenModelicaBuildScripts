@@ -14,8 +14,8 @@ RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \
-    && pip2 install --no-cache-dir -r requirements.txt \
-    && pip3 install --no-cache-dir -r requirements.txt \
+    && pip2 install --no-cache-dir --upgrade -r requirements.txt \
+    && pip3 install --no-cache-dir --upgrade -r requirements.txt \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && rm -f control requirements.txt
