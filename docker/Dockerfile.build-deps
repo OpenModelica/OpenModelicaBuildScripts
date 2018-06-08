@@ -8,11 +8,11 @@ MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /root
-COPY https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control control
-COPY https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt requirements.txt
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
-    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo \
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex \
+    && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
+    && wget https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \
     && pip2 install --no-cache-dir -r requirements.txt \
     && pip3 install --no-cache-dir -r requirements.txt \
