@@ -6,8 +6,7 @@ FROM ${REPO}:${DISTRO}
 
 MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
 ENV DEBIAN_FRONTEND noninteractive
-
-WORKDIR /root
+USER root
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
     && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex \
@@ -19,6 +18,3 @@ RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && rm -f control requirements.txt
-
-WORKDIR /data
-VOLUME ["/data"]
