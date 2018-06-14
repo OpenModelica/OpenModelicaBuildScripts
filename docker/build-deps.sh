@@ -1,6 +1,7 @@
 #!/bin/sh -xe
 
-sh -c 'sudo docker login -u openmodelica -p=`cat ~/.docker/openmodelica.password`'
+docker login docker.openmodelica.org
+
 if false; then
   ARGS="--build-arg REPO=ubuntu --build-arg DISTRO=bionic"
 fi
