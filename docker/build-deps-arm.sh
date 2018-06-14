@@ -1,7 +1,7 @@
 #!/bin/sh -xe
 
 docker login docker.openmodelica.org
-if true; then
+if false; then
   ARGS="--build-arg REPO=arm32v7/ubuntu --build-arg DISTRO=bionic"
 fi
 
