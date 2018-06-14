@@ -1,7 +1,7 @@
 # Or ubuntu
 ARG REPO=docker.openmodelica.org/build-deps
 # Or bionic
-ARG DISTRO=v1.13-arm
+ARG DISTRO=v1.13-arm32
 FROM ${REPO}:${DISTRO}
 
 MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
