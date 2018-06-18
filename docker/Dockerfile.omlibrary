@@ -1,0 +1,18 @@
+ARG IMAGE
+FROM ${IMAGE}
+ARG VERSION
+
+VOLUME "/tmp"
+WORKDIR ["/usr/lib/omlibrary"]
+
+RUN (rsync --version || apk add --no-cache rsync) \
+ && mkdir -p /tmp/omlib \
+ && cd /tmp/omlib \
+ && wget https://build.openmodelica.org/libraries/openmodelicalibraries_$VERSION.tar.xz -O- | tar xJ \
+ && rm -f openmodelicalibraries_$VERSION/libraries/*.url \
+ && mkdir -p /usr/lib/omlibrary \
+ && rsync -av --delete --checksum --no-times openmodelicalibraries_$VERSION/libraries/* /usr/lib/omlibrary/ \
+ && cd /tmp \
+ && rm -rf /tmp/omlib
+
+ENTRYPOINT /usr/bin/tail -f /dev/null
