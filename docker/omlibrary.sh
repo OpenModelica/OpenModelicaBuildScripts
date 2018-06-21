@@ -5,7 +5,7 @@ ALPINE=alpine:latest
 PREVIOUS="$ALPINE"
 docker login
 PREVYM=""
-for VERSION in `ssh build ls /var/www/libraries | grep -v latest | cut -d _ -f2 | cut -d . -f1 | sort -h`; do
+for VERSION in `ssh build ls /var/www/libraries | grep -v latest | cut -d _ -f2 | cut -d . -f1 | sort -h | grep -v "^201[456]"`; do
   YM=`echo $VERSION | grep -oP "^\d{6}" | grep -oP "\d{2}$" | sed s/^0//`
   # Build a clean image every 6 months
   YM=$(($YM/6))
