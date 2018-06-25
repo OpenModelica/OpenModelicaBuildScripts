@@ -5,7 +5,6 @@ ARG DISTRO=v1.13-arm32
 FROM ${REPO}:${DISTRO}
 
 MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
-ENV DEBIAN_FRONTEND noninteractive
 USER root
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
