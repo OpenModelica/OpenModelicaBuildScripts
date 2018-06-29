@@ -3,7 +3,7 @@ ARG REPO=docker.openmodelica.org/build-deps
 FROM ${REPO}
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
-    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex libgfortran3 aspell \
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo git subversion texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex libgfortran3 aspell bibtex2html \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \

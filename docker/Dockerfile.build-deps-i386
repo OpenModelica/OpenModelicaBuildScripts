@@ -8,7 +8,7 @@ MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
 USER root
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
-    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo flex zip libgfortran3 \
+    && apt-get install -qy gnupg wget git subversion ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo flex zip libgfortran3 \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \
     && rm -rf /var/lib/apt/lists/* \
