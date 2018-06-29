@@ -3,7 +3,7 @@
 docker login docker.openmodelica.org
 
 if false; then
-  ARGS="--build-arg REPO=ubuntu --build-arg DISTRO=bionic"
+  ARGS="--build-arg REPO=ubuntu:bionic"
 fi
 
 LATEST=docker.openmodelica.org/build-deps:latest
