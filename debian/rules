@@ -69,6 +69,7 @@ endif
 #ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 MAKEFLAGS += -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+MAKEFLAGS += --output-sync
 #endif
 
 # march=pentium4 used to be enabled because omc required sse2 regardless
