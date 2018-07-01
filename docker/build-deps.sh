@@ -8,7 +8,7 @@ fi
 
 LATEST=docker.openmodelica.org/build-deps:latest
 TAG=docker.openmodelica.org/build-deps:v1.13
-docker build $ARGS -t "$TAG" - < Dockerfile.build-deps
+docker build --pull $ARGS -t "$TAG" - < Dockerfile.build-deps
 docker tag "$TAG" "$LATEST"
 docker push "$TAG"
 docker push "$LATEST"

@@ -10,5 +10,5 @@ else
   ARGS="--build-arg REPO=$TAG"
 fi
 
-docker build $ARGS -t "$TAG" - < Dockerfile.build-deps-qt4
+docker build --pull $ARGS -t "$TAG" - < Dockerfile.build-deps-qt4
 docker push "$TAG"
