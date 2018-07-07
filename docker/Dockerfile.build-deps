@@ -18,6 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \
     && pip2 install --no-cache-dir --upgrade -r requirements.txt \
     && pip3 install --no-cache-dir --upgrade -r requirements.txt \
+    && pip3 install --no-cache-dir --upgrade junit_xml \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && rm -f control requirements.txt
