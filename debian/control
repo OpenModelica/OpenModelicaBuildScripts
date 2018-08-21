@@ -235,3 +235,21 @@ Depends: libboost-dev,
  ${shlibs:Depends},
  ${misc:Depends}
 Description: Libraries for the C++ code generation target of OpenModelica
+
+Package: libomsimulator
+Multi-Arch: same
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: The OpenModelica OMSimulator library dependencies
+ This is the embeddable version of OMSimulator, allow a tool to simulate
+ FMUs.
+
+Package: omsimulator
+Multi-Arch: same
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: The OpenModelica OMSimulator
+ OMSimulator is a simulator that allows a tool to for example simulate
+ FMUs.

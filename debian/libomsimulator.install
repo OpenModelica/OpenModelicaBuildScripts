@@ -1,0 +1,4 @@
+debian/tmp/usr/lib
+debian/tmp/usr/lib/*/libOMSimulator*.*
+debian/tmp/usr/lib/OMSimulator.py
+debian/tmp/usr/lib/*/libomtlmsimulator.*
