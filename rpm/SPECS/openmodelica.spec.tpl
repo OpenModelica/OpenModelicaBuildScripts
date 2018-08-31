@@ -42,6 +42,7 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
+BuildRequires: libstdc++-static
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
