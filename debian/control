@@ -170,6 +170,7 @@ Architecture: any
 Depends: omc (<< 20000),
  omlib-modelica-3.2.2 | omlib-modelica-3.2.1,
  omlib-modelicareference,
+ libomsimulator,
  ${shlibs:Depends},
  ${misc:Depends}
 Description: A Modelica connection editor for OpenModelica
