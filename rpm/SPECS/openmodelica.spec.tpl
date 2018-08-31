@@ -42,7 +42,6 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
-BuildRequires: libstdc++-static
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
@@ -57,6 +56,9 @@ BuildRequires: lpsolve-devel
 BuildRequires: devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran
 Requires: devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-4/root/usr/bin/gcc CXX=/opt/rh/devtoolset-4/root/usr/bin/g++ FC=/opt/rh/devtoolset-4/root/usr/bin/gfortran
+%else
+# EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
+BuildRequires: libstdc++-static
 %endif
 
 %if 0%{?fedora} >= 25
