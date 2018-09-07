@@ -32,6 +32,7 @@ BuildRequires: libtool
 BuildRequires: uuid-devel
 BuildRequires: hdf5-devel
 BuildRequires: boost-devel
+BuildRequires: boost-static
 BuildRequires: hwloc-devel
 BuildRequires: readline-devel
 BuildRequires: gettext
