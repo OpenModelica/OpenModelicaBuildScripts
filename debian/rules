@@ -68,8 +68,7 @@ endif
 
 #ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-MAKEFLAGS += -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-MAKEFLAGS += --output-sync
+EXTRA_MAKEFLAGS = $(MAKEFLAGS) -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS))) --output-sync
 #endif
 
 # march=pentium4 used to be enabled because omc required sse2 regardless
@@ -107,7 +106,7 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	--without-omlibrary \
 	--disable-modelica3d \
 	$(CONF_OPTS)
-	$(MAKE) $(MAKEFLAGS) -C OMCompiler omc-no-sim
+	$(MAKE) $(EXTRA_MAKEFLAGS) -C OMCompiler omc-no-sim
 	mv build cross-build
 	$(MAKE) clean
 endif
@@ -127,9 +126,8 @@ endif
 #       --with-static-sqlite=`test -f /usr/lib/*/libsqlite3.a && echo /usr/lib/*/libsqlite3.a || echo /usr/lib/libsqlite3.a` \
 #	--with-static-lpsolve=/usr
 #	--with-static-readline=/usr
-
 	# Add here commands to compile the package.
-	$(MAKE) $(MAKEFLAGS)
+	$(MAKE) $(EXTRA_MAKEFLAGS)
 	# Skip the testsuite log. People can look it up on hudson
 	touch build-stamp
 
@@ -146,7 +144,7 @@ install: build
 	dh_prep
 	dh_installdirs -popenmodelica -Pdebian/tmp
 	# Add here commands to install the package into debian/tmp.
-	$(MAKE) $(MAKEFLAGS) install $(EXTRA_INSTALL) DESTDIR=$(DEST)
+	$(MAKE) $(EXTRA_MAKEFLAGS) install $(EXTRA_INSTALL) DESTDIR=$(DEST)
 	# We add our own Debian-specific copyright file
 	rm -f $(DEST)/usr/share/doc/omc/COPYING
 	dh_install
