@@ -94,7 +94,7 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 PATCHCMDS
 
 %if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
-source /opt/rh/devtoolset-4/enable
+source /opt/rh/devtoolset-6/enable
 %endif
 autoconf
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
