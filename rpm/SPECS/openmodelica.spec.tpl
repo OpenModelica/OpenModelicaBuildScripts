@@ -37,6 +37,7 @@ BuildRequires: hwloc-devel
 BuildRequires: readline-devel
 BuildRequires: gettext
 BuildRequires: cmake
+BuildRequires: make
 BuildRequires: java
 BuildRequires: tar
 BuildRequires: xz
