@@ -18,6 +18,11 @@ SOURCE1 : https://openmodelica.org/doc/openmodelica-doc-DOCUMENTATIONVERSION.tar
 PATCHES
 URL: https://openmodelica.org/
 
+Autoprov: 0
+
+%global _privatelibs lib.*Modelica.*|lib[oO][mM].*.so.*|libklu.*|libqjson.*|libfmi.*
+%global __requires_exclude ^(%{_privatelibs})$
+
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
 %if 0%{?rhel} > 0
 # CentOS / RHEL requires the EPEL repository (for omniORB, etc)
