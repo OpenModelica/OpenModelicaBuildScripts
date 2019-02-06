@@ -20,8 +20,7 @@ URL: https://openmodelica.org/
 
 Autoprov: 0
 
-%global _privatelibs lib.*Modelica.*|lib[oO][mM].*.so.*|libklu.*|libqjson.*|libfmi.*
-%global __requires_exclude ^(%{_privatelibs})$
+%global __requires_exclude ^(PRIVATELIBS)$
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
 %if 0%{?rhel} > 0
