@@ -19,6 +19,8 @@ PATCHES
 URL: https://openmodelica.org/
 
 Autoprov: 0
+Prefix: /opt/%{name}
+Prefix: %{_bindir}
 
 %global __requires_exclude ^(PRIVATELIBS)$
 
