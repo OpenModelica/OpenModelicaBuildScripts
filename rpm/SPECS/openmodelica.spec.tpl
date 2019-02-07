@@ -18,6 +18,14 @@ SOURCE1 : https://openmodelica.org/doc/openmodelica-doc-DOCUMENTATIONVERSION.tar
 PATCHES
 URL: https://openmodelica.org/
 
+%if 0%{?rhel} == 6
+Autoreq: 0
+Requires: readline
+Requires: qt5-qtbase
+Requires: qt5-qtsvg
+Requires: qt5-qtwebkit
+Requires: qt5-qtxmlpatterns
+%endif
 Autoprov: 0
 Prefix: /opt/%{name}
 Prefix: %{_bindir}
@@ -30,6 +38,13 @@ Prefix: %{_bindir}
 BuildRequires: epel-release
 Requires: epel-release
 %endif
+
+Requires: lapack-devel
+Requires: make
+Requires: gcc
+Requires: gcc-gfortran
+Requires: gcc-c++
+
 BuildRequires: automake
 BuildRequires: omniORB-devel
 BuildRequires: expat-devel
@@ -84,8 +99,12 @@ Requires(postun): %{_sbindir}/update-alternatives
 # CentOS doesn't have suggests
 %if 0%{?fedora} >= 24
 Suggests: omlib-all
+Suggests: boost-devel
+Suggests: boost-devel-static
 %else
 Requires: omlib-all
+Requires: boost-devel
+Requires: boost-devel-static
 %endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
