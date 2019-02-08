@@ -7,8 +7,8 @@ RUN apt-get update \
  && curl -s https://git.archlinux.org/pacman.git/snapshot/pacman-5.1.0.tar.xz | tar xJ \
  && cd pacman-5.1.0 && ./autogen.sh && ./configure --prefix=/opt/pacman --disable-doc && make -j4 && make -j4 install \
  && cp /workdir/pacman.conf /opt/pacman/etc/pacman.conf \
- && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-i686-readline mingw-w64-i686-readline mingw-w64-x86_64-readline mingw-w64-i686-boost mingw-w64-x86_64-boost \
- && apt-get -qyy install mingw-w64 cmake git \
+ && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-i686-readline mingw-w64-i686-readline mingw-w64-x86_64-readline mingw-w64-i686-boost mingw-w64-x86_64-boost mingw-w64-x86_64-python3 mingw-w64-i686-python3 \
+ && apt-get -qyy install mingw-w64 cmake git software-properties-common unzip wine64 wine-stable perl libmldbm-perl flex gcc \
  && cd /workdir \
  && find /opt/pacman /usr -name "*.dll.a" -exec rm {} ";" \
  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /opt/pacman/var/cache/pacman/pkg/* /opt/pacman/var/lib/pacman/sync/* /workdir/*
