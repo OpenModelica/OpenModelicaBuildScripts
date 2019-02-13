@@ -8,7 +8,9 @@ RUN dpkg --add-architecture i386 && apt-get update \
  && curl -s https://git.archlinux.org/pacman.git/snapshot/pacman-5.1.0.tar.xz | tar xJ \
  && cd pacman-5.1.0 && ./autogen.sh && ./configure --prefix=/opt/pacman --disable-doc && make -j4 && make -j4 install \
  && cp /workdir/pacman.conf /opt/pacman/etc/pacman.conf \
- && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-i686-readline mingw-w64-i686-readline mingw-w64-x86_64-readline mingw-w64-i686-boost mingw-w64-x86_64-boost mingw-w64-x86_64-python3 mingw-w64-i686-python3 mingw-w64-x86_64-libiconv mingw-w64-i686-libiconv mingw-w64-x86_64-libxml2 mingw-w64-i686-libxml2 \
+ && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-i686-readline mingw-w64-i686-readline mingw-w64-x86_64-readline mingw-w64-i686-boost mingw-w64-x86_64-boost mingw-w64-x86_64-python3 mingw-w64-i686-python3 mingw-w64-x86_64-libiconv mingw-w64-i686-libiconv mingw-w64-x86_64-libxml2 mingw-w64-i686-libxml2 mingw-w64-x86_64-gcc mingw-w64-i686-gcc \
+ && ln -s /opt/pacman/mingw64/lib/gcc/x86_64-w64-mingw32/8.2.1/libstdc++fs.a /usr/lib/gcc/x86_64-w64-mingw32/8.2-posix/ \
+ && ln -s /opt/pacman/mingw32/lib/gcc/i686-w64-mingw32/7.4.0/libstdc++fs.a /usr/lib/gcc/i686-w64-mingw32/8.2-posix/ \
  && apt-get -qyy install mingw-w64 cmake git software-properties-common unzip wine64 wine32 wine-stable perl libmldbm-perl flex gcc \
  && cd /workdir \
  && find /opt/pacman /usr -name "*.dll.a" -exec rm {} ";" \
