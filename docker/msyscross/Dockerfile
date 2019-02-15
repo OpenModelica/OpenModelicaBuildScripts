@@ -8,7 +8,8 @@ ARG LINKCPPFS=true
 WORKDIR /workdir
 COPY pacman.conf /workdir/pacman.conf
 # We use Ubuntu Disco since the MinGW version matches gcc in the MSYS2 repo
-RUN dpkg --add-architecture i386 && apt-get update \
+RUN sed -i s,http://archive.ubuntu.com/ubuntu/,mirror://mirrors.ubuntu.com/mirrors.txt, /etc/apt/sources.list \
+ && dpkg --add-architecture i386 && apt-get update \
  && apt-get -qyy --no-install-recommends install g++ make ca-certificates autoconf automake autopoint curl libcurl4-gnutls-dev pkg-config libarchive-dev libssl-dev libtool gettext zip \
  && curl -s https://git.archlinux.org/pacman.git/snapshot/pacman-5.1.0.tar.xz | tar xJ \
  && cd pacman-5.1.0 && ./autogen.sh && ./configure --prefix=/opt/pacman --disable-doc && make -j4 && make -j4 install \
