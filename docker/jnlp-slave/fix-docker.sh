@@ -14,3 +14,7 @@ fi
 touch /tmp/dockersock.test
 chmod 440 /tmp/dockersock.test
 chown root:dockersock /tmp/dockersock.test
+mkdir -p /jenkins-ws /home/jenkins/ws
+chmod ugo+rwx /jenkins-ws
+mount -o bind -t none /jenkins-ws /home/jenkins/ws
+hostname >> /jenkins-ws/local-workspace.txt
