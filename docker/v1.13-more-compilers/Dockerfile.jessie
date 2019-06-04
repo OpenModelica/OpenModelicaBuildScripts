@@ -1,0 +1,8 @@
+FROM docker.openmodelica.org/build-deps:jessie.nightly.amd64
+
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list \
+    && export DEBIAN_FRONTEND=noninteractive && apt-get update \
+    && apt-get install -qyy git flex zip unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -f control requirements.txt *.deb

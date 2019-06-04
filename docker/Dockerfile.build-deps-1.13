@@ -1,12 +1,12 @@
 # Or ubuntu:bionic
-ARG REPO=docker.openmodelica.org/build-deps:v1.14
+ARG REPO=docker.openmodelica.org/build-deps
 FROM ${REPO}
 
 ARG OCL=16.1.2_x64_rh_6.4.0.37
 
 RUN sed -i s,http://archive.ubuntu.com/ubuntu/,mirror://mirrors.ubuntu.com/mirrors.txt, /etc/apt/sources.list \
     && export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
-    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo git subversion texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex libgfortran3 aspell bibtex2html zip unzip ocl-icd-opencl-dev cpio xsltproc inkscape g++-4.8 g++-5 g++-6 g++-7 texlive-lang-greek \
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip python-pip libmldbm-perl docker.io sudo git subversion texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex libgfortran3 aspell bibtex2html zip unzip ocl-icd-opencl-dev cpio xsltproc inkscape g++-4.8 g++-5 g++-6 g++-7 \
     && (test "`pandoc --version | head -1`" == "pandoc 2.2.3.2" || (wget https://github.com/jgm/pandoc/releases/download/2.2.3.2/pandoc-2.2.3.2-1-amd64.deb && dpkg -i pandoc-2.2.3.2-1-amd64.deb && apt-get install -qyf)) \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelica-doc/master/UsersGuide/source/requirements.txt \

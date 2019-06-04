@@ -1,0 +1,8 @@
+FROM docker.openmodelica.org/build-deps:disco.nightly.amd64
+
+RUN true \
+    && export DEBIAN_FRONTEND=noninteractive && apt-get update \
+    && apt-get install -qyy git flex zip unzip xsltproc gnuplot-nox \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -f control requirements.txt *.deb
