@@ -65,6 +65,7 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
+BuildRequires: qt5-qtwebkit-devel
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
@@ -72,7 +73,6 @@ BuildRequires: qt5-qtsvg-devel
 %if 0%{?rhel} >= 7
 BuildRequires: qt5-qt3d-devel
 %endif
-BuildRequires: qt5-qtwebkit-devel
 BuildRequires: qt5-qtxmlpatterns-devel
 BuildRequires: lpsolve-devel
 %if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
