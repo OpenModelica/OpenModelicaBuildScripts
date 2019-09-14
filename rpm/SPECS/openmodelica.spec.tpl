@@ -63,8 +63,8 @@ BuildRequires: java
 BuildRequires: tar
 BuildRequires: xz
 BuildRequires: gcc
-BuildRequires: gcc-gfortran
 BuildRequires: gcc-c++
+BuildRequires: gcc-gfortran
 BuildRequires: qt5-qtwebkit-devel
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
