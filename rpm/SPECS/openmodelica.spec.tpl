@@ -46,7 +46,13 @@ Requires: gcc-gfortran
 Requires: gcc-c++
 
 BuildRequires: automake
+%if 0%{?rhel} >= 8
+%define withomniorb --without-omniORB
+%else
+%define withomniorb --with-omniORB
 BuildRequires: omniORB-devel
+BuildRequires: lpsolve-devel
+%endif
 BuildRequires: expat-devel
 BuildRequires: lapack-devel
 BuildRequires: libtool
@@ -74,7 +80,6 @@ BuildRequires: qt5-qtsvg-devel
 BuildRequires: qt5-qt3d-devel
 %endif
 BuildRequires: qt5-qtxmlpatterns-devel
-BuildRequires: lpsolve-devel
 %if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran
 Requires: devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran
@@ -123,7 +128,7 @@ PATCHCMDS
 source /opt/rh/devtoolset-6/enable
 %endif
 autoconf
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ --with-omniORB CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
 
 %build
 
