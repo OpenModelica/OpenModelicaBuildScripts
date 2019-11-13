@@ -54,6 +54,7 @@ BuildRequires: omniORB-devel
 BuildRequires: lpsolve-devel
 %endif
 BuildRequires: expat-devel
+BuildRequires: flex
 BuildRequires: lapack-devel
 BuildRequires: libtool
 BuildRequires: uuid-devel
