@@ -109,11 +109,11 @@ Requires(postun): %{_sbindir}/update-alternatives
 %if 0%{?fedora} >= 24
 Suggests: omlib-all
 Suggests: boost-devel
-Suggests: boost-devel-static
+Suggests: boost-static
 %else
 Requires: omlib-all
 Requires: boost-devel
-Requires: boost-devel-static
+Requires: boost-static
 %endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
