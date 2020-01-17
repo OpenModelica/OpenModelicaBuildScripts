@@ -84,7 +84,9 @@ BuildRequires: qt5-qt3d-devel
 BuildRequires: qt5-qtxmlpatterns-devel
 
 # EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
-%{?el6:Requires: devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran}
+%{?el6:Requires: devtoolset-6-gcc}
+%{?el6:Requires: devtoolset-6-gcc-c++}
+%{?el6:Requires: devtoolset-6-gcc-gfortran}
 %{?!el6:BuildRequires: libstdc++-static}
 %{?!el6:Requires: libstdc++-static}
 
