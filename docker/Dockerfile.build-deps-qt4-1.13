@@ -1,11 +1,11 @@
 # Or ubuntu:bionic
-ARG REPO=docker.openmodelica.org/build-deps:v1.16-qt4-xenial
+ARG REPO=docker.openmodelica.org/build-deps:v1.13-qt4-xenial
 FROM ${REPO}
 
 WORKDIR /data
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
-    && apt-get install -qy --no-install-recommends gnupg wget git subversion ca-certificates apt-transport-https devscripts equivs libmldbm-perl docker.io sudo flex libgfortran3 zip unzip xsltproc gnuplot-nox libcurl4-gnutls-dev \
+    && apt-get install -qy --no-install-recommends gnupg wget git subversion ca-certificates apt-transport-https devscripts equivs libmldbm-perl docker.io sudo flex libgfortran3 zip unzip xsltproc gnuplot-nox \
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && sed -i /qt/d control \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \

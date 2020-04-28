@@ -2,9 +2,9 @@
 
 docker login docker.openmodelica.org
 
-TAG=docker.openmodelica.org/build-deps:v1.13-qt4-xenial
+TAG=docker.openmodelica.org/build-deps:v1.16-qt4-xenial
 
-if false; then
+if true; then
   ARGS="--build-arg REPO=ubuntu:xenial"
 else
   ARGS="--build-arg REPO=$TAG"
