@@ -27,6 +27,7 @@ Build-Depends: debhelper (>= 9.0.0),
  libomniorb4-dev,
  libhdf5-serial-dev | libhdf5-dev,
  liblapack-dev,
+ libcurl4-gnutls-dev | libcurl-dev,
  autoconf,
  libexpat1-dev,
 # libiomp-dev | libomp-dev, # We need these, but they don't always exist...
