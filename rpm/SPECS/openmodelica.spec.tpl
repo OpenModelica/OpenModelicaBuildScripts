@@ -64,6 +64,7 @@ BuildRequires: boost-devel
 BuildRequires: boost-static
 BuildRequires: hwloc-devel
 BuildRequires: readline-devel
+BuildRequires: curl-devel
 BuildRequires: gettext
 BuildRequires: cmake
 BuildRequires: make
