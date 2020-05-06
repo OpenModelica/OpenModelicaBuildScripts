@@ -85,15 +85,15 @@ BuildRequires: qt5-qt3d-devel
 BuildRequires: qt5-qtxmlpatterns-devel
 
 # EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
-%{?el6:Requires: devtoolset-6-gcc}
-%{?el6:Requires: devtoolset-6-gcc-c++}
-%{?el6:Requires: devtoolset-6-gcc-gfortran}
+%{?el6:Requires: devtoolset-8-gcc}
+%{?el6:Requires: devtoolset-8-gcc-c++}
+%{?el6:Requires: devtoolset-8-gcc-gfortran}
 %{?!el6:BuildRequires: libstdc++-static}
 %{?!el6:Requires: libstdc++-static}
 
 %if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
-BuildRequires: devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran
-%define devtoolsconfigureflags CC=/opt/rh/devtoolset-6/root/usr/bin/gcc CXX=/opt/rh/devtoolset-6/root/usr/bin/g++ FC=/opt/rh/devtoolset-6/root/usr/bin/gfortran
+BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
+%define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
 %endif
 
 %if 0%{?fedora} >= 25
@@ -132,7 +132,7 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 PATCHCMDS
 
 %if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
-source /opt/rh/devtoolset-6/enable
+source /opt/rh/devtoolset-8/enable
 %endif
 autoconf
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
