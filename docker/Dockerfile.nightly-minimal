@@ -1,0 +1,15 @@
+# FROM ubuntu:bionic
+FROM openmodelica/openmodelica:nightly
+MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
+
+RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
+    && apt-get install -qy gnupg ca-certificates wget \
+    && echo "deb https://build.openmodelica.org/apt bionic nightly" > /etc/apt/sources.list.d/openmodelica.list \
+    && wget https://build.openmodelica.org/apt/openmodelica.asc -O- | apt-key add - \
+    && apt-get update && apt-get upgrade && apt-get dist-upgrade \
+    && apt-get install -qy omc \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+WORKDIR /data
+VOLUME ["/data"]

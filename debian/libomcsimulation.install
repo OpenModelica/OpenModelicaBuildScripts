@@ -22,3 +22,8 @@ debian/tmp/usr/lib/*/omc/libumfpack*
 debian/tmp/usr/lib/*/omc/lib*amd*
 debian/tmp/usr/lib/*/omc/libomopc*
 debian/tmp/usr/lib/*/omc/libsundials_*
+
+# OMSI
+
+debian/tmp/usr/include/omc/omsi/*
+debian/tmp/usr/lib/*/omc/omsi/*
