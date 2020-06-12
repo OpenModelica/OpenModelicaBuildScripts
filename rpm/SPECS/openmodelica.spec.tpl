@@ -39,7 +39,7 @@ BuildRequires: epel-release
 Requires: epel-release
 %endif
 
-%if 0%{?rhel} >= 6
+%if 0%{?rhel} >= 6 && 0%{?rhel} <= 7
 # CentOS / RHEL requires the EPEL repository (for omniORB, etc)
 BuildRequires: centos-release-scl-rh
 Requires: centos-release-scl-rh
