@@ -90,7 +90,8 @@ BuildRequires: qt5-qtxmlpatterns-devel
 %{?el6:Requires: devtoolset-8-gcc}
 %{?el6:Requires: devtoolset-8-gcc-c++}
 %{?el6:Requires: devtoolset-8-gcc-gfortran}
-
+%{?!el6:BuildRequires: libstdc++-static}
+%{?!el6:Requires: libstdc++-static}
 
 # EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
 %{?el7:Requires: devtoolset-8-gcc}
