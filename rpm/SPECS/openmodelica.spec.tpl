@@ -79,6 +79,7 @@ BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
+BuildRequires: uuid-devel
 %if 0%{?rhel} >= 7
 BuildRequires: qt5-qt3d-devel
 %endif
@@ -91,7 +92,14 @@ BuildRequires: qt5-qtxmlpatterns-devel
 %{?!el6:BuildRequires: libstdc++-static}
 %{?!el6:Requires: libstdc++-static}
 
-%if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
+# EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
+%{?el7:Requires: devtoolset-8-gcc}
+%{?el7:Requires: devtoolset-8-gcc-c++}
+%{?el7:Requires: devtoolset-8-gcc-gfortran}
+%{?!el7:BuildRequires: libstdc++-static}
+%{?!el7:Requires: libstdc++-static}
+
+%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
 %endif
@@ -131,7 +139,7 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 
 PATCHCMDS
 
-%if 0%{?rhel} <= 6 && 0%{?rhel} >= 1
+%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 source /opt/rh/devtoolset-8/enable
 %endif
 autoconf
