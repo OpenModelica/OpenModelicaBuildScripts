@@ -58,6 +58,7 @@ BuildRequires: bison
 BuildRequires: flex
 BuildRequires: lapack-devel
 BuildRequires: libtool
+BuildRequires: uuid
 BuildRequires: uuid-devel
 BuildRequires: hdf5-devel
 BuildRequires: boost-devel
@@ -79,7 +80,6 @@ BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
-BuildRequires: uuid-devel
 %if 0%{?rhel} >= 7
 BuildRequires: qt5-qt3d-devel
 %endif
