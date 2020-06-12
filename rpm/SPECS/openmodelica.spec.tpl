@@ -1,3 +1,4 @@
+# See also Jenkinsfile in apt-build repository for stuff that is installed BEFORE everything here
 # Don't try fancy stuff like debuginfo, which is useless on binary-only
 # packages. Don't strip binary too
 # Be sure buildpolicy set to do nothing
@@ -37,12 +38,6 @@ Prefix: %{_bindir}
 # CentOS / RHEL requires the EPEL repository (for omniORB, etc)
 BuildRequires: epel-release
 Requires: epel-release
-%endif
-
-%if 0%{?rhel} >= 6 && 0%{?rhel} <= 7
-# CentOS / RHEL requires the EPEL repository (for omniORB, etc)
-BuildRequires: centos-release-scl-rh
-Requires: centos-release-scl-rh
 %endif
 
 Requires: lapack-devel
