@@ -39,6 +39,12 @@ BuildRequires: epel-release
 Requires: epel-release
 %endif
 
+%if 0%{?rhel} >= 6
+# CentOS / RHEL requires the EPEL repository (for omniORB, etc)
+BuildRequires: centos-release-scl-rh
+Requires: centos-release-scl-rh
+%endif
+
 Requires: lapack-devel
 Requires: make
 Requires: gcc
@@ -89,15 +95,12 @@ BuildRequires: qt5-qtxmlpatterns-devel
 %{?el6:Requires: devtoolset-8-gcc}
 %{?el6:Requires: devtoolset-8-gcc-c++}
 %{?el6:Requires: devtoolset-8-gcc-gfortran}
-%{?!el6:BuildRequires: libstdc++-static}
-%{?!el6:Requires: libstdc++-static}
+
 
 # EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
 %{?el7:Requires: devtoolset-8-gcc}
 %{?el7:Requires: devtoolset-8-gcc-c++}
 %{?el7:Requires: devtoolset-8-gcc-gfortran}
-%{?!el7:BuildRequires: libstdc++-static}
-%{?!el7:Requires: libstdc++-static}
 
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
