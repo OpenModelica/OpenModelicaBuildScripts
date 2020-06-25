@@ -44,7 +44,6 @@ Section: math
 Architecture: any
 Depends: omc (<< 20000),
  omplot (<< 20000),
- omlib-modelica-3.2.3 | omlib-modelica-3.2.2 | omlib-modelica-3.2.1,
  omshell (<< 20000),
  omshell-terminal (<< 20000),
  omnotebook (<< 20000),
