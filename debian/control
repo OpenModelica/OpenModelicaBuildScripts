@@ -169,11 +169,11 @@ Package: omedit
 Section: math
 Architecture: any
 Depends: omc (<< 20000),
- omlib-modelica-3.2.2 | omlib-modelica-3.2.1,
- omlib-modelicareference,
  libomsimulator,
  ${shlibs:Depends},
  ${misc:Depends}
+Recommends: omlib-modelica-3.2.3,
+ omlib-modelicareference,
 Description: A Modelica connection editor for OpenModelica
  OMEdit is still in active development. Please try it out and give feedback.
 
