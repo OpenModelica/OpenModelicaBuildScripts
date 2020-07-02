@@ -1,5 +1,5 @@
-# FROM ubuntu:bionic
-FROM openmodelica/openmodelica:nightly
+FROM ubuntu:bionic
+# FROM openmodelica/openmodelica:nightly
 MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\

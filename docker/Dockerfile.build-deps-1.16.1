@@ -1,0 +1,7 @@
+# Or ubuntu:bionic
+FROM docker.openmodelica.org/build-deps:v1.16
+
+RUN pip3 install --no-cache-dir sphinxcontrib-programoutput \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -f control requirements.txt *.deb
