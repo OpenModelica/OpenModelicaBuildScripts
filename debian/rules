@@ -36,6 +36,7 @@ ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	CC = clang
 	CXX = clang++
 	CONF_OPTS_CROSS = --without-omc
+	SANITY_CHECK = -C OMCompiler sanity-check
 else
 	CC = clang -target $(DEB_HOST_GNU_TYPE)
 # clang++ seems unable to find some bits stuff in C++ includes
@@ -46,6 +47,7 @@ else
 	NATIVE_CC = clang
 	NATIVE_CXX = clang++
 	CONF_OPTS_CROSS = --with-omc="`pwd`/cross-build/bin/omc"
+	SANITY_CHECK =
 endif
 
 endif
@@ -68,7 +70,7 @@ endif
 
 #ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 #  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-EXTRA_MAKEFLAGS = $(MAKEFLAGS) -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS))) $(shell make --version --output-sync > /dev/null 2>&1 && echo --output-sync)
+EXTRA_MAKEFLAGS = $(MAKEFLAGS) -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS))) $(shell make --version --output-sync=recurse > /dev/null 2>&1 && echo --output-sync=recurse)
 #endif
 
 # march=pentium4 used to be enabled because omc required sse2 regardless
@@ -127,7 +129,8 @@ endif
 #	--with-static-lpsolve=/usr
 #	--with-static-readline=/usr
 	# Add here commands to compile the package.
-	$(MAKE) $(EXTRA_MAKEFLAGS)
+	$(MAKE) $(EXTRA_MAKEFLAGS) all
+	test -z "$(SANITY_CHECK)" || $(MAKE) $(SANITY_CHECK)
 	# Skip the testsuite log. People can look it up on hudson
 	touch build-stamp
 
