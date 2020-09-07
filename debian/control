@@ -246,7 +246,8 @@ Description: The OpenModelica OMSimulator library dependencies
 Package: omsimulator
 Multi-Arch: same
 Architecture: any
-Depends: ${shlibs:Depends},
+Depends: libomsimulator,
+ ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica OMSimulator
  OMSimulator is a simulator that allows a tool to for example simulate
