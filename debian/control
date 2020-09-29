@@ -63,11 +63,10 @@ Description: A complete Modelica environment
  1. Package omc the OpenModelica Compiler/Interpreter (omc)
  2. Package omshell the OpenModelica Shell (OMShell)
  3. Package omshell-terminal the OpenModelica Shell-terminal (OMShell-terminal)
- 4. Package omlib-modelica-3.2.x the Modelica Standard Library version 3.2.x
- 5. Package omnotebook the OpenModelica Notebook, with DrModelica and DrControl
- 6. Package omedit, a Modelica connection editor for OpenModelica
- 7. Package omoptim, a tool for optimization of Modelica models (temporarily removed while the build system is being updated)
- 8. Package omplot, the plot tools for OpenModelica
+ 4. Package omnotebook the OpenModelica Notebook, with DrModelica and DrControl
+ 5. Package omedit, a Modelica connection editor for OpenModelica
+ 6. Package omoptim, a tool for optimization of Modelica models (temporarily removed while the build system is being updated)
+ 7. Package omplot, the plot tools for OpenModelica
 
 Package: omc
 Section: math
@@ -171,8 +170,6 @@ Depends: omc (<< 20000),
  libomsimulator,
  ${shlibs:Depends},
  ${misc:Depends}
-Recommends: omlib-modelica-3.2.3,
- omlib-modelicareference,
 Description: A Modelica connection editor for OpenModelica
  OMEdit is still in active development. Please try it out and give feedback.
 
@@ -249,7 +246,8 @@ Description: The OpenModelica OMSimulator library dependencies
 Package: omsimulator
 Multi-Arch: same
 Architecture: any
-Depends: ${shlibs:Depends},
+Depends: libomsimulator,
+ ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica OMSimulator
  OMSimulator is a simulator that allows a tool to for example simulate

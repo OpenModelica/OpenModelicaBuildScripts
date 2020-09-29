@@ -1,5 +1,5 @@
 # Or ubuntu:bionic
-ARG REPO=docker.openmodelica.org/build-deps:v1.16
+ARG REPO=docker.openmodelica.org/build-deps:v1.16.2
 FROM ${REPO}
 
 ARG OCL=16.1.2_x64_rh_6.4.0.37
