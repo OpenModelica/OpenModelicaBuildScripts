@@ -176,3 +176,5 @@ foreach ver ${gfortran_versions} {
     }
 }
 
+configure.cflags-delete -Werror
+
