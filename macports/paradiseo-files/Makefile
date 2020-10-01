@@ -1,0 +1,26 @@
+DEST=${DESTDIR}/${PREFIX}
+
+.PHONY: all install
+all:
+	(cd paradiseo-eo && cmake . -Dconfig=../install.cmake)
+	(cd paradiseo-moeo && cmake . -Dconfig=../install.cmake)
+	(cd paradiseo-mo && cmake . -Dconfig=../install.cmake)
+	$(MAKE) -C paradiseo-eo VERBOSE=1
+	mkdir -p ../paradiseo-eo/build/lib/
+	# Yes, paradiseo builds outside its source directory! It's crazy!
+	cp paradiseo-eo/lib/*.a ../paradiseo-eo/build/lib/
+	$(MAKE) -C paradiseo-moeo VERBOSE=1
+	$(MAKE) -C paradiseo-mo VERBOSE=1
+	rm -rf ../paradiseo-eo ../paradiseo-mo
+
+install:
+	mkdir -p $(DEST)/lib/paradiseo $(DEST)/include/paradiseo/utils/ $(DEST)/include/paradiseo/other
+	cp paradiseo-*/lib/*.a $(DEST)/lib/paradiseo
+	(cd paradiseo-eo/src/ && for f in `find . -name "*.h"`; do mkdir -p `dirname $(DEST)/include/paradiseo/$$f`; cp $$f $(DEST)/include/paradiseo/$$f; done)
+	(cd paradiseo-moeo/src/ && for f in `find . -name "*.h"`; do mkdir -p `dirname $(DEST)/include/paradiseo/$$f`; cp $$f $(DEST)/include/paradiseo/$$f; done)
+	(cd paradiseo-mo/src/ && for f in `find . -name "*.h"`; do mkdir -p `dirname $(DEST)/include/paradiseo/$$f`; cp $$f $(DEST)/include/paradiseo/$$f; done)
+	cp paradiseo-eo/src/eo $(DEST)/include/paradiseo/
+	cp paradiseo-eo/src/utils/checkpointing $(DEST)/include/paradiseo/utils/
+	cp paradiseo-eo/src/other/external_eo $(DEST)/include/paradiseo/other/
+	cp paradiseo-moeo/src/moeo $(DEST)/include/paradiseo/
+	@echo Done

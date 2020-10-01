@@ -1,0 +1,115 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id:
+
+PortSystem          1.0
+
+name                sundials
+version             2.5.0
+categories          math devel
+license             bsd
+platforms           darwin
+maintainers         gmail.com:jjstickel openmaintainer
+
+description         SUite of Nonlinear and DIfferential/ALgebraic equation Solvers
+
+long_description    SUNDIALS consists of the following five solvers: CVODE\
+                    solves initial value problems for ordinary differential\
+                    equation (ODE) systems.  CVODES solves ODE systems and\
+                    includes sensitivity analysis capabilities (forward and\
+                    adjoint).  IDA solves initial value problems for\
+                    differential-algebraic equation (DAE) systems.  IDAS solves\
+                    DAE systems and includes sensitivity analysis capabilities\
+                    (forward and adjoint).  KINSOL solves nonlinear algebraic\
+                    systems.
+
+homepage            https://computation.llnl.gov/casc/sundials/main.html
+# llnl.gov broken; redirect to https without certificate; added build.openmodelica.org mirror
+master_sites        http://computation.llnl.gov/casc/sundials/download/code/ \
+                    http://build.openmodelica.org/apt/pool/contrib/
+
+checksums           rmd160  c489fcb114f6846c7d5aef2d0eb096cb96f3fbc9 \
+                    sha256  9935760931fa6539edd0741acbcf4986770426fd5ea40e50ad4ebed0fc77b0d3
+
+patchfiles          sundials-2.5.0_destdir.patch
+patch.pre_args      -p1
+
+configure.args-append   --enable-shared
+
+# this is recommended for py-assiumulo, but I have not tested without,
+# JJS 7/27/12,
+# http://www.jmodelica.org/assimulo_home/installation.html
+configure.env-append    CFLAGS=-fPIC
+
+variant gcc45 conflicts gcc46 gcc47 gcc48 gcc49 description {Use the gcc45 compiler} {
+    depends_lib-append  port:gcc45
+    configure.compiler  macports-gcc-4.5
+}
+variant gcc46 conflicts gcc45 gcc47 gcc48 gcc49 description {Use the gcc46 compiler} {
+    depends_lib-append  port:gcc46
+    configure.compiler  macports-gcc-4.6
+}
+variant gcc47 conflicts gcc45 gcc46 gcc48 gcc49 description {Use the gcc47 compiler} {
+    depends_lib-append  port:gcc47
+    configure.compiler  macports-gcc-4.7
+}
+variant gcc48 conflicts gcc45 gcc46 gcc47 gcc49 description {Use the gcc48 compiler} {
+    depends_lib-append  port:gcc48
+    configure.compiler  macports-gcc-4.8
+}
+variant gcc49 conflicts gcc45 gcc46 gcc47 gcc48 description {Use the gcc49 compiler} {
+    depends_lib-append  port:gcc49
+    configure.compiler  macports-gcc-4.9
+}
+if { ![variant_isset gcc45] && ![variant_isset gcc46] && ![variant_isset gcc48] && ![variant_isset gcc49] } {
+	default_variants      +gcc48
+}
+
+variant g95 description {Use g95 to compile fortran libraries} {
+    configure.args-append   F77=${prefix}/bin/g95
+    depends_lib-append      port:g95
+}
+
+variant atlas description {build with atlas} {
+    depends_lib-append port:atlas
+    configure.args-append --with-blas=${prefix}/lib/libtatlas.dylib
+    configure.args-append --with-lapack=${prefix}/lib/libtatlas.dylib
+}
+
+variant openmpi description {build with OpenMPI} conflicts mpich2 {
+    depends_lib-append port:openmpi
+    configure.args-append --with-mpicc=${prefix}/bin/openmpicc
+    configure.args-append --with-mpif77=${prefix}/bin/openmpif77
+}
+variant mpich2 description {build with MPICH2} conflicts openmpi {
+    # this variant needs testing, JJS 7/25/12
+    depends_lib-append port:mpich2
+    configure.args-append --with-mpicc=${prefix}/bin/mpicc
+    configure.args-append --with-mpif77=${prefix}/bin/mpif77
+}
+
+post-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 -W ${worksrcpath} LICENSE README ${destroot}${prefix}/share/doc/${name}
+}
+
+variant doc description {install pdf documentation} {
+    post-destroot {
+        system "cp -r ${worksrcpath}/doc/* ${destroot}${prefix}/share/doc/${name}/."
+        system "find ${destroot}${prefix}/share/doc -type f -exec chmod 644 {} \\;"
+    }
+}
+
+variant debug description {build with debug symbols} {
+    configure.optflags -g
+    configure.optflags-append -fbounds-check
+}
+
+variant static description {build and install static libraries} {
+    configure.args-delete   --enable-shared
+}
+
+# are the compiled example files being installed after building them? this
+# needs to be checked further, JJS 8/22/12
+variant examples description {build, run, and install examples} {
+    configure.args-append --enable-examples --with-exinstdir=${prefix}/share/examples
+}

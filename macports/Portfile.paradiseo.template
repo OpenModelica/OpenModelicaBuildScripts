@@ -1,0 +1,28 @@
+# $Id$
+
+PortSystem          1.0
+
+name                @NAME@
+version             @REV@
+categories          math
+platforms           darwin
+maintainers         martin.sjolund@liu.se
+description         paradisEO
+long_description    paradisEO
+homepage            http://paradiseo.gforge.inria.fr/
+
+master_sites        http://build.openmodelica.org/apt/pool/contrib/
+distfiles           paradiseo_${version}.orig.tar.gz
+worksrcdir          paradiseo-1.3_beta2
+
+depends_build       port:cmake
+
+checksums           md5     @MD5@ \
+                    sha1    @SHA1@ \
+                    rmd160  @RMD160@
+
+use_configure       no
+
+destroot.args       PREFIX=${prefix}
+
+patchfiles          patch-Makefile.diff

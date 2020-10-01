@@ -1,0 +1,178 @@
+# $Id$
+
+PortSystem          1.0
+
+PortGroup           qt4 1.0
+
+default_variants    +qt +omnotebook
+
+name                @NAME@
+version             @REV@
+epoch               @EPOCH@
+categories          lang math aqua
+platforms           darwin
+maintainers         martin.sjolund@liu.se adrian.pop@liu.se
+description         OpenModelica
+long_description    OpenModelica is an open-source Modelica-based modeling and simulation environment intended for industrial and academic usage.
+homepage            http://openmodelica.org/
+license             OSMC-PL 1.2 (GPLv3 with additional rights for OSMC members)
+
+master_sites        https://build.openmodelica.org/apt/pool/contrib/
+distfiles           openmodelica_${version}.orig.tar.@TAREXT@
+worksrcdir          openmodelica_${version}
+
+checksums           md5     @MD5@ \
+                    sha1    @SHA1@ \
+                    rmd160  @RMD160@
+
+depends_build       port:gtime \
+                    port:gsed \
+                    port:cmake \
+                    port:libtool \
+                    port:automake \
+                    port:pkgconfig
+
+depends_lib         port:lp_solve \
+                    port:gettext \
+                    port:omniorb \
+                    port:readline \
+                    port:qjson \
+                    port:ossp-uuid \
+                    port:boost \
+                    port:openblas
+
+build.target
+
+configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE="${prefix}/bin/gmake"
+
+use_autoconf        yes
+
+configure.env-append \
+ ANTLRHOME=${prefix}
+
+variant libraries description {installs the complete Modelica library collection} {
+ depends_run-append port:openmodelicalibraries
+}
+
+variant omnotebook description {builds OMNotebook; doesn't work on OSX} {
+ configure.args-delete --disable-omnotebook
+}
+
+variant openblas description {build a lapack/blas replacement if your version is broken} {
+ configure.args-delete --with-lapack="-llapack -lblas"
+ configure.args-append --with-lapack=openblas
+}
+
+variant python description {build with the python interface; requires omniorb +python27} {
+ depends_lib-append port:omniorb port:python27 port:py27-omniORBpy
+ configure.args-delete --disable-python-interface
+ configure.args-append --enable-python-interface
+}
+
+variant gcc44 description {build with gcc 4.4} {
+ depends_lib-append port:gcc44 port:gmake
+ configure.compiler macports-gcc-4.4
+}
+
+variant gcc45 description {build with gcc 4.5} {
+ depends_lib-append port:gcc45 port:gmake
+ configure.compiler macports-gcc-4.5
+}
+
+variant gcc46 description {build with gcc 4.6} {
+ depends_lib-append port:gcc46 port:gmake
+ configure.compiler macports-gcc-4.6
+}
+
+variant gcc5 description {build with gcc 5.x} {
+ depends_lib-append port:gcc5 port:gmake
+ configure.compiler macports-gcc-5
+}
+
+variant clang33 description {build with macports clang} {
+ depends_lib-append port:clang-3.3 port:gmake
+ configure.compiler macports-clang-3.3
+}
+
+variant clang36 description {build with macports clang} {
+ depends_lib-append port:clang-3.6 port:gmake
+ configure.compiler macports-clang-3.6
+}
+
+variant clang37 description {build with macports clang} {
+ depends_lib-append port:clang-3.7 port:gmake
+ configure.compiler macports-clang-3.7
+}
+
+variant clang37 description {build with macports clang} {
+ depends_lib-append port:clang-9.0 port:gmake
+ configure.compiler macports-clang-9.0
+}
+
+variant clang description {build with macports clang} {
+ depends_lib-append port:clang-10 port:gmake
+ configure.compiler macports-clang-10
+}
+
+variant qt description {Build Qt-based clients} {
+depends_lib-append     \
+  port:qt4-mac \
+  port:qwt52
+configure.args-delete --without-omniORB
+configure.args-append --with-omniORB=${prefix}
+}
+
+variant osg description {Build with OpenSceneGraph (visualization in OMEdit).} {
+depends_lib-append     \
+  port:OpenSceneGraph
+}
+
+test.run            yes
+test.cmd            "${prefix}/bin/gtime -f '== Testsuite wall-time: %e' ${build.cmd} -j${build.jobs} -C testsuite/ test > build/share/doc/omc/testsuite.txt 2>&1"
+test.target         
+
+set gfortran_versions {4.3 4.4 4.5 4.6 4.7 4.8 4.9 5}
+set default_fortran_variant +gfortran5
+
+foreach ver ${gfortran_versions} {
+    set ver_no_dot [join [split ${ver} "."] ""]
+
+    set variant_line {variant gfortran${ver_no_dot} description "build with gfortran from gcc${ver_no_dot}"}
+
+    foreach over ${gfortran_versions} {
+        if {${ver} == ${over}} {
+            continue
+        }
+
+        set over_no_dot [join [split ${over} "."] ""]
+        append variant_line " conflicts gfortran${over_no_dot}"
+    }
+    append variant_line { {}}
+
+    eval $variant_line
+
+    if {[variant_isset gfortran${ver_no_dot}]} {
+        if {${default_fortran_variant} != "+gfortran${ver_no_dot}"} {
+            set default_fortran_variant ""
+        }
+    }
+}
+
+if {${default_fortran_variant} != ""} {
+    default_variants-append "${default_fortran_variant}"
+}
+
+foreach ver ${gfortran_versions} {
+    set ver_no_dot [join [split ${ver} "."] ""]
+
+    if {[variant_isset gfortran${ver_no_dot}]} {
+        depends_lib-append path:lib/libgcc/libgcc_s.1.dylib:libgcc
+        depends_lib-append port:gcc${ver_no_dot}
+
+        configure.fc  ${prefix}/bin/gfortran-mp-${ver}
+        configure.f77 ${prefix}/bin/gfortran-mp-${ver}
+        configure.f90 ${prefix}/bin/gfortran-mp-${ver}
+        configure.args-append OMPCC="${prefix}/bin/gcc-mp-${ver} -fopenmp -mno-avx" GNUCXX=${prefix}/bin/g++-mp-${ver}
+    }
+}
+

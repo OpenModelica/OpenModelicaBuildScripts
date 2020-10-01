@@ -1,0 +1,28 @@
+# $Id$
+
+PortSystem          1.0
+
+name                @NAME@
+version             @REV@
+categories          lang
+platforms           darwin
+maintainers         martin.sjolund@liu.se
+description         MetaModelica Compiler
+long_description    A MetaModelica Compiler written using RML
+homepage            http://openmodelica.org/
+
+master_sites        http://build.openmodelica.org/apt/pool/contrib/
+distfiles           rml-mmc_${version}.orig.tar.gz
+worksrcdir          rml-mmc_${version}
+
+depends_lib         port:smlnj
+
+checksums           md5     @MD5@ \
+                    sha1    @SHA1@ \
+                    rmd160  @RMD160@
+
+configure.args
+configure.env-append \
+  SMLNJ_HOME=${prefix}/share/smlnj
+build.target 
+
