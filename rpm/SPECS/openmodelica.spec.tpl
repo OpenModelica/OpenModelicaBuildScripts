@@ -26,6 +26,7 @@ Requires: qt5-qtbase
 Requires: qt5-qtsvg
 Requires: qt5-qtwebkit
 Requires: qt5-qtxmlpatterns
+Requires: libffi
 %endif
 Autoprov: 0
 Prefix: /opt/%{name}
@@ -66,6 +67,7 @@ BuildRequires: boost-devel
 BuildRequires: boost-static
 BuildRequires: hwloc-devel
 BuildRequires: readline-devel
+BuildRequires: libffi-devel
 BuildRequires: curl-devel
 BuildRequires: gettext
 BuildRequires: cmake
