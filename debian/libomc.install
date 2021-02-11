@@ -3,7 +3,6 @@ debian/tmp/usr/lib/*/omc/libOpenModelicaRuntimeC*
 debian/tmp/usr/lib/*/omc/lib*antlr3.so
 debian/tmp/usr/lib/*/omc/libomcruntime*
 debian/tmp/usr/lib/*/omc/libzmq*
-debian/tmp/usr/lib/*/omc/libsuitesparseconfig*
 
 # These are not really needed
 #debian/tmp/usr/lib/*/omc/libomparse.a
