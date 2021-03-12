@@ -117,9 +117,7 @@ variant clang description {build with macports clang} {
 }
 
 variant qt description {Build Qt-based clients} {
-depends_lib-append     \
-  port:qt4-mac \
-  port:qwt52
+depends_lib-append     port:qt5
 configure.args-delete --without-omniORB
 configure.args-append --with-omniORB=${prefix}
 }
