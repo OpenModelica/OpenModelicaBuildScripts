@@ -82,7 +82,7 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 endif
 
 configure: configure.ac
-	autoconf
+	autoreconf --install
 
 build: build-stamp
 build-arch: build
