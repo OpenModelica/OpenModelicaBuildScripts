@@ -47,7 +47,7 @@ conflicts pugixml sundials
 
 configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE="${prefix}/bin/gmake"
 
-use_autoconf        yes
+use_autoreconf      yes
 
 configure.env-append \
  ANTLRHOME=${prefix}
