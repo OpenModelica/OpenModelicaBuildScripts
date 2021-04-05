@@ -2,4 +2,3 @@ debian/desktops/omedit.desktop                    usr/share/applications
 OMEdit/OMEditLIB/Resources/icons/omedit.png       usr/share/pixmaps
 debian/tmp/usr/bin/OMEdit
 debian/tmp/usr/share/omedit/nls/*
-debian/tmp/usr/lib/*/omc/lib*qjson*
