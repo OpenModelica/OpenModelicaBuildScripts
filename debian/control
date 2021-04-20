@@ -169,10 +169,19 @@ Section: math
 Architecture: any
 Depends: omc (<< 20000),
  libomsimulator,
+ libomsensplugin,
  ${shlibs:Depends},
  ${misc:Depends}
 Description: A Modelica connection editor for OpenModelica
  OMEdit is still in active development. Please try it out and give feedback.
+
+Package: libomsensplugin
+Multi-Arch: same
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: The OpenModelica OMSense_Qt plugin library for OMEdit
+ This is needed to be able to run OMSense from OMEdit
 
 Package: omnotebook
 Section: math
