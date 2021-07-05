@@ -1,0 +1,45 @@
+# Build with
+# $ docker build --tag docker.openmodelica.org/ompython:wine-bionic -f Dockerfile.ompython.wine64.bionic .
+FROM ubuntu:bionic
+
+# Get rid of the warning: "debconf: unable to initialize frontend: Dialog"
+# https://github.com/moby/moby/issues/27988
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+# Install Wine and X Virtual Frame Buffer
+RUN pwd && dpkg --add-architecture i386 && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy \
+    && apt-get install -qy wine64 wine-stable xvfb \
+    && rm -rf /var/lib/apt/lists/* ~/.wine*
+ENV DEBIAN_FRONTEND noninteractive
+ENV DISPLAY=:0.0
+
+# Install git, wget, Python 3 + pandas
+RUN apt-get update \
+    && apt-get install git python3-pip wget -qy \
+    && pip3 install pandas \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Install OMC and OMPython
+RUN for deb in deb deb-src; do echo "$deb http://build.openmodelica.org/apt bionic stable"; done | tee /etc/apt/sources.list.d/openmodelica.list \
+    && wget -q http://build.openmodelica.org/apt/openmodelica.asc -O- | apt-key add - \
+    # To verify that your key is installed correctly
+    && apt-key fingerprint \
+    # Gives output:
+    # pub   2048R/64970947 2010-06-22
+    #      Key fingerprint = D229 AF1C E5AE D74E 5F59  DF30 3A59 B536 6497 0947
+    # uid                  OpenModelica Build System
+    && apt-get update \
+    && apt-get install omc -qy \
+    && python3 -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Add non-root user
+RUN groupadd -g 1000 testUser \
+    && useradd -m -r -u 1000 -g testUser testUser
+
+USER testUser
+ENV USER=testUser
+
+CMD Xvfb $DISPLAY
