@@ -99,10 +99,14 @@ BuildRequires: qt5-qtxmlpatterns-devel
 %{?el7:Requires: devtoolset-8-gcc}
 %{?el7:Requires: devtoolset-8-gcc-c++}
 %{?el7:Requires: devtoolset-8-gcc-gfortran}
+%{?el7:Requires: cmake3}
 
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
+%endif
+%if 0%{?rhel} = 7
+%define cmakecommand CMAKE=cmake3
 %endif
 
 %if 0%{?fedora} >= 25
@@ -144,7 +148,7 @@ PATCHCMDS
 source /opt/rh/devtoolset-8/enable
 %endif
 autoreconf --install
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
 %build
 
