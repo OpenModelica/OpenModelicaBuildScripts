@@ -105,7 +105,7 @@ BuildRequires: qt5-qtxmlpatterns-devel
 BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
 %endif
-%if 0%{?rhel} = 7
+%if 0%{?rhel} == 7
 %define cmakecommand CMAKE=cmake3
 %endif
 
