@@ -70,7 +70,6 @@ BuildRequires: readline-devel
 BuildRequires: libffi-devel
 BuildRequires: curl-devel
 BuildRequires: gettext
-BuildRequires: cmake
 BuildRequires: make
 BuildRequires: java
 BuildRequires: tar
@@ -88,6 +87,16 @@ BuildRequires: qt5-qt3d-devel
 %endif
 BuildRequires: qt5-qtxmlpatterns-devel
 
+# Use cmake versions > 3. On EL7 this is provided by cmake3 package.
+# On EL > 7 it is just cmake.
+%if 0%{?rhel} == 7
+BuildRequires: cmake3
+%define cmakecommand CMAKE=cmake3
+%else
+BuildRequires: cmake
+%define cmakecommand CMAKE=cmake
+%endif
+
 # EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
 %{?el6:Requires: devtoolset-8-gcc}
 %{?el6:Requires: devtoolset-8-gcc-c++}
@@ -99,14 +108,10 @@ BuildRequires: qt5-qtxmlpatterns-devel
 %{?el7:Requires: devtoolset-8-gcc}
 %{?el7:Requires: devtoolset-8-gcc-c++}
 %{?el7:Requires: devtoolset-8-gcc-gfortran}
-%{?el7:Requires: cmake3}
 
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
-%endif
-%if 0%{?rhel} == 7
-%define cmakecommand CMAKE=cmake3
 %endif
 
 %if 0%{?fedora} >= 25
