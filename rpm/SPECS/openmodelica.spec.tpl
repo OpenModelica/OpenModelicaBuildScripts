@@ -101,7 +101,7 @@ BuildRequires: cmake
 # broken cmake package due to old libarchive (v3.3.2). v3.3.3 Seems to work.
 # Once the base image is updated this can be removed.
 %if 0%{?rhel} == 8
-Requires: libarchive >= 3.3.3
+BuildRequires: libarchive >= 3.3.3
 %endif
 
 # EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
