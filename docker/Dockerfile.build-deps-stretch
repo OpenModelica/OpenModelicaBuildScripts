@@ -1,5 +1,6 @@
 # Or ubuntu:bionic
-ARG REPO=docker.openmodelica.org/build-deps:v1.16-qt4-xenial
+# ARG REPO=docker.openmodelica.org/build-deps:v1.19-stretch
+ARG REPO=debian:stretch
 FROM ${REPO}
 
 WORKDIR /data
@@ -9,7 +10,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -
     && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
     && sed -i /qt/d control \
     && mk-build-deps --install -t 'apt-get --force-yes -y' control \
-    && apt-get install -qy --no-install-recommends qt4-qmake libqt4-dev libqtwebkit-dev libqt4-opengl-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* ./* /tmp/* \
     && rm -f control requirements.txt
