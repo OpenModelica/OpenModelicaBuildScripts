@@ -34,7 +34,6 @@ depends_build       port:gtime \
 
 depends_lib         port:lp_solve \
                     port:gettext \
-                    port:omniorb \
                     port:readline \
                     port:qjson \
                     port:ossp-uuid \
@@ -45,7 +44,7 @@ build.target
 
 conflicts pugixml sundials
 
-configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE="${prefix}/bin/gmake"
+configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE="${prefix}/bin/gmake --output-sync=recurse"
 
 use_autoreconf      yes
 
@@ -66,7 +65,7 @@ variant openblas description {build a lapack/blas replacement if your version is
 }
 
 variant python description {build with the python interface; requires omniorb +python27} {
- depends_lib-append port:omniorb port:python27 port:py27-omniORBpy
+ depends_lib-append port:python3
  configure.args-delete --disable-python-interface
  configure.args-append --enable-python-interface
 }
@@ -124,8 +123,6 @@ depends_lib-append     \
 qt5.depends_component qttools
 
 configure.env-append QTDIR=${prefix}/libexec/qt5
-configure.args-delete --without-omniORB
-configure.args-append --with-omniORB=${prefix}
 }
 
 variant osg description {Build with OpenSceneGraph (visualization in OMEdit).} {
@@ -137,8 +134,8 @@ test.run            yes
 test.cmd            "${prefix}/bin/gtime -f '== Testsuite wall-time: %e' ${build.cmd} -j${build.jobs} -C testsuite/ test > build/share/doc/omc/testsuite.txt 2>&1"
 test.target         
 
-set gfortran_versions {4.3 4.4 4.5 4.6 4.7 4.8 4.9 5}
-set default_fortran_variant +gfortran5
+set gfortran_versions {4.3 4.4 4.5 4.6 4.7 4.8 4.9 5 6 7 8 9 10}
+set default_fortran_variant +gfortran9
 
 foreach ver ${gfortran_versions} {
     set ver_no_dot [join [split ${ver} "."] ""]
