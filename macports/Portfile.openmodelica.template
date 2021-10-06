@@ -44,7 +44,7 @@ build.target
 
 conflicts pugixml sundials
 
-configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE="${prefix}/bin/gmake --output-sync=recurse"
+configure.args      --without-omniORB --disable-python-interface --disable-modelica3d --disable-omnotebook --without-omc --without-omlibrary MAKE=${prefix}/bin/gmake
 
 use_autoreconf      yes
 
@@ -180,4 +180,5 @@ foreach ver ${gfortran_versions} {
 }
 
 configure.cflags-delete -Werror
-
+build.cmd ${prefix}/bin/gmake
+build.args-append --output-sync=recurse
