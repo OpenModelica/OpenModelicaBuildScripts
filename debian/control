@@ -51,6 +51,7 @@ Depends: omc (<< 20000),
  drmodelica (<< 20000),
  drcontrol (<< 20000),
  omedit (<< 20000),
+ omsimulator,
 # omoptim,
  ${misc:Depends}
 Description: A complete Modelica environment
@@ -68,6 +69,7 @@ Description: A complete Modelica environment
  5. Package omedit, a Modelica connection editor for OpenModelica
  6. Package omoptim, a tool for optimization of Modelica models (temporarily removed while the build system is being updated)
  7. Package omplot, the plot tools for OpenModelica
+ 8. Package omsimulator, an FMI/SSP simulation tool
 
 Package: omc
 Section: math
