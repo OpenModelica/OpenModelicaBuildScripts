@@ -83,7 +83,8 @@ Depends: clang,
  libomcsimulation,
  ${shlibs:Depends},
  ${misc:Depends}
-Recommends: omplot,
+Recommends: libomccpp,
+ omplot,
  gnuplot-nox,
  xsltproc,
  libsaxonb-java
