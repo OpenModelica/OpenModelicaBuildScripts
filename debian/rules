@@ -54,8 +54,6 @@ endif
 
 ifeq (arm-linux-gnueabihf,$(DEB_HOST_GNU_TYPE))
 	CONF_OPTS=--without-cppruntime
-	CFLAGS += -march=armv6 -marm
-	LDFLAGS += -march=armv6 -marm
 	EXTRA_INSTALL=
 else
 	CONF_OPTS=--with-cppruntime
