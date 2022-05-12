@@ -135,11 +135,9 @@ Requires(postun): %{_sbindir}/update-alternatives
 
 # CentOS doesn't have suggests
 %if 0%{?fedora} >= 24
-Suggests: omlib-all
 Suggests: boost-devel
 Suggests: boost-static
 %else
-Requires: omlib-all
 Requires: boost-devel
 Requires: boost-static
 %endif
