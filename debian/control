@@ -91,6 +91,10 @@ Recommends: libomccpp,
  xsltproc,
  libsaxonb-java
 Suggests: python-beautifulsoup
+Breaks: omlib-modelica-3.2.3,
+ omlib-modelica-4.0.0,
+ omlib-modelicaservices-3.2.3,
+ omlib-modelicaservices-4.0.0
 Description: The OpenModelica Compiler
  This is the core of the OpenModelica project. It can be used stand-alone as
  a compiler. It is recommended to use it together with an OpenModelica client,
