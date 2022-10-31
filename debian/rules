@@ -128,6 +128,7 @@ endif
 #	--with-static-readline=/usr
 	# Add here commands to compile the package.
 	$(MAKE) $(EXTRA_MAKEFLAGS) all
+	$(MAKE) omlibrary
 	test -z "$(SANITY_CHECK)" || $(MAKE) $(SANITY_CHECK)
 	# Skip the testsuite log. People can look it up on hudson
 	touch build-stamp

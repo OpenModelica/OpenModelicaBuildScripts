@@ -179,6 +179,7 @@ Depends: omc (<< 20000),
  libomsensplugin,
  ${shlibs:Depends},
  ${misc:Depends}
+Suggests: omlibrary
 Description: A Modelica connection editor for OpenModelica
  OMEdit is still in active development. Please try it out and give feedback.
 
@@ -269,3 +270,8 @@ Depends: libomsimulator,
 Description: The OpenModelica OMSimulator
  OMSimulator is a simulator that allows a tool to for example simulate
  FMUs.
+
+Package: omlibrary
+Architecture: all
+Description: OpenModelica library cache of the standard library for use
+ during conferences/etc where OpenModelica does not have internet access.
