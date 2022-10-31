@@ -163,6 +163,7 @@ autoreconf --install
 %build
 
 make -j8
+test ! -f libraries/install-index.json || make -j8 omlibrary
 
 %install
 rm -rf %{buildroot}
