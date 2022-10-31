@@ -1,0 +1,10 @@
+# Or ubuntu:bionic
+ARG REPO=docker.openmodelica.org/build-deps:v1.13-qt4-xenial
+FROM ${REPO}
+
+WORKDIR /data
+
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* ./* /tmp/* \
+    && rm -f control requirements.txt
