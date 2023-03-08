@@ -1,0 +1,14 @@
+ARG REPO=ubuntu:focal
+FROM ${REPO}
+
+RUN sed -i s,http://archive.ubuntu.com/ubuntu/,mirror://mirrors.ubuntu.com/mirrors.txt, /etc/apt/sources.list \
+    && export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https devscripts equivs python3-pip libmldbm-perl docker.io sudo git subversion texlive-base texlive-latex-extra latexmk gnuplot-nox doxygen poppler-utils flex aspell bibtex2html zip unzip ocl-icd-opencl-dev cpio xsltproc inkscape intel-opencl-icd g++ texlive-lang-greek xvfb libcurl4-gnutls-dev pandoc \
+    && wget https://raw.githubusercontent.com/OpenModelica/OpenModelicaBuildScripts/master/debian/control \
+    && wget https://raw.githubusercontent.com/OpenModelica/OpenModelica/master/doc/UsersGuide/source/requirements.txt \
+    && mk-build-deps --install -t 'apt-get --force-yes -y' control \
+    && pip3 install --no-cache-dir --upgrade -r requirements.txt \
+    && pip3 install --no-cache-dir --upgrade junit_xml simplejson svgwrite PyGithub # ComplianceSuite \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -f control requirements.txt *.deb
