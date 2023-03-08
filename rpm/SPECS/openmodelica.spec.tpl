@@ -104,21 +104,14 @@ BuildRequires: cmake
 BuildRequires: libarchive >= 3.3.3
 %endif
 
-# EL6 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag)
-%{?el6:Requires: devtoolset-8-gcc}
-%{?el6:Requires: devtoolset-8-gcc-c++}
-%{?el6:Requires: devtoolset-8-gcc-gfortran}
-%{?!el6:BuildRequires: libstdc++-static}
-%{?!el6:Requires: libstdc++-static}
-
 # EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
-%{?el7:Requires: devtoolset-8-gcc}
-%{?el7:Requires: devtoolset-8-gcc-c++}
-%{?el7:Requires: devtoolset-8-gcc-gfortran}
+%{?el7:Requires: devtoolset-11-gcc}
+%{?el7:Requires: devtoolset-11-gcc-c++}
+%{?el7:Requires: devtoolset-11-gcc-gfortran}
 
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
-BuildRequires: devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
-%define devtoolsconfigureflags CC=/opt/rh/devtoolset-8/root/usr/bin/gcc CXX=/opt/rh/devtoolset-8/root/usr/bin/g++ FC=/opt/rh/devtoolset-8/root/usr/bin/gfortran
+BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortran
+%define devtoolsconfigureflags CC=/opt/rh/devtoolset-11/root/usr/bin/gcc CXX=/opt/rh/devtoolset-11/root/usr/bin/g++ FC=/opt/rh/devtoolset-11/root/usr/bin/gfortran
 %endif
 
 %if 0%{?fedora} >= 25
@@ -155,7 +148,7 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 PATCHCMDS
 
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
-source /opt/rh/devtoolset-8/enable
+source /opt/rh/devtoolset-11/enable
 %endif
 autoreconf --install
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
