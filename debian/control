@@ -30,7 +30,7 @@ Build-Depends: debhelper (>= 9.0.0),
  libcurl4-gnutls-dev | libcurl-dev,
  autoconf,
  libexpat1-dev,
-# libiomp-dev | libomp-dev, # We need these, but they don't always exist...
+ libomp-dev,
 # Should be needed but seems to mess up sbuild
 # libexpat1-dev:native,
  libboost-all-dev,
