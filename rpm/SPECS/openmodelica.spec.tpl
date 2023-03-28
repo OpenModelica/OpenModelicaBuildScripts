@@ -127,12 +127,16 @@ Requires(post): %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
 # CentOS doesn't have suggests
-%if 0%{?fedora} >= 24
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 8
 Suggests: boost-devel
 Suggests: boost-static
+Suggests: lapack-static
+Suggests: openblas-static
 %else
 Requires: boost-devel
 Requires: boost-static
+Requires: lapack-static
+Requires: openblas-static
 %endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
