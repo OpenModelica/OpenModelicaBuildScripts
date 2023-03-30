@@ -135,8 +135,6 @@ Suggests: openblas-static
 %else
 Requires: boost-devel
 Requires: boost-static
-Requires: lapack-static
-Requires: openblas-static
 %endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
