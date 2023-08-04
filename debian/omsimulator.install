@@ -1,3 +1,2 @@
-debian/tmp/usr/bin/OMSimulator*
-debian/tmp/usr/bin/*Wrapper
+debian/tmp/usr/bin/*
 debian/tmp/usr/share/OMSimulator
