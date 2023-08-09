@@ -1,2 +1,2 @@
-debian/tmp/usr/bin/*
+debian/tmp/usr/bin/OMSimulator*
 debian/tmp/usr/share/OMSimulator
