@@ -104,10 +104,6 @@ BuildRequires: cmake
 BuildRequires: libarchive >= 3.3.3
 %endif
 
-%{?el7:Requires: devtoolset-11-gcc}
-%{?el7:Requires: devtoolset-11-gcc-c++}
-%{?el7:Requires: devtoolset-11-gcc-gfortran}
-
 %if 0%{?rhel} <= 8 && 0%{?rhel} >= 1
 # EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
 Requires: devtoolset-11-gcc
