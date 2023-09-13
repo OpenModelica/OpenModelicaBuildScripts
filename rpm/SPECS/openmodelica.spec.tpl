@@ -104,12 +104,16 @@ BuildRequires: cmake
 BuildRequires: libarchive >= 3.3.3
 %endif
 
-# EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
 %{?el7:Requires: devtoolset-11-gcc}
 %{?el7:Requires: devtoolset-11-gcc-c++}
 %{?el7:Requires: devtoolset-11-gcc-gfortran}
 
-%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
+%if 0%{?rhel} <= 8 && 0%{?rhel} >= 1
+# EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
+Requires: devtoolset-11-gcc
+Requires: devtoolset-11-gcc-c++
+Requires: devtoolset-11-gcc-gfortran
+
 BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-11/root/usr/bin/gcc CXX=/opt/rh/devtoolset-11/root/usr/bin/g++ FC=/opt/rh/devtoolset-11/root/usr/bin/gfortran
 %endif
@@ -149,7 +153,7 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 
 PATCHCMDS
 
-%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
+%if 0%{?rhel} <= 8 && 0%{?rhel} >= 1
 source /opt/rh/devtoolset-11/enable
 %endif
 autoreconf --install
