@@ -160,6 +160,11 @@ PATCHCMDS
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 source /opt/rh/devtoolset-11/enable
 %endif
+
+%if 0%{?rhel} == 8
+source /opt/rh/gcc-toolset-11/enable
+%endif
+
 autoreconf --install
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
