@@ -170,6 +170,14 @@ autoreconf --install
 
 %build
 
+%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
+source /opt/rh/devtoolset-11/enable
+%endif
+
+%if 0%{?rhel} == 8
+source /opt/rh/gcc-toolset-11/enable
+%endif
+
 make -j8
 test ! -f libraries/install-index.json || make -j8 omlibrary
 
