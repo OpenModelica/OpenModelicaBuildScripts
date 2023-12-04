@@ -75,6 +75,7 @@ Package: omc
 Section: math
 Architecture: any
 Depends: clang,
+ cmake,
  build-essential,
  libexpat1-dev,
  liblapack-dev,
