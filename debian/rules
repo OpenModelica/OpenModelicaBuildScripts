@@ -33,8 +33,13 @@ endif
 else
 
 ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+ifeq ($(DEB_BUILD_GNU_TYPE),armhf)
+	CC = gcc
+	CXX = g++
+else
 	CC = clang
 	CXX = clang++
+endif
 	CONF_OPTS_CROSS = --without-omc
 	SANITY_CHECK = -C OMCompiler sanity-check
 else
