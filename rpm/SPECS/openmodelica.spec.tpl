@@ -106,8 +106,8 @@ BuildRequires: libarchive >= 3.3.3
 
 # Use gcc-11 on EL8 as well. devtoolset does not seem to be available on
 # EL8. One is supposed to use gcc-toolset instead.
+%{?el8:Requires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran}
 %if 0%{?rhel} == 8
-Requires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran
 BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/gcc-toolset-11/root/usr/bin/gcc CXX=/opt/rh/gcc-toolset-11/root/usr/bin/g++ FC=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran AS=/opt/rh/gcc-toolset-11/root/usr/bin/as
 %endif
