@@ -55,6 +55,7 @@ BuildRequires: automake
 BuildRequires: omniORB-devel
 BuildRequires: lpsolve-devel
 %endif
+BuildRequires: autoconf >= 2.71
 BuildRequires: expat-devel
 BuildRequires: bison
 BuildRequires: flex

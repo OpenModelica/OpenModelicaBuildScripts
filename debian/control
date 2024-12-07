@@ -28,7 +28,7 @@ Build-Depends: debhelper (>= 9.0.0),
  libhdf5-serial-dev | libhdf5-dev,
  liblapack-dev,
  libcurl4-gnutls-dev | libcurl-dev,
- autoconf,
+ autoconf (>=2.71),
  libexpat1-dev,
  libomp-dev,
 # Should be needed but seems to mess up sbuild
