@@ -112,7 +112,7 @@ BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfor
 %define devtoolsconfigureflags CC=/opt/rh/gcc-toolset-11/root/usr/bin/gcc CXX=/opt/rh/gcc-toolset-11/root/usr/bin/g++ FC=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran AS=/opt/rh/gcc-toolset-11/root/usr/bin/as
 %endif
 
-# EL7 has -static-libstdc++ inside devtools (but the system g++ doesn't know the flag) -- adrpo: check this, also for el6
+# EL7 has -static-libstdc++ inside devtools (but the system g++ does not know the flag) -- adrpo: check this, also for el6
 %{?el7:Requires: devtoolset-11-gcc}
 %{?el7:Requires: devtoolset-11-gcc-c++}
 %{?el7:Requires: devtoolset-11-gcc-gfortran}
@@ -126,7 +126,7 @@ BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortra
 BuildRequires: OpenSceneGraph-devel
 %endif
 
-# We should use clang, but OMEdit doesn't compile with it due to odd default qmake flags
+# We should use clang, but OMEdit does not compile with it due to odd default qmake flags
 Requires: gcc
 Requires: gcc-c++
 Requires: lapack-devel
@@ -134,7 +134,7 @@ Requires: lapack-devel
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
-# CentOS doesn't have suggests
+# CentOS does not have suggests
 %if 0%{?fedora} >= 24 || 0%{?rhel} >= 8
 Suggests: boost-devel
 Suggests: boost-static
@@ -163,6 +163,13 @@ source /opt/rh/devtoolset-11/enable
 
 %if 0%{?rhel} == 8
 source /opt/rh/gcc-toolset-11/enable
+%endif
+
+%if 0%{?rhel} >= 8
+alias autoconf='autoconf27'
+alias autoreconf='autoreconf27'
+alias autoheader='autoheader27'
+alias autom4te='autom4te27'
 %endif
 
 autoreconf --install
