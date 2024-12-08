@@ -165,13 +165,6 @@ source /opt/rh/devtoolset-11/enable
 source /opt/rh/gcc-toolset-11/enable
 %endif
 
-%if 0%{?rhel} >= 8
-alias autoconf='autoconf27'
-alias autoreconf='autoreconf27'
-alias autoheader='autoheader27'
-alias autom4te='autom4te27'
-%endif
-
 autoreconf --install
 ./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
