@@ -20,6 +20,7 @@ Build-Depends: debhelper (>= 9.0.0),
  qtbase5-dev,
  libqt5svg5-dev,
  qttools5-dev-tools,
+ qttools5-dev,
  libqt5opengl5-dev,
  libqt5webkit5-dev,
  libqt5xmlpatterns5-dev,
@@ -37,7 +38,14 @@ Build-Depends: debhelper (>= 9.0.0),
  libopenscenegraph-dev,
  pkg-config,
  libffi-dev,
- lsb-release
+ lsb-release,
+ libxrandr2,
+ libxinerama-dev,
+ libxcursor-dev,
+ libxi-dev,
+# after we build omc we should be able to also build models and FMUs, no?
+ zip,
+ unzip
 Standards-Version: 3.9.5
 
 Package: openmodelica
