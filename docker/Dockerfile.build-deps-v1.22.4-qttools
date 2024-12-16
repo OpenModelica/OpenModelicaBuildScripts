@@ -14,4 +14,5 @@ RUN apt-get install -qy \
     qt6-declarative-dev-tools \
     qt6-webview-dev \
     qt6-webview-plugins \
-    qt6-svg
+    libqt6svg6 \
+    libqt6svgwidgets6
