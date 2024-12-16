@@ -1,4 +1,4 @@
-FROM docker.openmodelica.org/build-deps:v1.22.4-qttools
+FROM docker.openmodelica.org/build-deps:v1.22.5-qttools
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy
 RUN apt-get install -qy \
