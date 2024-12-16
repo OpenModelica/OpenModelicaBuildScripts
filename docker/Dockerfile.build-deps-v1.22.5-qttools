@@ -1,4 +1,4 @@
-FROM docker.openmodelica.org/build-deps:v1.22.3-qttools
+FROM docker.openmodelica.org/build-deps:v1.22.4-qttools
 
 RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy
 RUN apt-get install -qy \
@@ -15,4 +15,5 @@ RUN apt-get install -qy \
     qt6-webview-dev \
     qt6-webview-plugins \
     libqt6svg6 \
-    libqt6svgwidgets6
+    libqt6svgwidgets6 \
+    libqt6svg6-dev
