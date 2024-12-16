@@ -1,0 +1,13 @@
+FROM docker.openmodelica.org/build-deps:v1.22.2-qttools
+
+RUN apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy
+RUN apt-get install -qy \
+    qt6-base-dev \
+    qt6-base-dev-tools \
+    qt6-webengine-dev \
+    qt6-webengine-dev-tools \
+    qt6-l10n-tools \
+    qt6-tools-dev \
+    qt6-tools-dev-tools \
+    qt6-translations-l10n
+
