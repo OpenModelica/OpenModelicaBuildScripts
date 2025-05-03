@@ -1,0 +1,372 @@
+pipeline {
+  agent none
+  parameters {
+    booleanParam(name: 'LINUX64BIONIC', defaultValue: true, description: 'Test on 64bit Ubuntu 18.04 LTS')
+    booleanParam(name: 'LINUX64FOCAL', defaultValue: true, description: 'Test on 64bit Ubuntu 20.04 LTS')
+    booleanParam(name: 'LINUX32BIONIC', defaultValue: true, description: 'Test on 32bit Ubuntu 18.04 LTS')
+    booleanParam(name: 'WINE64', defaultValue: true, description: 'Test Windows with wine64 on Ubuntu 18.04 LTS')
+    booleanParam(name: 'WINE32', defaultValue: true, description: 'Test Windows with wine32 on Ubuntu 18.04 LTS')
+    booleanParam(name: 'WIN64', defaultValue: false, description: 'Test on Windows 10 64 bit')
+    booleanParam(name: 'WIN32', defaultValue: false, description: 'Test on Windows 10 32 bit')
+    booleanParam(name: 'DARWIN64', defaultValue: false, description: 'Test on some mac OS')
+    booleanParam(name: 'CCODE', defaultValue: false, description: 'Test on Ubuntu 18.04 LTS for self compiled C code')
+  }
+  stages {
+    stage('FMI Cross Check') {
+      parallel {
+        stage('linux64-bionic') {
+          when {
+            expression { return params.LINUX64BIONIC }
+            beforeAgent true
+          }
+          options {
+            timeout(time: 60, unit: 'MINUTES')
+          }
+          agent {
+            docker {
+              alwaysPull true
+              image 'docker.openmodelica.org/ompython:bionic'
+              label 'linux'
+            }
+          }
+          environment {
+            String testFMUPlatform = 'linux64'
+            String omsPlatform = 'linux-amd64'
+            String os = "Ubuntu 18.04 LTS"
+            String buildDate = sh(script: "echo `date '+%Y-%m-%d'`", returnStdout: true).trim()
+            String omsCall = "${env.WORKSPACE}" + "/OMSimulatorBinaries/OMSimulator-${omsPlatform}/bin/OMSimulator"
+            String omsBuildNumber = "0"
+          }
+          steps {
+            installOMSArtifactsUnix(omsPlatform)
+            cloneOMSGitRepo()
+            updateFmiCrossCheck()
+            script {
+              def (omsVersion, omsVersionShort, tmpOmsBuildNumber) = getOMSVersion(omsCall)
+              omsBuildNumber = tmpOmsBuildNumber
+              def timeStart = new Date()
+              def t1 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              runFmiCrossCheck(testFMUPlatform, omsCall)
+              validateResults(testFMUPlatform, omsVersion)
+              def t2 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              generateHTML(omsVersionShort, omsVersion, testFMUPlatform, os, timeStart, t2-t1)
+            }
+          }
+          post {
+            success {
+              sh """mkdir -p OMSimulator/testsuite/fmi-cross-check/linux64-bionic
+                mv OMSimulator/testsuite/fmi-cross-check/html/** OMSimulator/testsuite/fmi-cross-check/linux64-bionic
+                """
+              archiveArtifacts artifacts: 'OMSimulator/testsuite/fmi-cross-check/linux64-bionic/**/*.*', fingerprint: true
+              sshPublisher(
+                publishers: [
+                  sshPublisherDesc(
+                    configName: 'FMICrossCheck',
+                    transfers: [
+                      sshTransfer(
+                        sourceFiles: "OMSimulator/testsuite/fmi-cross-check/linux64-bionic/**/*.*",
+                        removePrefix: "OMSimulator/testsuite/fmi-cross-check/",
+                        remoteDirectory: "OMSimulator/history/build-${omsBuildNumber} ${buildDate}/"
+                      )
+                    ]
+                  )
+                ]
+              )
+            }
+          }
+        }
+
+        stage('linux32-bionic') {
+          when {
+            expression { return params.LINUX32BIONIC }
+            beforeAgent true
+          }
+          options {
+            timeout(time: 60, unit: 'MINUTES')
+          }
+          agent {
+            docker {
+              alwaysPull true
+              image 'docker.openmodelica.org/ompython:bionic32'
+              label 'linux'
+            }
+          }
+          environment {
+            String testFMUPlatform = 'linux32'
+            String omsPlatform = 'linux-i386'
+            String os = "Ubuntu 18.04 LTS"
+            String buildDate = sh(script: "echo `date '+%Y-%m-%d'`", returnStdout: true).trim()
+            String omsCall = "${env.WORKSPACE}" + "/OMSimulatorBinaries/OMSimulator-${omsPlatform}/bin/OMSimulator"
+            String omsBuildNumber = "0"
+          }
+          steps {
+            installOMSArtifactsUnix(omsPlatform)
+            cloneOMSGitRepo()
+            updateFmiCrossCheck()
+            script {
+              def (omsVersion, omsVersionShort, tmpOmsBuildNumber) = getOMSVersion(omsCall)
+              omsBuildNumber = tmpOmsBuildNumber
+              def timeStart = new Date()
+              def t1 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              runFmiCrossCheck(testFMUPlatform, omsCall)
+              validateResults(testFMUPlatform, omsVersion)
+              def t2 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              generateHTML(omsVersionShort, omsVersion, testFMUPlatform, os, timeStart, t2-t1)
+            }
+          }
+          post {
+            success {
+              sh """mkdir -p OMSimulator/testsuite/fmi-cross-check/linux32-bionic
+                mv OMSimulator/testsuite/fmi-cross-check/html/** OMSimulator/testsuite/fmi-cross-check/linux32-bionic
+                """
+              archiveArtifacts artifacts: 'OMSimulator/testsuite/fmi-cross-check/linux32-bionic/**/*.*', fingerprint: true
+              sshPublisher(
+                publishers: [
+                  sshPublisherDesc(
+                    configName: 'FMICrossCheck',
+                    transfers: [
+                      sshTransfer(
+                        sourceFiles: "OMSimulator/testsuite/fmi-cross-check/linux32-bionic/**/*.*",
+                        removePrefix: "OMSimulator/testsuite/fmi-cross-check/",
+                        remoteDirectory: "OMSimulator/history/build-${omsBuildNumber} ${buildDate}/"
+                      )
+                    ]
+                  )
+                ]
+              )
+            }
+          }
+        }
+
+        stage('linux64-focal') {
+          when {
+            expression { return params.LINUX64FOCAL }
+            beforeAgent true
+          }
+          options {
+            timeout(time: 60, unit: 'MINUTES')
+          }
+          agent {
+            docker {
+              alwaysPull true
+              image 'docker.openmodelica.org/ompython:focal'
+              label 'linux'
+            }
+          }
+          environment {
+            String testFMUPlatform = 'linux64'
+            String omsPlatform = 'linux-amd64'
+            String os = "Ubuntu 20.04 LTS"
+            String buildDate = sh(script: "echo `date '+%Y-%m-%d'`", returnStdout: true).trim()
+            String omsCall = "${env.WORKSPACE}" + "/OMSimulatorBinaries/OMSimulator-${omsPlatform}/bin/OMSimulator"
+            String omsBuildNumber = "0"
+          }
+          steps {
+            installOMSArtifactsUnix(omsPlatform)
+            cloneOMSGitRepo()
+            updateFmiCrossCheck()
+            script {
+              def (omsVersion, omsVersionShort, tmpOmsBuildNumber) = getOMSVersion(omsCall)
+              omsBuildNumber = tmpOmsBuildNumber
+              def timeStart = new Date()
+              def t1 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              runFmiCrossCheck(testFMUPlatform, omsCall)
+              validateResults(testFMUPlatform, omsVersion)
+              def t2 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              generateHTML(omsVersionShort, omsVersion, testFMUPlatform, os, timeStart, t2-t1)
+            }
+          }
+          post {
+            success {
+              sh """mkdir -p OMSimulator/testsuite/fmi-cross-check/linux64-focal
+                mv OMSimulator/testsuite/fmi-cross-check/html/** OMSimulator/testsuite/fmi-cross-check/linux64-focal
+                """
+              archiveArtifacts artifacts: "OMSimulator/testsuite/fmi-cross-check/linux64-focal/**/*.*", fingerprint: true
+              sshPublisher(
+                publishers: [
+                  sshPublisherDesc(
+                    configName: 'FMICrossCheck',
+                    transfers: [
+                      sshTransfer(
+                        sourceFiles: "OMSimulator/testsuite/fmi-cross-check/linux64-focal/**/*.*",
+                        removePrefix: "OMSimulator/testsuite/fmi-cross-check/",
+                        remoteDirectory: "OMSimulator/history/build-${omsBuildNumber} ${buildDate}/"
+                      )
+                    ]
+                  )
+                ]
+              )
+            }
+          }
+        }
+
+        stage('wine64') {
+          when {
+            expression { return params.WINE64 }
+            beforeAgent true
+          }
+          options {
+            timeout(time: 60, unit: 'MINUTES')
+          }
+          agent {
+            docker {
+              alwaysPull true
+              image 'docker.openmodelica.org/ompython:wine-bionic'
+              label 'linux'
+            }
+          }
+          environment {
+            String testFMUPlatform = 'win64'
+            String omsPlatform = 'mingw64'
+            String os = "Ubuntu 18.04 LTS with Wine 64bit using MINGW64 OMSimulator"
+            String buildDate = sh(script: "echo `date '+%Y-%m-%d'`", returnStdout: true).trim()
+            String omsCall = "wine64 \"" + "${env.WORKSPACE}" + "/OMSimulatorBinaries/OMSimulator-${omsPlatform}/bin/OMSimulator.exe\""
+            String omsBuildNumber = "0"
+            HOME = "${env.WORKSPACE}"
+          }
+          steps {
+            installOMSArtifactsUnix(omsPlatform)
+            cloneOMSGitRepo()
+            updateFmiCrossCheck()
+            script {
+              sh(script: "echo \$HOME && winecfg --version")
+              def (omsVersion, omsVersionShort, tmpOmsBuildNumber) = getOMSVersion(omsCall)
+              omsBuildNumber = tmpOmsBuildNumber
+              def timeStart = new Date()
+              def t1 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              runFmiCrossCheck(testFMUPlatform, omsCall)
+              validateResults(testFMUPlatform, omsVersion)
+              def t2 = sh(script: "echo `date '+%s'`", returnStdout: true).trim().toInteger()
+              generateHTML(omsVersionShort, omsVersion, testFMUPlatform, os, timeStart, t2-t1)
+            }
+          }
+          post {
+            success {
+              sh """mkdir -p OMSimulator/testsuite/fmi-cross-check/wine64
+                mv OMSimulator/testsuite/fmi-cross-check/html/** OMSimulator/testsuite/fmi-cross-check/wine64
+                """
+              archiveArtifacts artifacts: 'OMSimulator/testsuite/fmi-cross-check/wine64/**/*.*', fingerprint: true
+              sshPublisher(
+                publishers: [
+                  sshPublisherDesc(
+                    configName: 'FMICrossCheck',
+                    transfers: [
+                      sshTransfer(
+                        sourceFiles: "OMSimulator/testsuite/fmi-cross-check/wine64/**/*.*",
+                        removePrefix: "OMSimulator/testsuite/fmi-cross-check/",
+                        remoteDirectory: "OMSimulator/history/build-${omsBuildNumber} ${buildDate}/"
+                      )
+                    ]
+                  )
+                ]
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+ *  Unzip latest OMSimulator binary from last successful build artifact
+ */
+def installOMSArtifactsUnix(platform) {
+  echo "Unpacking OMSimulator binaries to OMSimulatorBinaries/OMSimulator-${platform}"
+
+  sh """
+    rm -rf archive/ OMSimulatorBinaries/
+    wget -q "https://test.openmodelica.org/jenkins/job/OMSimulator/job/master/lastSuccessfulBuild/artifact/*zip*/archive.zip" -O archive.zip
+    unzip -qq -o archive.zip
+    mkdir -p OMSimulatorBinaries/OMSimulator-${platform}
+    file=\$(ls archive/OMSimulator-${platform}-*)
+    ending=`echo -n \$file | tail -c 7`
+    if [ "\$ending" = ".tar.gz" ]; then
+      tar -xvz -f \$file -C OMSimulatorBinaries/OMSimulator-${platform}
+    else
+      unzip \$file -d OMSimulatorBinaries/OMSimulator-${platform}
+    fi
+    """
+}
+
+/*
+ *  Clone OMSimulator repo
+ */
+def cloneOMSGitRepo () {
+  echo "Cloning Git repo origin/OMSimulator"
+  sh """
+  if [ -d "OMSimulator" ]; then
+    cd OMSimulator
+    git clean -df
+    git fetch origin
+    git reset --hard origin/master
+  else
+    git clone --recursive https://github.com/OpenModelica/OMSimulator.git OMSimulator
+    cd OMSimulator
+    git fetch origin
+    git reset --hard origin/master
+  fi
+  """
+}
+
+/*
+ *  Update fmi-cross-check repository from GitHub
+ */
+def updateFmiCrossCheck() {
+  echo "Update FMI Cross Check repo"
+  sh """
+  cd OMSimulator/testsuite/fmi-cross-check
+  make fmi-cross-check-update
+  make clean
+  cd fmi-cross-check && git status && git log -1
+  """
+}
+
+
+def getOMSVersion(omsCall) {
+  echo "Get OMSimulator version"
+  echo omsCall
+  String omsVersion = sh(script: "${omsCall} --version", returnStdout: true).trim()
+  omsVersion = omsVersion.replace("OMSimulator ", "")
+  String omsVersionShort = omsVersion
+  String omsBuildNumber = "0"
+  if (omsVersionShort.contains("post")) {
+    (omsVersionShort, omsBuildNumber) = omsVersion.split(".post")
+    omsBuildNumber = omsVersionShort + "-" + omsBuildNumber.split("-")[0]
+    omsVersionShort = omsVersionShort[0..-1]
+  }
+  println omsVersion
+  println omsVersionShort
+  println omsBuildNumber
+  return [omsVersion, omsVersionShort, omsBuildNumber]
+}
+
+
+/*
+ *  Run FMI Cross Check test for import with OMSimulator
+ */
+def runFmiCrossCheck(platform, omsimulator) {
+  echo "Run FMI Cross Check"
+  sh """
+  $omsimulator --version
+  cd OMSimulator/testsuite/fmi-cross-check
+  python3 importFMUs.py fmi-cross-check \"${platform}\" \"${omsimulator}\"
+  """
+}
+
+def validateResults(platform, omsVersion) {
+  echo "Validate Results"
+  sh """
+  cd OMSimulator/testsuite/fmi-cross-check
+  python3 validateResults.py fmi-cross-check \"${platform}\" \"${omsVersion}\"
+  """
+}
+
+def generateHTML(omsVersionShort, omsVersion, platform, os, startTime, stopTime) {
+  echo "Generate Result Overview HTML"
+  echo ""
+  sh """
+  cd OMSimulator/testsuite/fmi-cross-check
+  python3 generateHTML.py fmi-cross-check \"${platform}\" \"${omsVersion}\" \"${omsVersionShort}\" \"${os}\" \"${startTime}\" \"${stopTime}\"
+  """
+}
