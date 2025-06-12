@@ -77,15 +77,26 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gcc-gfortran
+%if 0%{?rhel} <= 9
 BuildRequires: qt5-qtwebkit-devel
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
+BuildRequires: qt5-qtxmlpatterns-devel
+%else // el 10 does not have qt5-qtwebkit anymore, use qt6
+BuildRequires: qt6-qtwebengine-devel
+BuildRequires: qt6-linguist
+BuildRequires: qt6-qttools
+BuildRequires: qt6-qtbase-devel
+BuildRequires: qt6-qtsvg-devel
+BuildRequires: qt6-qt3d-devel
+BuildRequires: qt6-qtxmlpatterns-devel
+%endif
 %if 0%{?rhel} >= 7
 BuildRequires: qt5-qt3d-devel
 %endif
-BuildRequires: qt5-qtxmlpatterns-devel
+
 
 # Use cmake versions > 3. On EL7 this is provided by cmake3 package.
 # On EL > 7 it is just cmake.
@@ -125,6 +136,14 @@ BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortra
 %if 0%{?fedora} >= 25
 BuildRequires: OpenSceneGraph-devel
 %endif
+
+%if 0%{?rhel} >= 10
+%define withqt6 --with-qt6
+%define omqtversion=QT6
+%else
+%define omqtversion=QT5
+%endif
+
 
 # We should use clang, but OMEdit does not compile with it due to odd default qmake flags
 Requires: gcc
@@ -166,7 +185,7 @@ source /opt/rh/gcc-toolset-11/enable
 %endif
 
 autoreconf --install
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/qt5/ %{withomniorb} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/{omqtversion} %{withomniorb} %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
 %build
 
