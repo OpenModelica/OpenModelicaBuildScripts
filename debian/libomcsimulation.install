@@ -8,10 +8,14 @@ debian/tmp/usr/lib/*/omc/libfmilib*
 debian/tmp/usr/lib/*/omc/libModelica*
 debian/tmp/usr/lib/*/omc/libzlib*
 
+# ModelicaExternalC
+debian/tmp/usr/include/omc/ModelicaExternalC/*
+
 # Simulations
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
 debian/tmp/usr/lib/*/omc/libSimulationRuntimeC.*
 debian/tmp/usr/lib/*/omc/libSimulationRuntimeFMI*
+
 ## SuiteSparse
 debian/tmp/usr/lib/*/omc/lib*amd*
 debian/tmp/usr/lib/*/omc/libbtf*
