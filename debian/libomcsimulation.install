@@ -24,12 +24,18 @@ debian/tmp/usr/lib/*/omc/libsuitesparseconfig*
 debian/tmp/usr/lib/*/omc/libumfpack*
 
 debian/tmp/usr/lib/*/omc/liblis*
-debian/tmp/usr/lib/*/omc/libipopt*
-debian/tmp/usr/lib/*/omc/libcoin*
 debian/tmp/usr/lib/*/omc/libcminpack*
 debian/tmp/usr/lib/*/omc/libomopc*
 debian/tmp/usr/lib/*/omc/libsundials_*
 debian/tmp/usr/lib/*/omc/libryu*
+
+## MOO
+debian/tmp/usr/lib/*/omc/libseq*
+debian/tmp/usr/lib/*/omc/libipopt*
+debian/tmp/usr/lib/*/omc/lib*mumps*
+debian/tmp/usr/lib/*/omc/libmoo*
+debian/tmp/usr/lib/*/omc/libfmt*
+
 
 # OMSI
 debian/tmp/usr/include/omc/omsi/*
