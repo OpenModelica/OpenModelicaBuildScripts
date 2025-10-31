@@ -141,6 +141,7 @@ BuildRequires: OpenSceneGraph-devel
 %define withqt6 --with-qt6
 %define omqtversion=QT6
 %else
+%define withqt6
 %define omqtversion=QT5
 %endif
 
