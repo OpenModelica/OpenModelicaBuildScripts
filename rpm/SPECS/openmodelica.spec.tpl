@@ -93,6 +93,7 @@ BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel
 BuildRequires: qt6-qt3d-devel
 BuildRequires: qt6-qt5compat-devel
+BuildRequires: qt6-qthttpserver-devel
 %endif
 %if 0%{?rhel} >= 7
 BuildRequires: qt5-qt3d-devel
