@@ -13,6 +13,9 @@ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 ARCH ?= $(shell uname -m | sed s/i[0-9]86/x86/)
 
+# since we updated the copyright in .g files we need to set UTF8 as otherwise ANTLR parser barks on {\"o}
+export LC_ALL = C.UTF-8
+
 # Some variables to install binaries under debian/tmp
 DEST   = $(CURDIR)/debian/tmp
 SRCD   = $(CURDIR)
