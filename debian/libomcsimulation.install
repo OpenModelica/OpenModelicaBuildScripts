@@ -43,4 +43,4 @@ debian/tmp/usr/lib/*/omc/omsi/*
 
 # ParModAuto
 debian/tmp/usr/lib/*/omc/libParModelicaAuto.*
-debian/tmp/usr/lib/*/omc/libtbb_static.*
+debian/tmp/usr/lib/*/omc/libtbb*
