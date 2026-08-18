@@ -189,7 +189,7 @@ source /opt/rh/gcc-toolset-11/enable
 
 export LANG=C.UTF-8
 autoreconf --install
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/{omqtversion} %{withomniorb} %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/%{omqtversion} %{withomniorb} %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
 %build
 
