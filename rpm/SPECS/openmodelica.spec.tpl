@@ -84,7 +84,7 @@ BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: qt5-qtxmlpatterns-devel
-%else 
+%else
 # el 10 does not have qt5-qtwebkit anymore, use qt6
 BuildRequires: qt6-qtwebengine-devel
 BuildRequires: qt6-linguist
@@ -251,6 +251,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%dir %attr(0755,root,root) /opt/%{name}/share
 /opt/%{name}/*
 %{_bindir}/*-BRANCH
 %ghost %{_bindir}/omc
