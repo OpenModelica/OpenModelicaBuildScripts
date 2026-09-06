@@ -24,7 +24,7 @@ Autoreq: 0
 Requires: readline
 Requires: qt5-qtbase
 Requires: qt5-qtsvg
-Requires: qt5-qtwebkit
+Requires: qt5-qtwebengine
 Requires: qt5-qtxmlpatterns
 Requires: libffi
 %endif
@@ -77,15 +77,20 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gcc-gfortran
-%if 0%{?rhel} <= 9
-BuildRequires: qt5-qtwebkit-devel
+# EL8 is the only target left without qt6, in EPEL or anywhere else
+%if 0%{?rhel} > 0 && 0%{?rhel} <= 8
+%define omqt5 1
+%endif
+
+%if 0%{?omqt5}
+BuildRequires: qt5-qtwebengine-devel
 BuildRequires: qt5-linguist
 BuildRequires: qt5-qttools
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: qt5-qtxmlpatterns-devel
-%else 
-# el 10 does not have qt5-qtwebkit anymore, use qt6
+BuildRequires: qt5-qt3d-devel
+%else
 BuildRequires: qt6-qtwebengine-devel
 BuildRequires: qt6-linguist
 BuildRequires: qt6-qttools
@@ -94,9 +99,6 @@ BuildRequires: qt6-qtsvg-devel
 BuildRequires: qt6-qt3d-devel
 BuildRequires: qt6-qt5compat-devel
 BuildRequires: qt6-qthttpserver-devel
-%endif
-%if 0%{?rhel} >= 7
-BuildRequires: qt5-qt3d-devel
 %endif
 
 
@@ -139,12 +141,12 @@ BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortra
 BuildRequires: OpenSceneGraph-devel
 %endif
 
-%if 0%{?rhel} >= 10
-%define withqt6 --with-qt6
-%define omqtversion=QT6
-%else
+%if 0%{?omqt5}
 %define withqt6 ''
-%define omqtversion=QT5
+%define omqtversion qt5
+%else
+%define withqt6 --with-qt6
+%define omqtversion qt6
 %endif
 
 
