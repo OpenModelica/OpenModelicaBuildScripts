@@ -55,18 +55,6 @@ jobs:
                       /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
           df -h /
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -qy \
-            --no-install-recommends build-essential devscripts equivs fakeroot
-          # Same approach as the build-deps images (Dockerfile.deb.template in
-          # the apt-build repository): install exactly what debian/control asks
-          # for, so a missing or renamed build dependency fails here.
-          sudo mk-build-deps --install --remove \
-            --tool 'apt-get -y --no-install-recommends' \
-            buildscripts/debian/control
-
       - name: Assemble the source tree
         working-directory: openmodelica
         run: |
@@ -84,6 +72,15 @@ jobs:
           cp -a ../buildscripts/debian debian
           sed -i -e "s/@REV@/$version/" -e "s/@TIME@/$(date -R)/" debian/changelog
           head -1 debian/changelog
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -qy \
+            --no-install-recommends build-essential devscripts equivs fakeroot
+          sudo mk-build-deps --install --remove \
+            --tool 'apt-get -y --no-install-recommends' \
+            openmodelica/debian/control
 
       - name: Build the packages
         working-directory: openmodelica
