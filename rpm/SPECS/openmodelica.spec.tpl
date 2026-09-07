@@ -99,6 +99,7 @@ BuildRequires: qt6-qtsvg-devel
 BuildRequires: qt6-qt3d-devel
 BuildRequires: qt6-qt5compat-devel
 BuildRequires: qt6-qthttpserver-devel
+BuildRequires: qt6-qtwebsockets-devel
 %endif
 
 
