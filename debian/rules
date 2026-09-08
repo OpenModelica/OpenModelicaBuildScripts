@@ -100,7 +100,6 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	--without-METIS \
 	--without-FMIL \
 	--without-lapack \
-	--without-omniORB \
 	--without-paradiseo \
 	--disable-omshell-terminal \
 	--without-lpsolve \
@@ -120,7 +119,6 @@ endif
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
 	--with-lapack="-llapack -lblas -lm" \
-	--with-omniORB \
 	--without-paradiseo \
 	--without-omlibrary \
 	--disable-modelica3d \
