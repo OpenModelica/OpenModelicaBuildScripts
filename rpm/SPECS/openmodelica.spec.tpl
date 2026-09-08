@@ -48,13 +48,6 @@ Requires: gcc-gfortran
 Requires: gcc-c++
 
 BuildRequires: automake
-%if 0%{?rhel} >= 8
-%define withomniorb --without-omniORB
-%else
-%define withomniorb --with-omniORB
-BuildRequires: omniORB-devel
-BuildRequires: lpsolve-devel
-%endif
 BuildRequires: expat-devel
 BuildRequires: bison
 BuildRequires: flex
@@ -192,7 +185,7 @@ source /opt/rh/gcc-toolset-11/enable
 
 export LANG=C.UTF-8
 autoreconf --install
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/%{omqtversion} %{withomniorb} %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
+./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/%{omqtversion} --without-omniORB %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
 
 %build
 
