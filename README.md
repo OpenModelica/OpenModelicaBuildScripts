@@ -12,14 +12,16 @@ Windows build scripts are at
 
 ## Layout
 
-| Path | What it is |
-| --- | --- |
-| [`debian/`](./debian) | Debian/Ubuntu packaging for the `openmodelica` source package — the one the nightly builds use |
-| [`OMPlot/debian/`](./OMPlot/debian), [`OMOptim/debian/`](./OMOptim/debian), [`OpenModelica-doc/debian/`](./OpenModelica-doc/debian) | Older standalone source packages, kept but not built by the current pipeline |
-| [`rpm/`](./rpm) | Spec template and patches for the Fedora/EL packages |
-| [`macports/`](./macports) | Portfile templates for macOS |
-| [`docker/`](./docker) | Dockerfiles for the `build-deps` images on docker.openmodelica.org |
-| [`.ci/`](./.ci) | The checks GitHub Actions runs on every pull request |
+| Path                                                    | What it is                                                                                     |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`debian/`](./debian)                                   | Debian/Ubuntu packaging for the `openmodelica` source package — the one the nightly builds use |
+| [`OMPlot/debian/`](./OMPlot/debian)                     | Older standalone source package, not built by the current pipeline                             |
+| [`OMOptim/debian/`](./OMOptim/debian)                   | Older standalone source package, not built by the current pipeline                             |
+| [`OpenModelica-doc/debian/`](./OpenModelica-doc/debian) | Older standalone source package, not built by the current pipeline                             |
+| [`rpm/`](./rpm)                                         | Spec template and patches for the Fedora/EL packages                                           |
+| [`macports/`](./macports)                               | Portfile templates for macOS                                                                   |
+| [`docker/`](./docker)                                   | Dockerfiles for the `build-deps` images on docker.openmodelica.org                             |
+| [`.ci/`](./.ci)                                         | The checks GitHub Actions runs on every pull request                                           |
 
 `OpenModelica/debian` is a symlink to the top-level [`debian/`](./debian), so every
 source project has its packaging under `<project>/debian`.
@@ -135,10 +137,10 @@ Runs two jobs on every pull request and on pushes to `master`. Neither builds an
 they check that the packaging metadata is well formed and that every distribution we
 ship for still accepts it, which is what silently rots between releases.
 
-| Job | Script | Runs on |
-| --- | --- | --- |
-| `debian` | [`.ci/check-debian-packaging.sh`](./.ci/check-debian-packaging.sh) | `ubuntu:jammy`, `ubuntu:noble`, `ubuntu:resolute`, `debian:trixie` |
-| `rpm` | [`.ci/check-rpm-spec.sh`](./.ci/check-rpm-spec.sh) | `almalinux:8`, `almalinux:9`, `almalinux:10`, `fedora:43`, `fedora:44` |
+| Job      | Script                                                             | Runs on                                                                |
+| -------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `debian` | [`.ci/check-debian-packaging.sh`](./.ci/check-debian-packaging.sh) | `ubuntu:jammy`, `ubuntu:noble`, `ubuntu:resolute`, `debian:trixie`     |
+| `rpm`    | [`.ci/check-rpm-spec.sh`](./.ci/check-rpm-spec.sh)                 | `almalinux:8`, `almalinux:9`, `almalinux:10`, `fedora:43`, `fedora:44` |
 
 `check-debian-packaging.sh` checks, for each of the four `debian/` trees, that
 `control` and the templated `changelog` parse, that no stale `debian/compat` is left
