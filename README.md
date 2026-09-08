@@ -4,7 +4,7 @@ A collection of scripts that can build OpenModelica packages on miscellaneous pl
 
 Nothing here builds OpenModelica on its own. This repository holds the
 *packaging metadata*; the jobs that use it live in the private
-[apt-build](gitlab.liu.se/OpenModelica/apt-build) repository and run on the
+[apt-build](https://gitlab.liu.se/OpenModelica/apt-build) repository and run on the
 OpenModelica Jenkins.
 
 Windows build scripts are at
@@ -50,9 +50,11 @@ jammy, noble, resolute and trixie on amd64, armhf and arm64.
 ### What is in `debian/`
 
 * [`control`](./debian/control) — one source stanza and 20 binary packages (`omc`,
-  `libomc`, `omedit`, `omshell`, `omnotebook`, `omsimulator`, `omlibrary`, …). The
-  build dependencies carry alternatives (`libqt5webkit5-dev | qtwebengine5-dev`)
-  because a single control file has to satisfy every distribution in the matrix.
+  `libomc`, `omedit`, `omshell`, `omnotebook`, `omsimulator`, `omlibrary`, …). Some
+  build dependencies carry alternatives (`libhdf5-serial-dev | libhdf5-dev`) because a
+  single control file has to satisfy every distribution in the matrix. Note that `apt`
+  installs the *first* alternative it can, so an alternative is not a way to say
+  "either of these will do" — it only helps where the first one is unavailable.
 * [`rules`](./debian/rules) — a hand-written rules file, *not* the `dh` sequencer. It
   configures and builds the tree itself and then calls each `dh_*` helper explicitly
   from the `install` and `binary-arch` targets. There are no override targets; edit the
@@ -163,9 +165,12 @@ and uploads the resulting `.deb` files as an artifact. It is the only job that c
 `.install` glob that stopped matching, and the only one that proves the `Build-Depends`
 are still installable.
 
-It compiles everything, so it takes hours. It runs weekly, on demand via
-`workflow_dispatch` (with an input to pick the OpenModelica ref), and on pull requests
-that touch `debian/`. Only on `ubuntu-latest` — Jenkins covers the rest of the matrix.
+It compiles everything, so it takes hours, and it never starts on its own. Run it on
+demand via `workflow_dispatch` (with an input to pick the OpenModelica ref), or put the
+**`CI/Full Debian Packaging`** label on a pull request — the job then runs for that pull
+request, and again on every push to it, until the label comes off. There is no schedule:
+the nightly Jenkins build already catches an upstream move that broke an `.install`
+glob. Only on `ubuntu-latest` — Jenkins covers the rest of the matrix.
 
 It uses the Autoconf + Makefile build; switching it to the CMake build is a later change.
 

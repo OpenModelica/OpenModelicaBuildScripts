@@ -16,16 +16,27 @@ on:
       openmodelica-ref:
         description: OpenModelica git ref to build
         default: master
+  # Opt-in per pull request: add the "CI/Full Debian Packaging" label. This
+  # costs hours of runner time, so it never starts on its own -- and it does
+  # not run on a schedule either, because the nightly Jenkins build already
+  # catches an upstream move that broke an .install glob.
   pull_request:
-    paths:
-      - 'debian/**'
-      - '.github/workflows/build-deb.yml'
+    types: [labeled, synchronize, reopened]
 
 permissions:
   contents: read
 
 jobs:
   build:
+    # On a pull request, run only while the label is on it. The `labeled` case
+    # is spelled out separately so that adding some *other* label to a pull
+    # request that already carries this one does not start the build again.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.action == 'labeled' &&
+       github.event.label.name == 'CI/Full Debian Packaging') ||
+      (github.event.action != 'labeled' &&
+       contains(github.event.pull_request.labels.*.name, 'CI/Full Debian Packaging'))
     # Only ubuntu-latest: Jenkins covers the rest of the distribution matrix.
     runs-on: ubuntu-latest
     timeout-minutes: 360
@@ -89,8 +100,8 @@ jobs:
       - name: Show what was built
         if: always()
         run: |
-          ls -la *.deb || true
-          for deb in *.deb; do
+          ls -la ./*.deb || true
+          for deb in ./*.deb; do
             [ -e "$deb" ] || continue
             echo "=== $deb"
             dpkg-deb -I "$deb" | sed -n 's/^ //p' | grep -E '^(Package|Version|Architecture|Depends):' || true
