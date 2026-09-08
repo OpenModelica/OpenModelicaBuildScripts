@@ -1,0 +1,59 @@
+# Fast sanity checks on the packaging metadata in this repository.
+#
+# The nightly Jenkins job in the apt-build repository is the only place a
+# package is actually built, and it takes hours, so nothing here builds
+# anything. These jobs only check that the metadata is well formed and that
+# every distribution we ship for still accepts it -- which is what breaks when
+# a helper, a compat level or a spec macro is retired under us.
+#
+# The image lists mirror current-linux-os-releases.json in the apt-build repo;
+# update them when a distribution is added or goes EOL.
+name: packaging
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  debian:
+    name: debian (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - ubuntu:jammy
+          - ubuntu:noble
+          - ubuntu:resolute
+          - debian:trixie
+    steps:
+      - name: Install debhelper
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
+            debhelper dpkg-dev
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: .ci/check-debian-packaging.sh
+
+  rpm:
+    name: rpm (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - almalinux:8
+          - almalinux:9
+          - almalinux:10
+          - fedora:43
+          - fedora:44
+    steps:
+      - name: Install rpm-build
+        run: |
+          (command -v dnf >/dev/null && dnf install -y rpm-build) || yum install -y rpm-build
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: .ci/check-rpm-spec.sh

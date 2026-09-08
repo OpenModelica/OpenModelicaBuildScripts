@@ -1,0 +1,17 @@
+# Keep the actions used by the workflows in .github/workflows up to date.
+#
+# They are pinned to commit SHAs, so without this they silently stay on whatever
+# was current when the workflow was written.  Quarterly is often enough for a
+# repository whose CI is three files, and the group means it arrives as one pull
+# request rather than one per action.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    # For github-actions this means .github/workflows, not a subdirectory.
+    directory: /
+    schedule:
+      interval: quarterly
+    groups:
+      actions:
+        patterns:
+          - "*"

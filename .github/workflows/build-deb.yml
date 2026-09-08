@@ -1,0 +1,118 @@
+# Full build of OpenModelica plus the Debian packages, the way the nightly
+# Jenkins job does it: configure/make (autoconf) from a git checkout, then
+# dpkg-buildpackage using the debian/ directory of this repository.
+#
+# This is the only job that can catch a .install glob that stopped matching
+# because upstream moved or dropped a file -- the failure that breaks the
+# nightly build. It compiles all of OpenModelica, so it takes hours. The fast
+# metadata-only checks live in packaging.yml.
+#
+# Uses the Autoconf + Makefile build; to be switched to the CMake build later.
+name: full deb build
+
+on:
+  workflow_dispatch:
+    inputs:
+      openmodelica-ref:
+        description: OpenModelica git ref to build
+        default: master
+  # Opt-in per pull request: add the "CI/Full Debian Packaging" label. This
+  # costs hours of runner time, so it never starts on its own -- and it does
+  # not run on a schedule either, because the nightly Jenkins build already
+  # catches an upstream move that broke an .install glob.
+  pull_request:
+    types: [labeled, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # On a pull request, run only while the label is on it. The `labeled` case
+    # is spelled out separately so that adding some *other* label to a pull
+    # request that already carries this one does not start the build again.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.action == 'labeled' &&
+       github.event.label.name == 'CI/Full Debian Packaging') ||
+      (github.event.action != 'labeled' &&
+       contains(github.event.pull_request.labels.*.name, 'CI/Full Debian Packaging'))
+    # Only ubuntu-latest: Jenkins covers the rest of the distribution matrix.
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Check out the build scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: buildscripts
+
+      - name: Check out OpenModelica
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: OpenModelica/OpenModelica
+          ref: ${{ inputs.openmodelica-ref || 'master' }}
+          submodules: recursive
+          # The package version comes from git describe, so the tags and the
+          # history behind them have to be there.
+          fetch-depth: 0
+          path: openmodelica
+
+      - name: Free up disk space
+        run: |
+          # A full OpenModelica build does not fit next to the preinstalled
+          # toolchains on a hosted runner.
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+
+      - name: Assemble the source tree
+        working-directory: openmodelica
+        run: |
+          # Version string exactly as update-source-repo.py builds it:
+          # v1.28.0-dev-489-gda9d1ce -> 1.28.0~dev-489-gda9d1ce
+          version=$(git describe --abbrev=7 --tags --match='v*.*.*' 2>/dev/null |
+                    sed -e 's/^v//' -e 's/-/~/') || true
+          if [ -z "$version" ]; then
+            version="0.0.0~ci-$(git rev-parse --short HEAD)"
+            echo "git describe found no tag; using $version"
+          fi
+          echo "Building openmodelica $version"
+
+          rm -rf debian
+          cp -a ../buildscripts/debian debian
+          sed -i -e "s/@REV@/$version/" -e "s/@TIME@/$(date -R)/" debian/changelog
+          head -1 debian/changelog
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -qy \
+            --no-install-recommends build-essential devscripts equivs fakeroot
+          sudo mk-build-deps --install --remove \
+            --tool 'apt-get -y --no-install-recommends' \
+            openmodelica/debian/control
+
+      - name: Build the packages
+        working-directory: openmodelica
+        run: dpkg-buildpackage -rfakeroot -b -us -uc -j"$(nproc)"
+
+      - name: Show what was built
+        if: always()
+        run: |
+          ls -la ./*.deb || true
+          for deb in ./*.deb; do
+            [ -e "$deb" ] || continue
+            echo "=== $deb"
+            dpkg-deb -I "$deb" | sed -n 's/^ //p' | grep -E '^(Package|Version|Architecture|Depends):' || true
+            dpkg-deb -c "$deb" | wc -l | xargs echo "  files:"
+          done
+
+      - name: Upload packages
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: debs
+          path: '*.deb'
+          if-no-files-found: warn
+          retention-days: 7

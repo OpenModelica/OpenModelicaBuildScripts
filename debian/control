@@ -2,7 +2,7 @@ Source: openmodelica
 Section: math
 Priority: optional
 Maintainer: OpenModelica Build System <build@openmodelica.org>
-Build-Depends: debhelper (>= 9.0.0),
+Build-Depends: debhelper-compat (= 13),
 # sbuild i386 does not handle native, cross-compile armhf requires it...
  clang:native | clang,
  gfortran:native | gfortran,
@@ -145,8 +145,7 @@ Package: omc-common
 Section: math
 Multi-Arch: foreign
 Architecture: all
-Depends: ${shlibs:Depends},
- ${misc:Depends}
+Depends: ${misc:Depends}
 Description: The OpenModelica Compiler lib dependencies
  This is the core libraries of the OpenModelica project.
 
@@ -215,7 +214,6 @@ Section: math
 Multi-Arch: foreign
 Architecture: all
 Depends: omnotebook (<< 20000),
- ${shlibs:Depends},
  ${misc:Depends}
 Description: An OMNotebook course in the Modelica language
  The course is based on Peter Fritzson's book
@@ -226,7 +224,6 @@ Section: math
 Multi-Arch: foreign
 Architecture: all
 Depends: omnotebook (<< 20000),
- ${shlibs:Depends},
  ${misc:Depends}
 Description: An OMNotebook course in basic control theory
 
