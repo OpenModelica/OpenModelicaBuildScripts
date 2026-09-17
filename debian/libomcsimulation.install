@@ -15,6 +15,7 @@ debian/tmp/usr/include/omc/ModelicaExternalC/*
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
 debian/tmp/usr/lib/*/omc/libSimulationRuntimeC.*
 debian/tmp/usr/lib/*/omc/libSimulationRuntimeFMI*
+debian/tmp/usr/lib/*/omc/libSimulationRuntimeRust.*
 
 ## SuiteSparse
 debian/tmp/usr/lib/*/omc/lib*amd*
