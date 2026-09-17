@@ -20,7 +20,7 @@ Windows build scripts are at
 | [`OpenModelica-doc/debian/`](./OpenModelica-doc/debian) | Older standalone source package, not built by the current pipeline                             |
 | [`rpm/`](./rpm)                                         | Spec template and patches for the Fedora/EL packages                                           |
 | [`macports/`](./macports)                               | Portfile templates for macOS                                                                   |
-| [`docker/`](./docker)                                   | Dockerfiles for the `build-deps` images on docker.openmodelica.org                             |
+| [`docker/`](./docker)                                   | Dockerfiles for older images; build images come from [build-deps]                              |
 | [`.ci/`](./.ci)                                         | The checks GitHub Actions runs on every pull request                                           |
 
 `OpenModelica/debian` is a symlink to the top-level [`debian/`](./debian), so every
@@ -182,19 +182,13 @@ It uses the Autoconf + Makefile build; switching it to the CMake build is a late
 
 ## Docker Images
 
-Docker images are hosted on [docker.openmodelica.org](docker.openmodelica.org) and need to
-be uploaded manually.
+The images OpenModelica is built in, `build-deps`, come from the
+[build-deps] repository, whose CI builds them for each distribution and publishes them to
+`ghcr.io/openmodelica/build-deps` and `docker.openmodelica.org/build-deps`. They used to
+be built by hand from `Dockerfile.build-deps*` here.
 
-### Example
+The Dockerfiles still in [`docker/`](./docker) are for other, older images. Each has a
+script next to it that builds and pushes it, e.g. [`nightly.sh`](./docker/nightly.sh)
+for [`Dockerfile.nightly`](./docker/Dockerfile.nightly).
 
-To add a new image to [docker.openmodelica.org](docker.openmodelica.org)
-the image needs to be build, tagged correctly and then pushed to the server.
-
-For example for [Dockerfile.build-deps-cmake-1.16.3](./docker/Dockerfile.build-deps-cmake-1.16.3)
-one would run:
-
-```bash
-docker build --tag build-deps-cmake:v1.16.3 -f Dockerfile.build-deps-cmake-1.16.3 .
-docker tag build-deps-cmake:v1.16.3 docker.openmodelica.org/build-deps-cmake:v1.16.3
-docker push docker.openmodelica.org/build-deps-cmake:v1.16.3
-```
+[build-deps]: https://github.com/OpenModelica/build-deps
