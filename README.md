@@ -1,184 +1,157 @@
 # OpenModelicaBuildScripts
 
-A collection of scripts that can build OpenModelica packages on miscellaneous platforms.
+Scripts that build the OpenModelica Linux packages.
 
-Nothing here builds OpenModelica on its own. This repository holds the
-*packaging metadata*; the jobs that use it live in the private
-[apt-build](https://gitlab.liu.se/OpenModelica/apt-build) repository and run on the
-OpenModelica Jenkins.
+The packages are built with CMake and CPack, straight from a git checkout of
+[OpenModelica](https://github.com/OpenModelica/OpenModelica). There are no source
+packages any more: no `.dsc`, no `debian/rules`, no RPM spec. The jobs that run these
+scripts live in the private [apt-build](https://gitlab.liu.se/OpenModelica/apt-build)
+repository and run on the OpenModelica Jenkins.
 
 Windows build scripts are at
 [OpenModelicaSetup](https://github.com/OpenModelica/OpenModelicaSetup/).
 
 ## Layout
 
-| Path                                                    | What it is                                                                                     |
-| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`debian/`](./debian)                                   | Debian/Ubuntu packaging for the `openmodelica` source package — the one the nightly builds use |
-| [`OMPlot/debian/`](./OMPlot/debian)                     | Older standalone source package, not built by the current pipeline                             |
-| [`OMOptim/debian/`](./OMOptim/debian)                   | Older standalone source package, not built by the current pipeline                             |
-| [`OpenModelica-doc/debian/`](./OpenModelica-doc/debian) | Older standalone source package, not built by the current pipeline                             |
-| [`rpm/`](./rpm)                                         | Spec template and patches for the Fedora/EL packages                                           |
-| [`macports/`](./macports)                               | Portfile templates for macOS                                                                   |
-| [`docker/`](./docker)                                   | Dockerfiles for older images; build images come from [build-deps]                              |
-| [`.ci/`](./.ci)                                         | The checks GitHub Actions runs on every pull request                                           |
+| Path                                        | What it is                                                           |
+| ------------------------------------------- | -------------------------------------------------------------------- |
+| [`cpack/`](./cpack)                         | Build the `.deb`/`.rpm` packages, and test them in a clean container |
+| [`macports/`](./macports)                   | Portfile templates for macOS                                         |
+| [`docker/`](./docker)                       | Dockerfiles for older images; build images come from [build-deps]    |
+| [`.github/workflows/`](./.github/workflows) | CI, see [below](#ci)                                                 |
 
-`OpenModelica/debian` is a symlink to the top-level [`debian/`](./debian), so every
-source project has its packaging under `<project>/debian`.
+[build-deps]: https://github.com/OpenModelica/build-deps
 
-## Debian packaging
+## How the packages are defined
 
-### How `debian/` becomes a package
+**What goes into which package is defined in the OpenModelica repository**, in
+[`cmake/packaging/`](https://github.com/OpenModelica/OpenModelica/tree/master/cmake/packaging):
 
-`debian/` is never built where it sits. The nightly pipeline does roughly this:
+* `components.cmake` — the CPack components, one package each (`omc`, `simrt`,
+  `omedit`, `omlibrary`, …), and the dependencies between them.
+* `OpenModelicaCPackOptions.in.cmake` — the settings per package format: version,
+  Debian `Depends:` (worked out by `dpkg-shlibdeps`, plus the toolchain omc runs to
+  compile a model), RPM settings, NSIS.
 
-1. **Source package** — `update-source-repo.py` (apt-build) archives the OpenModelica
-   git tree, drops the testsuite and documentation directories, and copies this repository's
-   `debian/` in as `openmodelica_<rev>/debian`. It substitutes `@REV@` and `@TIME@` in
-   [`debian/changelog`](./debian/changelog) and runs `debuild -S`. The resulting
-   `.dsc` / `.orig.tar.xz` / `.debian.tar.xz` are published to
-   <https://build.openmodelica.org/apt/pool/contrib/>.
-   The branch taken from this repository is `master` unless `projects.json` pins a
-   `release-buildscriptbranch` / `stable-buildscriptbranch`.
-2. **Binary packages** — the main Jenkins job downloads that `.dsc` into
-   `docker.openmodelica.org/build-deps:<codename>.nightly.<arch>` and runs
-   `dpkg-buildpackage -rfakeroot -b`. That compiles all of OpenModelica, so a full
-   build takes hours.
+It lives there, and not here, so that one definition serves every format CPack
+produces, including the Windows installer. See section 8 of
+[`README.cmake.md`](https://github.com/OpenModelica/OpenModelica/blob/master/README.cmake.md)
+for what is packed.
 
-The distributions and architectures built are listed in
-`current-linux-os-releases.json` in apt-build. At the time of writing that is
-jammy, noble, resolute and trixie on amd64, armhf and arm64.
+This repository decides only how OpenModelica is *built* for a package: which
+features are on, which compiler and which Qt it uses.
 
-### What is in `debian/`
+## Building packages
 
-* [`control`](./debian/control) — one source stanza and 20 binary packages (`omc`,
-  `libomc`, `omedit`, `omshell`, `omnotebook`, `omsimulator`, `omlibrary`, …). Some
-  build dependencies carry alternatives (`libhdf5-serial-dev | libhdf5-dev`) because a
-  single control file has to satisfy every distribution in the matrix. Note that `apt`
-  installs the *first* alternative it can, so an alternative is not a way to say
-  "either of these will do" — it only helps where the first one is unavailable.
-* [`rules`](./debian/rules) — a hand-written rules file, *not* the `dh` sequencer. It
-  configures and builds the tree itself and then calls each `dh_*` helper explicitly
-  from the `install` and `binary-arch` targets. There are no override targets; edit the
-  recipes directly.
-* `<package>.install` — the file lists. Everything is installed into `debian/tmp` by
-  `make install DESTDIR=…` first, and these files distribute it into the binary
-  packages. Paths are globs, e.g.
-  `debian/tmp/usr/lib/*/omc/libOMSimulator.so`.
-* Desktop integration: [`desktops/`](./debian/desktops), [`icons/`](./debian/icons),
-  `*.menu`, `omnotebook.sharedmimeinfo`.
-* The debhelper compatibility level is declared as `debhelper-compat (= 13)` in
-  `Build-Depends`.
-
-### What usually breaks it
-
-* **An `.install` glob stops matching.** When upstream moves or stops building a file,
-  `dh_install` fails with `Cannot find (any matches for) …` / `missing files, aborting`
-  and the whole nightly build dies. This is the most common breakage — see the history
-  of [`libomsimulator.install`](./debian/libomsimulator.install).
-* **A helper or option is retired.** Every distribution upgrade brings a newer
-  debhelper; raising the compat level can remove an option `rules` passes. See
-  `debhelper-compat-upgrade-checklist(7)`.
-* **A typo in a config file name.** `debian/<package>.install` where `<package>` is not
-  in `control` is ignored silently, and the package ships empty.
-
-The first one can only be caught by a real build; [`.ci/`](./.ci) catches the other two.
-
-### Testing a packaging change
-
-The metadata checks run in seconds:
+[`cpack/build-packages.sh`](./cpack/build-packages.sh) configures, builds and installs
+OpenModelica, downloads the Modelica library cache, and runs `cpack`:
 
 ```bash
-docker run --rm -v "$PWD:/src" -w /src ubuntu:noble sh -c \
-  'apt-get update -qq && apt-get install -qy --no-install-recommends debhelper dpkg-dev \
-   && .ci/check-debian-packaging.sh'
+cpack/build-packages.sh -G DEB -o packages /path/to/OpenModelica
 ```
 
-For a real build, reuse the last published source package and swap in your `debian/`:
+It needs
+
+* **a git checkout with its tags.** The package version is derived from
+  `git describe`; a shallow clone or one without tags has no version, and the script
+  stops before building rather than after. In a container, a checkout owned by
+  another user also needs `git config --global --add safe.directory '*'`.
+* **the build dependencies of the distribution it runs on.** Use the matching
+  `ghcr.io/openmodelica/build-deps:<os>-<version>` image, e.g. `ubuntu-24.04`.
+  A package only installs on the distribution it was built for.
+* **network access**, for the library cache. `--no-omlibrary` skips it and leaves the
+  `omlibrary` package out.
+
+The build choices it makes, all of which can be overridden by passing CMake flags
+after `--`:
+
+| Choice                      | Default                                              |
+| --------------------------- | ---------------------------------------------------- |
+| Compiler                    | clang if installed (set `CC`/`CXX` to change)        |
+| Qt                          | 6 where Qt 6 WebEngine is installed, otherwise 5     |
+| C++ simulation runtime      | on, except on armhf                                  |
+| Testsuite                   | off (it would put `omc-diff` into the `omc` package) |
+| GUI clients, OMSimulator    | on                                                   |
+| OMOptim, encryption, ccache | off                                                  |
+
+For example, a quicker local build that reuses ccache and packs only the compiler and
+runtime:
 
 ```bash
-V=1.28.0~dev-489-gda9d1ce   # a version from build.openmodelica.org/apt/pool/contrib/
-docker run --rm -it -v "$PWD:/buildscripts" \
-  docker.openmodelica.org/build-deps:jammy.nightly.amd64 bash
-cd /tmp
-for e in -1.dsc -1.debian.tar.xz .orig.tar.xz; do
-  wget -q "https://build.openmodelica.org/apt/pool/contrib/openmodelica_$V$e"
-done
-dpkg-source -x "openmodelica_$V-1.dsc"
-rm -rf "openmodelica-$V/debian" && cp -a /buildscripts/debian "openmodelica-$V/debian"
-sed -i -e "s/@REV@/$V/" -e "s/@TIME@/$(date -R)/" "openmodelica-$V/debian/changelog"
-cd "openmodelica-$V" && dpkg-buildpackage -rfakeroot -b -j"$(nproc)"
+cpack/build-packages.sh -G DEB --no-omlibrary \
+  --cpack-arg -DCPACK_COMPONENTS_ALL="omc;simrt" \
+  /path/to/OpenModelica -- -DOM_USE_CCACHE=ON
 ```
 
-The first run takes hours. Afterwards `build-stamp` is cached, so re-running only
-`fakeroot debian/rules binary-arch` after another `debian/` tweak takes minutes.
+See `cpack/build-packages.sh --help` for all options.
 
-Or trigger the [`full deb build`](./.github/workflows/build-deb.yml) workflow, which does
-the same thing on a runner.
+## Testing packages
 
-## RPM packaging
+[`cpack/test-packages.sh`](./cpack/test-packages.sh) installs packages into a clean
+system and compiles and simulates a model:
 
-[`rpm/SPECS/openmodelica.spec.tpl`](./rpm/SPECS/openmodelica.spec.tpl) is a template,
-not a valid spec file. The Jenkins job replaces upper-case placeholders (`NAME`,
-`RPMVERSION`, `DEBVERSION`, `RELEASENUM`, `PATCHES`, `PRIVATELIBS`, `DATE`, …) with
-values from `projects.json` before calling `rpmbuild`, and copies
-[`rpm/PATCHES/`](./rpm/PATCHES) into `SOURCES`. Because the substitution is a plain
-string replace, any occurrence of those words anywhere in the file is replaced.
+```bash
+docker run --rm -v "$PWD:/work:ro" ubuntu:24.04 \
+  /work/cpack/test-packages.sh /work/packages
+```
 
-Targets at the time of writing: el8, el9, el10, fc43 and fc44.
+It serves the packages from a local apt (or dnf) repository and installs only
+`openmodelica-omc` from it, so the dependencies *between* the OpenModelica packages are
+resolved the way a user's package manager resolves them. Installing the files by name,
+or with `dpkg -i`, hides a missing inter-package dependency — that is how an `omc` that
+could not find the simulation runtime's headers once went unnoticed. Name other
+packages as extra arguments.
 
 ## CI
 
-Two workflows, split by how long they take.
-
 ### Fast checks — [`packaging.yml`](./.github/workflows/packaging.yml)
 
-Runs two jobs on every pull request and on pushes to `master`. Neither builds anything;
-they check that the packaging metadata is well formed and that every distribution we
-ship for still accepts it, which is what silently rots between releases.
+`shellcheck` on the scripts in `cpack/`, on every pull request and push to `master`.
 
-| Job      | Script                                                             | Runs on                                                                |
-| -------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------- |
-| `debian` | [`.ci/check-debian-packaging.sh`](./.ci/check-debian-packaging.sh) | `ubuntu:jammy`, `ubuntu:noble`, `ubuntu:resolute`, `debian:trixie`     |
-| `rpm`    | [`.ci/check-rpm-spec.sh`](./.ci/check-rpm-spec.sh)                 | `almalinux:8`, `almalinux:9`, `almalinux:10`, `fedora:43`, `fedora:44` |
+### Full build — [`build-packages.yml`](./.github/workflows/build-packages.yml)
 
-`check-debian-packaging.sh` checks, for each of the four `debian/` trees, that
-`control` and the templated `changelog` parse, that no stale `debian/compat` is left
-behind, that debhelper on that distribution accepts the declared compatibility level,
-that every `dh_*` command `rules` calls still exists and is passed no option removed at
-that compat level, and that every `debian/<package>.<helper>` file names a real binary
-package.
+Builds the Debian packages from an OpenModelica checkout in the `ubuntu-24.04`
+build-deps image with `build-packages.sh`, then runs `test-packages.sh` on them in a
+clean `ubuntu:24.04` container, and uploads the `.deb` files as an artifact. It is the
+only job that proves the packages install and work.
 
-`check-rpm-spec.sh` performs the same placeholder substitution the Jenkins job does and
-has `rpmspec` parse the result, which catches spec syntax mistakes — a missing `%`, an
-empty `%define`, a stray comment.
-
-Both scripts are plain `/bin/sh` and take no arguments; run them from the top of the
-repository as shown in their header comments. The image lists mirror
-`current-linux-os-releases.json` in apt-build — update them when a distribution is
-added or goes EOL, and update `EXPECTED_COMPAT` in `check-debian-packaging.sh` whenever
-the compat level in the control files changes.
-
-### Full build — [`build-deb.yml`](./.github/workflows/build-deb.yml)
-
-Builds OpenModelica from a git checkout with the Autoconf + Makefile build and then runs
-`dpkg-buildpackage` against this repository's `debian/`, the same sequence Jenkins uses,
-and uploads the resulting `.deb` files as an artifact. It is the only job that catches a
-`.install` glob that stopped matching, and the only one that proves the `Build-Depends`
-are still installable.
-
-It compiles everything, so it takes hours, and it never starts on its own. Run it on
-demand via `workflow_dispatch` (with an input to pick the OpenModelica ref), or put the
-**`CI/Full Debian Packaging`** label on a pull request — the job then runs for that pull
-request, and again on every push to it, until the label comes off. There is no schedule:
-the nightly Jenkins build already catches an upstream move that broke an `.install`
-glob. Only on `ubuntu-latest` — Jenkins covers the rest of the matrix.
-
-It uses the Autoconf + Makefile build; switching it to the CMake build is a later change.
+It compiles everything, so it takes hours, and it never starts on its own. Run it via
+`workflow_dispatch` (with an input to pick the OpenModelica ref), or put the
+**`CI/Full Debian Packaging`** label on a pull request — it then runs for that pull
+request, and again on every push to it, until the label comes off.
 
 > [!IMPORTANT]
-> What no CI here tells you: whether the packages build on the other distributions
-> in the matrix, or on armhf and arm64. That is still Jenkins' job.
+> One distribution, one architecture. Whether the packages build and work on the rest
+> of the matrix, or on armhf and arm64, is still Jenkins' job.
+
+## Migrating from the source packages
+
+Until commit `1a86e5b` this repository held a `debian/` directory and an RPM spec that
+built the packages from a source package with debhelper and rpmbuild. What those did
+that the CPack definition in OpenModelica has not taken over yet:
+
+| Old                                                   | Still needed in OpenModelica                                                                                    |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 20 binary packages (`omc`, `libomc`, `omc-common`, …) | `Provides:`/`Replaces:` from the old names, so upgrades do not strand anyone, and an `openmodelica` metapackage |
+| Installed under `/usr`                                | `CPACK_PACKAGING_INSTALL_PREFIX` is still `/usr/local` for DEB                                                  |
+| `debian/desktops/*.desktop`                           | `install()` rules into `share/applications`                                                                     |
+| `debian/omnotebook.sharedmimeinfo`                    | an `install()` rule into `share/mime/packages`                                                                  |
+| `debian/copyright`                                    | a `copyright` file in every package's `share/doc/<package>`                                                     |
+| `debian/testmodels/flat_dcmotor.mos`                  | an `install()` rule into `share/doc/omc/testmodels`                                                             |
+| `dh_strip`                                            | `CPACK_STRIP_FILES`, and `CPACK_DEBIAN_DEBUGINFO_PACKAGE` for the `-dbgsym` packages                            |
+
+On the RPM side the spec built one `openmodelica-<branch>` package installed into
+`/opt/openmodelica-<branch>`, with `update-alternatives` for `omc-<branch>`, so several
+branches could be installed side by side. The CPack RPM layout needs that too, or a
+decision to drop it.
+
+Deliberately *not* carried over, because nothing uses them any more: the Debian menu
+files and their `.xpm` icons (the menu system is retired), `omc.prerm` (it removed
+alternatives for `omc-rml` and `omc-bootstrapped`), `OMEdit.sh` (a Qt 4.7 workaround),
+`README.Debian`, and the standalone `OMPlot`, `OMOptim` and `OpenModelica-doc` source
+packages that no pipeline built.
+
+To look at any of them: `git show 1a86e5b:debian/<file>`.
 
 ## Docker Images
 
@@ -190,5 +163,3 @@ be built by hand from `Dockerfile.build-deps*` here.
 The Dockerfiles still in [`docker/`](./docker) are for other, older images. Each has a
 script next to it that builds and pushes it, e.g. [`nightly.sh`](./docker/nightly.sh)
 for [`Dockerfile.nightly`](./docker/Dockerfile.nightly).
-
-[build-deps]: https://github.com/OpenModelica/build-deps

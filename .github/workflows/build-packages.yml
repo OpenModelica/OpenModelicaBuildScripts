@@ -1,0 +1,103 @@
+# Full build of OpenModelica into Debian packages, with cpack/build-packages.sh,
+# followed by installing them into a clean container and simulating a model with
+# cpack/test-packages.sh.
+#
+# This is the only job that proves the packages actually work: that the build
+# dependencies are enough, that CPack's Depends: pull in everything omc needs at
+# run time, and that the dependencies *between* the OpenModelica packages are
+# declared. It compiles all of OpenModelica, so it takes hours. The fast checks
+# live in packaging.yml.
+name: full package build
+
+on:
+  workflow_dispatch:
+    inputs:
+      openmodelica-ref:
+        description: OpenModelica git ref to build
+        default: master
+  # Opt-in per pull request: add the "CI/Full Debian Packaging" label. This
+  # costs hours of runner time, so it never starts on its own.
+  pull_request:
+    types: [labeled, synchronize, reopened]
+
+permissions:
+  contents: read
+
+env:
+  # Build in the image the nightly builds use, and test in a bare image of the
+  # same distribution: a package only installs on the distribution it was built for.
+  BUILD_IMAGE: ghcr.io/openmodelica/build-deps:ubuntu-24.04
+  TEST_IMAGE: ubuntu:24.04
+
+jobs:
+  build:
+    # On a pull request, run only while the label is on it. The `labeled` case
+    # is spelled out separately so that adding some *other* label to a pull
+    # request that already carries this one does not start the build again.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.action == 'labeled' &&
+       github.event.label.name == 'CI/Full Debian Packaging') ||
+      (github.event.action != 'labeled' &&
+       contains(github.event.pull_request.labels.*.name, 'CI/Full Debian Packaging'))
+    # One distribution only; Jenkins covers the rest of the matrix.
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Check out the build scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: buildscripts
+
+      - name: Check out OpenModelica
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: OpenModelica/OpenModelica
+          ref: ${{ inputs.openmodelica-ref || 'master' }}
+          submodules: recursive
+          # The package version comes from git describe, so the tags and the
+          # history behind them have to be there.
+          fetch-depth: 0
+          path: openmodelica
+
+      - name: Free up disk space
+        run: |
+          # A full OpenModelica build does not fit next to the preinstalled
+          # toolchains on a hosted runner.
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+
+      - name: Build the packages
+        run: |
+          # The checkout belongs to the runner user and the container runs as
+          # root, so git would refuse to describe it without safe.directory.
+          docker run --rm -v "$GITHUB_WORKSPACE:/work" -w /work "$BUILD_IMAGE" bash -c '
+            git config --global --add safe.directory "*"
+            buildscripts/cpack/build-packages.sh -G DEB -B /work/build -o /work/packages openmodelica
+          '
+
+      - name: Show what was built
+        if: always()
+        run: |
+          for deb in packages/*.deb; do
+            [ -e "$deb" ] || { echo "no packages"; break; }
+            echo "=== $(basename "$deb")"
+            dpkg-deb -f "$deb" Package Version Architecture Depends | sed 's/^/  /'
+            dpkg-deb -c "$deb" | wc -l | xargs echo "  files:"
+          done
+
+      - name: Install into a clean container and simulate
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/work:ro" "$TEST_IMAGE" \
+            /work/buildscripts/cpack/test-packages.sh /work/packages
+
+      - name: Upload packages
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: debs
+          path: packages/*.deb
+          if-no-files-found: warn
+          retention-days: 7

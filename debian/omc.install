@@ -1,4 +1,0 @@
-debian/testmodels/flat_dcmotor.mos                 usr/share/doc/omc/testmodels
-debian/tmp/usr/bin/omc
-debian/tmp/usr/share/omc/scripts/*
-debian/tmp/usr/share/doc/omc/testmodels/*
