@@ -1,13 +1,12 @@
-# Fast sanity checks on the packaging metadata in this repository.
+# Fast checks on the packaging scripts in this repository.
 #
-# The nightly Jenkins job in the apt-build repository is the only place a
-# package is actually built, and it takes hours, so nothing here builds
-# anything. These jobs only check that the metadata is well formed and that
-# every distribution we ship for still accepts it -- which is what breaks when
-# a helper, a compat level or a spec macro is retired under us.
+# Nothing here builds OpenModelica; that takes hours and lives in
+# build-packages.yml. What is left to check in seconds is the scripts themselves:
+# they drive a multi-hour build, so a mistake in them should fail here rather than
+# at the end of one.
 #
-# The image lists mirror current-linux-os-releases.json in the apt-build repo;
-# update them when a distribution is added or goes EOL.
+# What goes into which package is defined in the OpenModelica repository
+# (cmake/packaging/), and checked by its own CI.
 name: packaging
 
 on:
@@ -16,44 +15,15 @@ on:
   pull_request:
   workflow_dispatch:
 
-jobs:
-  debian:
-    name: debian (${{ matrix.image }})
-    runs-on: ubuntu-latest
-    container: ${{ matrix.image }}
-    strategy:
-      fail-fast: false
-      matrix:
-        image:
-          - ubuntu:jammy
-          - ubuntu:noble
-          - ubuntu:resolute
-          - debian:trixie
-    steps:
-      - name: Install debhelper
-        run: |
-          apt-get update -qq
-          DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-            debhelper dpkg-dev
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - run: .ci/check-debian-packaging.sh
+permissions:
+  contents: read
 
-  rpm:
-    name: rpm (${{ matrix.image }})
+jobs:
+  shellcheck:
     runs-on: ubuntu-latest
-    container: ${{ matrix.image }}
-    strategy:
-      fail-fast: false
-      matrix:
-        image:
-          - almalinux:8
-          - almalinux:9
-          - almalinux:10
-          - fedora:43
-          - fedora:44
     steps:
-      - name: Install rpm-build
-        run: |
-          (command -v dnf >/dev/null && dnf install -y rpm-build) || yum install -y rpm-build
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - run: .ci/check-rpm-spec.sh
+      - name: Install shellcheck
+        run: command -v shellcheck || (sudo apt-get update -qq && sudo apt-get install -qy shellcheck)
+      - name: shellcheck
+        run: shellcheck cpack/*.sh
