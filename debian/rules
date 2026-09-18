@@ -118,6 +118,7 @@ endif
 	--host=$(DEB_HOST_GNU_TYPE) \
 	--build=$(DEB_BUILD_GNU_TYPE) \
 	--prefix=/usr \
+	--with-qt6 \
 	--with-lapack="-llapack -lblas -lm" \
 	--without-paradiseo \
 	--without-omlibrary \

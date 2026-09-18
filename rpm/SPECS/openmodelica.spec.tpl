@@ -93,6 +93,7 @@ BuildRequires: qt6-qt3d-devel
 BuildRequires: qt6-qt5compat-devel
 BuildRequires: qt6-qthttpserver-devel
 BuildRequires: qt6-qtwebsockets-devel
+BuildRequires: qt6-qtquick3d-devel
 %endif
 
 
@@ -129,10 +130,6 @@ BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfor
 %if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
 BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortran
 %define devtoolsconfigureflags CC=/opt/rh/devtoolset-11/root/usr/bin/gcc CXX=/opt/rh/devtoolset-11/root/usr/bin/g++ FC=/opt/rh/devtoolset-11/root/usr/bin/gfortran
-%endif
-
-%if 0%{?fedora} >= 25
-BuildRequires: OpenSceneGraph-devel
 %endif
 
 %if 0%{?omqt5}
