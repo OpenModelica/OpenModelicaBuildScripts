@@ -26,10 +26,12 @@ Build-Depends: debhelper-compat (= 13),
  qt6-quick3d-dev,
  qt6-webengine-dev,
  qt6-webengine-dev-tools,
-# jammy still carries the pre-6.4 binary names for these three
+# jammy still carries the pre-6.4 binary names for these four
  qt6-svg-dev | libqt6svg6-dev,
  qt6-5compat-dev | libqt6core5compat6-dev,
  qt6-websockets-dev | libqt6websockets6-dev,
+# QT.quick3d.depends; qt6-quick3d-dev only pulls it in from 6.6 on
+ qt6-shadertools-dev | libqt6shadertools6-dev,
 # QtHttpServer needs Qt 6.4; OMEdit builds without the MCP server on jammy
  qt6-httpserver-dev | qt6-base-dev,
  flex,
@@ -194,8 +196,8 @@ Depends: omc (<< 20000),
  libomsimulator,
  libomsensplugin,
  qml6-module-qtquick,
-# split out of libqt6quick3d6 in Qt 6.6
- qml6-module-qtquick3d | libqt6quick3d6,
+# renamed from qml6-module-quick3d in Qt 6.6
+ qml6-module-qtquick3d | qml6-module-quick3d,
  ${shlibs:Depends},
  ${misc:Depends}
 Suggests: omlibrary
