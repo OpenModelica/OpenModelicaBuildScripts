@@ -32,6 +32,8 @@ Build-Depends: debhelper-compat (= 13),
  qt6-websockets-dev | libqt6websockets6-dev,
 # QT.quick3d.depends; qt6-quick3d-dev only pulls it in from 6.6 on
  qt6-shadertools-dev | libqt6shadertools6-dev,
+# Qt links libGL.so by absolute path; only jammy's qt6-base-dev omits it
+ libgl-dev,
 # QtHttpServer needs Qt 6.4; OMEdit builds without the MCP server on jammy
  qt6-httpserver-dev | qt6-base-dev,
  flex,
