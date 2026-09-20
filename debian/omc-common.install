@@ -1,5 +1,9 @@
 debian/tmp/usr/share/omc/runtime
+debian/tmp/usr/share/omc/sources
 debian/tmp/usr/lib/omc/*.mo
 debian/tmp/usr/include/omc/c
+# openmodelica.h includes <gc.h>, which is not under include/omc/c
+debian/tmp/usr/include/omc/gc.h
+debian/tmp/usr/include/omc/gc
 debian/tmp/usr/include/omc/scripting-API
 debian/tmp/usr/include/omc/sundials

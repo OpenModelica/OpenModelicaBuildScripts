@@ -19,15 +19,6 @@ SOURCE1 : https://openmodelica.org/doc/openmodelica-doc-DOCUMENTATIONVERSION.tar
 PATCHES
 URL: https://openmodelica.org/
 
-%if 0%{?rhel} == 6
-Autoreq: 0
-Requires: readline
-Requires: qt5-qtbase
-Requires: qt5-qtsvg
-Requires: qt5-qtwebengine
-Requires: qt5-qtxmlpatterns
-Requires: libffi
-%endif
 Autoprov: 0
 Prefix: /opt/%{name}
 Prefix: %{_bindir}
@@ -36,7 +27,7 @@ Prefix: %{_bindir}
 
 # Recommended (for the repo): git rpm-build rpmdevtools epel-release
 %if 0%{?rhel} > 0
-# CentOS / RHEL requires the EPEL repository (for omniORB, etc)
+# CentOS / RHEL requires the EPEL repository
 BuildRequires: epel-release
 Requires: epel-release
 %endif
@@ -47,12 +38,10 @@ Requires: gcc
 Requires: gcc-gfortran
 Requires: gcc-c++
 
-BuildRequires: automake
 BuildRequires: expat-devel
 BuildRequires: bison
 BuildRequires: flex
 BuildRequires: lapack-devel
-BuildRequires: libtool
 BuildRequires: uuid
 BuildRequires: uuid-devel
 BuildRequires: hdf5-devel
@@ -71,7 +60,7 @@ BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gcc-gfortran
 # EL8 is the only target left without qt6, in EPEL or anywhere else
-%if 0%{?rhel} > 0 && 0%{?rhel} <= 8
+%if 0%{?rhel} == 8
 %define omqt5 1
 %endif
 
@@ -96,16 +85,7 @@ BuildRequires: qt6-qtwebsockets-devel
 BuildRequires: qt6-qtquick3d-devel
 %endif
 
-
-# Use cmake versions > 3. On EL7 this is provided by cmake3 package.
-# On EL > 7 it is just cmake.
-%if 0%{?rhel} == 7
-BuildRequires: cmake3
-%define cmakecommand CMAKE=cmake3
-%else
 BuildRequires: cmake
-%define cmakecommand CMAKE=cmake
-%endif
 
 # The base centos:8 image (we use for our build-deps:el8 image) comes with
 # broken cmake package due to old libarchive (v3.3.2). v3.3.3 Seems to work.
@@ -114,34 +94,22 @@ BuildRequires: cmake
 BuildRequires: libarchive >= 3.3.3
 %endif
 
-# Use gcc-11 on EL8 as well. devtoolset does not seem to be available on
-# EL8. One is supposed to use gcc-toolset instead.
+# EL8's system gcc is 8.5, too old to build with.
 %{?el8:Requires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran}
 %if 0%{?rhel} == 8
 BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran
-%define devtoolsconfigureflags CC=/opt/rh/gcc-toolset-11/root/usr/bin/gcc CXX=/opt/rh/gcc-toolset-11/root/usr/bin/g++ FC=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran AS=/opt/rh/gcc-toolset-11/root/usr/bin/as
-%endif
-
-# EL7 has -static-libstdc++ inside devtools (but the system g++ does not know the flag) -- adrpo: check this, also for el6
-%{?el7:Requires: devtoolset-11-gcc}
-%{?el7:Requires: devtoolset-11-gcc-c++}
-%{?el7:Requires: devtoolset-11-gcc-gfortran}
-
-%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
-BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-gcc-gfortran
-%define devtoolsconfigureflags CC=/opt/rh/devtoolset-11/root/usr/bin/gcc CXX=/opt/rh/devtoolset-11/root/usr/bin/g++ FC=/opt/rh/devtoolset-11/root/usr/bin/gfortran
+%define devtoolscmakeflags -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gcc -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/g++ -DCMAKE_Fortran_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran -DCMAKE_ASM_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/as
 %endif
 
 %if 0%{?omqt5}
-%define withqt6 ''
+%define omqtmajor 5
 %define omqtversion qt5
 %else
-%define withqt6 --with-qt6
+%define omqtmajor 6
 %define omqtversion qt6
 %endif
 
 
-# We should use clang, but OMEdit does not compile with it due to odd default qmake flags
 Requires: gcc
 Requires: gcc-c++
 Requires: lapack-devel
@@ -149,16 +117,10 @@ Requires: lapack-devel
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
-# CentOS does not have suggests
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 8
 Suggests: boost-devel
 Suggests: boost-static
 Suggests: lapack-static
 Suggests: openblas-static
-%else
-Requires: boost-devel
-Requires: boost-static
-%endif
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -172,37 +134,49 @@ tar xJf %{_sourcedir}/openmodelica-doc-DOCUMENTATIONVERSION.tar.xz
 
 PATCHCMDS
 
-%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
-source /opt/rh/devtoolset-11/enable
-%endif
-
-%if 0%{?rhel} == 8
-source /opt/rh/gcc-toolset-11/enable
-%endif
-
-export LANG=C.UTF-8
-autoreconf --install
-./configure CFLAGS="-Os" CXXFLAGS="-Os" QTDIR=/usr/%{_lib}/%{omqtversion} --without-omniORB %{withqt6} CONFIGUREFLAGS %{?devtoolsconfigureflags} --without-omc --prefix=/opt/%{name} --without-omlibrary %{cmakecommand}
+# The tarball has no git; CMake reads OMVERSION.txt.
+echo 'vDEBVERSION' | tr '~' '-' > OMVERSION.txt
 
 %build
 
-%if 0%{?rhel} <= 7 && 0%{?rhel} >= 1
-export LANG=C.UTF-8
-source /opt/rh/devtoolset-11/enable
-%endif
-
 %if 0%{?rhel} == 8
-export LANG=C.UTF-8
 source /opt/rh/gcc-toolset-11/enable
 %endif
 
 export LANG=C.UTF-8
-make -j8
-test ! -f libraries/install-index.json || make -j8 omlibrary
+# CONFIGUREFLAGS: extra cmake -D arguments, from projects.json in apt-build.
+cmake -S . -B build_rpm -Wno-dev \
+  -DCMAKE_INSTALL_PREFIX=/opt/%{name} \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_C_FLAGS_RELEASE="-Os -DNDEBUG" \
+  -DCMAKE_CXX_FLAGS_RELEASE="-Os -DNDEBUG" \
+  -DCMAKE_PREFIX_PATH=/usr/%{_lib}/%{omqtversion} \
+  -DOM_USE_CCACHE=OFF \
+  -DOM_ENABLE_TESTSUITE=OFF \
+  -DOM_ENABLE_DOCS=OFF \
+  -DOM_ENABLE_GUI_CLIENTS=ON \
+  -DOM_QT_MAJOR_VERSION=%{omqtmajor} \
+  -DOM_ENABLE_OMSIMULATOR=ON \
+  -DOM_OMOPTIM_ENABLE=OFF \
+  -DOM_RUST_RESULT_READERS=ON \
+  -DOM_RUST_RESULT_WRITERS=ON \
+  -DOM_ENABLE_RUST_SIM_RUNTIME=ON \
+  %{?devtoolscmakeflags} CONFIGUREFLAGS
+cmake --build build_rpm --parallel 8
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR="%{buildroot}"
+DESTDIR="%{buildroot}" cmake --install build_rpm
+# The cmake omlibrary target would download with an omc that is not installed yet.
+if test -f libraries/install-index.json; then
+  rm -rf omlibrary-download
+  mkdir -p omlibrary-download/.openmodelica/libraries
+  cp libraries/install-index.json omlibrary-download/.openmodelica/libraries/index.json
+  (cd omlibrary-download && %{buildroot}/opt/%{name}/bin/omc ../libraries/install-index.mos)
+  mkdir -p %{buildroot}/opt/%{name}/share/omlibrary/cache
+  cp libraries/install-index.json %{buildroot}/opt/%{name}/share/omlibrary/cache/index.json
+  cp omlibrary-download/.openmodelica/cache/* %{buildroot}/opt/%{name}/share/omlibrary/cache/
+fi
 mkdir -p %{buildroot}/opt/%{name}/lib/ %{buildroot}/opt/%{name}/share/doc/omc/ %{buildroot}%{_bindir}
 ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
 ln -s /opt/%{name}/bin/omc %{buildroot}%{_bindir}/omc-BRANCH

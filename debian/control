@@ -3,17 +3,14 @@ Section: math
 Priority: optional
 Maintainer: OpenModelica Build System <build@openmodelica.org>
 Build-Depends: debhelper-compat (= 13),
-# sbuild i386 does not handle native, cross-compile armhf requires it...
- clang:native | clang,
- gfortran:native | gfortran,
- default-jdk:native | default-jdk,
- libhwloc-dev:native | libhwloc-dev,
- automake,
- libtool,
+ clang,
+ gfortran,
+ default-jdk,
+ libhwloc-dev,
  uuid-dev,
  libncurses5-dev,
  libsqlite3-dev,
- cmake (>= 2.8.6),
+ cmake (>= 3.14),
 # libssl-dev (>= 0.9.8g), # Do we really depend on libssl directly? Debian stretch conflicts with it...
  libreadline-dev,
  qt6-base-dev,
@@ -42,7 +39,6 @@ Build-Depends: debhelper-compat (= 13),
  libhdf5-serial-dev | libhdf5-dev,
  liblapack-dev,
  libcurl4-gnutls-dev | libcurl-dev,
- autoconf (>=2.71),
  libexpat1-dev,
  libomp-dev,
 # Should be needed but seems to mess up sbuild
@@ -133,17 +129,6 @@ Depends: omc-common (<< 20000),
 Description: The OpenModelica Compiler lib dependencies
  This is the core libraries of the OpenModelica project.
 
-Package: libomc-dev
-Section: math
-Multi-Arch: same
-Architecture: any
-Depends: libomc (<< 20000),
- ${shlibs:Depends},
- ${misc:Depends}
-Description: The OpenModelica Compiler lib dependencies
- This is the core libraries of the OpenModelica project.
- Currently contains antlr3 include-files.
-
 Package: libomcsimulation
 Section: math
 Multi-Arch: same
@@ -176,19 +161,10 @@ Package: libomplot
 Section: math
 Multi-Arch: same
 Architecture: any
-Depends: ${shlibs:Depends},
- ${misc:Depends}
-Description: Plot tool for OpenModelica, lib dependencies
- This tool is essential for using the plot() command in omc.
-
-Package: libomplot-dev
-Section: math
-Multi-Arch: same
-Architecture: any
-Depends: libomplot (<< 20000),
+Depends: libomcsimulation (<< 20000),
  ${shlibs:Depends},
  ${misc:Depends}
-Description: Plot tool for OpenModelica, development package
+Description: Plot tool for OpenModelica, lib dependencies
  This tool is essential for using the plot() command in omc.
 
 Package: omedit
@@ -262,7 +238,7 @@ Description: A text-based interface to OpenModelica (based on Qt)
 
 Package: libomccpp
 Section: math
-Architecture: i386 amd64
+Architecture: amd64
 Multi-Arch: same
 Depends: libboost-dev,
  libboost-filesystem-dev,
