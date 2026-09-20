@@ -1,13 +1,11 @@
 # Full build of OpenModelica plus the Debian packages, the way the nightly
-# Jenkins job does it: configure/make (autoconf) from a git checkout, then
-# dpkg-buildpackage using the debian/ directory of this repository.
+# Jenkins job does it: a CMake build from a git checkout, then dpkg-buildpackage
+# using the debian/ directory of this repository.
 #
 # This is the only job that can catch a .install glob that stopped matching
 # because upstream moved or dropped a file -- the failure that breaks the
 # nightly build. It compiles all of OpenModelica, so it takes hours. The fast
 # metadata-only checks live in packaging.yml.
-#
-# Uses the Autoconf + Makefile build; to be switched to the CMake build later.
 name: full deb build
 
 on:

@@ -15,6 +15,9 @@ debian/tmp/usr/include/omc/ModelicaExternalC/*
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
 debian/tmp/usr/lib/*/omc/libSimulationRuntime*
 
+# Result files
+debian/tmp/usr/lib/*/omc/libomc_result*
+
 ## SuiteSparse
 debian/tmp/usr/lib/*/omc/lib*amd*
 debian/tmp/usr/lib/*/omc/libbtf*
@@ -24,9 +27,7 @@ debian/tmp/usr/lib/*/omc/libumfpack*
 
 debian/tmp/usr/lib/*/omc/liblis*
 debian/tmp/usr/lib/*/omc/libcminpack*
-debian/tmp/usr/lib/*/omc/libomopc*
 debian/tmp/usr/lib/*/omc/libsundials_*
-debian/tmp/usr/lib/*/omc/libryu*
 
 ## MOO
 debian/tmp/usr/lib/*/omc/libseq*

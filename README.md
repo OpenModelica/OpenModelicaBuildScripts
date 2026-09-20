@@ -51,18 +51,18 @@ jammy, noble, resolute and trixie on amd64, armhf and arm64.
 
 ### What is in `debian/`
 
-* [`control`](./debian/control) — one source stanza and 20 binary packages (`omc`,
+* [`control`](./debian/control) — one source stanza and 18 binary packages (`omc`,
   `libomc`, `omedit`, `omshell`, `omnotebook`, `omsimulator`, `omlibrary`, …). Some
   build dependencies carry alternatives (`libhdf5-serial-dev | libhdf5-dev`) because a
   single control file has to satisfy every distribution in the matrix. Note that `apt`
   installs the *first* alternative it can, so an alternative is not a way to say
   "either of these will do" — it only helps where the first one is unavailable.
 * [`rules`](./debian/rules) — a hand-written rules file, *not* the `dh` sequencer. It
-  configures and builds the tree itself and then calls each `dh_*` helper explicitly
-  from the `install` and `binary-arch` targets. There are no override targets; edit the
-  recipes directly.
+  configures and builds the tree itself — with CMake, into `obj-<triplet>/` — and then
+  calls each `dh_*` helper explicitly from the `install` and `binary-arch` targets.
+  There are no override targets; edit the recipes directly.
 * `<package>.install` — the file lists. Everything is installed into `debian/tmp` by
-  `make install DESTDIR=…` first, and these files distribute it into the binary
+  `cmake --install` with `DESTDIR` first, and these files distribute it into the binary
   packages. Paths are globs, e.g.
   `debian/tmp/usr/lib/*/omc/libOMSimulator.so`.
 * Desktop integration: [`desktops/`](./debian/desktops), [`icons/`](./debian/icons),
@@ -161,11 +161,10 @@ the compat level in the control files changes.
 
 ### Full build — [`build-deb.yml`](./.github/workflows/build-deb.yml)
 
-Builds OpenModelica from a git checkout with the Autoconf + Makefile build and then runs
-`dpkg-buildpackage` against this repository's `debian/`, the same sequence Jenkins uses,
-and uploads the resulting `.deb` files as an artifact. It is the only job that catches a
-`.install` glob that stopped matching, and the only one that proves the `Build-Depends`
-are still installable.
+Builds OpenModelica from a git checkout and then runs `dpkg-buildpackage` against this
+repository's `debian/`, the same sequence Jenkins uses, and uploads the resulting `.deb`
+files as an artifact. It is the only job that catches a `.install` glob that stopped
+matching, and the only one that proves the `Build-Depends` are still installable.
 
 It compiles everything, so it takes hours, and it never starts on its own. Run it on
 demand via `workflow_dispatch` (with an input to pick the OpenModelica ref), or put the
@@ -173,8 +172,6 @@ demand via `workflow_dispatch` (with an input to pick the OpenModelica ref), or 
 request, and again on every push to it, until the label comes off. There is no schedule:
 the nightly Jenkins build already catches an upstream move that broke an `.install`
 glob. Only on `ubuntu-latest` — Jenkins covers the rest of the matrix.
-
-It uses the Autoconf + Makefile build; switching it to the CMake build is a later change.
 
 > [!IMPORTANT]
 > What no CI here tells you: whether the packages build on the other distributions
