@@ -21,6 +21,8 @@ Build-Depends: debhelper-compat (= 13),
  qt6-translations-l10n,
  qt6-declarative-dev,
  qt6-quick3d-dev,
+# Qt6Quick3DTools.cmake imports /usr/lib/qt6/bin/balsam, which -dev does not pull in
+ qt6-quick3d-dev-tools,
  qt6-webengine-dev,
  qt6-webengine-dev-tools,
 # jammy still carries the pre-6.4 binary names for these four
