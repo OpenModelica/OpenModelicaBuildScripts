@@ -39,11 +39,13 @@ Requires: gcc-gfortran
 Requires: gcc-c++
 
 BuildRequires: expat-devel
+BuildRequires: autoconf
 BuildRequires: bison
 BuildRequires: flex
 BuildRequires: lapack-devel
 BuildRequires: uuid
 BuildRequires: uuid-devel
+BuildRequires: libuuid-devel
 BuildRequires: hdf5-devel
 BuildRequires: boost-devel
 BuildRequires: boost-static
