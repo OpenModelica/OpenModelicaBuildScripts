@@ -158,6 +158,10 @@ cmake --build build_rpm --parallel 8
 %install
 rm -rf %{buildroot}
 DESTDIR="%{buildroot}" cmake --install build_rpm
+# An install rule with an absolute DESTINATION in the build tree (MUMPS, via
+# moo/Ipopt.cmake) has DESTDIR mirror it into the buildroot; nothing belongs
+# under the rpm build directory there.
+rm -rf "%{buildroot}%{_builddir}"
 # The cmake omlibrary target would download with an omc that is not installed yet.
 if test -f libraries/install-index.json; then
   rm -rf omlibrary-download
