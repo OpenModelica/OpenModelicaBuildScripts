@@ -127,6 +127,9 @@ string replace, any occurrence of those words anywhere in the file is replaced.
 
 Targets at the time of writing: el8, el9, el10, fc43 and fc44.
 
+el8 is packaged without the GUI clients (`omnogui` in the template): it has no
+qt6 in EPEL or anywhere else, and the clients no longer build against qt5.
+
 ## CI
 
 Two workflows, split by how long they take.

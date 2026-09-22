@@ -59,20 +59,13 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gcc-gfortran
-# EL8 is the only target left without qt6, in EPEL or anywhere else
+# EL8 is the only target left without qt6, in EPEL or anywhere else, and the
+# GUI clients no longer build against qt5: ship el8 without them.
 %if 0%{?rhel} == 8
-%define omqt5 1
+%define omnogui 1
 %endif
 
-%if 0%{?omqt5}
-BuildRequires: qt5-qtwebengine-devel
-BuildRequires: qt5-linguist
-BuildRequires: qt5-qttools
-BuildRequires: qt5-qtbase-devel
-BuildRequires: qt5-qtsvg-devel
-BuildRequires: qt5-qtxmlpatterns-devel
-BuildRequires: qt5-qt3d-devel
-%else
+%if ! 0%{?omnogui}
 BuildRequires: qt6-qtwebengine-devel
 BuildRequires: qt6-linguist
 BuildRequires: qt6-qttools
@@ -101,12 +94,10 @@ BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfor
 %define devtoolscmakeflags -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gcc -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/g++ -DCMAKE_Fortran_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran -DCMAKE_ASM_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/as
 %endif
 
-%if 0%{?omqt5}
-%define omqtmajor 5
-%define omqtversion qt5
+%if 0%{?omnogui}
+%define omguicmakeflags -DOM_ENABLE_GUI_CLIENTS=OFF
 %else
-%define omqtmajor 6
-%define omqtversion qt6
+%define omguicmakeflags -DOM_ENABLE_GUI_CLIENTS=ON -DCMAKE_PREFIX_PATH=/usr/%{_lib}/qt6
 %endif
 
 
@@ -150,12 +141,10 @@ cmake -S . -B build_rpm -Wno-dev \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_FLAGS_RELEASE="-Os -DNDEBUG" \
   -DCMAKE_CXX_FLAGS_RELEASE="-Os -DNDEBUG" \
-  -DCMAKE_PREFIX_PATH=/usr/%{_lib}/%{omqtversion} \
   -DOM_USE_CCACHE=OFF \
   -DOM_ENABLE_TESTSUITE=OFF \
   -DOM_ENABLE_DOCS=OFF \
-  -DOM_ENABLE_GUI_CLIENTS=ON \
-  -DOM_QT_MAJOR_VERSION=%{omqtmajor} \
+  %{omguicmakeflags} \
   -DOM_ENABLE_OMSIMULATOR=ON \
   -DOM_OMOPTIM_ENABLE=OFF \
   -DOM_RUST_RESULT_READERS=ON \
@@ -180,17 +169,19 @@ fi
 mkdir -p %{buildroot}/opt/%{name}/lib/ %{buildroot}/opt/%{name}/share/doc/omc/ %{buildroot}%{_bindir}
 ln -s /usr/lib/omlibrary %{buildroot}/opt/%{name}/lib/
 ln -s /opt/%{name}/bin/omc %{buildroot}%{_bindir}/omc-BRANCH
+touch %{buildroot}%{_bindir}/omc
+%if ! 0%{?omnogui}
 ln -s /opt/%{name}/bin/OMEdit %{buildroot}%{_bindir}/OMEdit-BRANCH
 ln -s /opt/%{name}/bin/OMShell %{buildroot}%{_bindir}/OMShell-BRANCH
 ln -s /opt/%{name}/bin/OMShell-terminal %{buildroot}%{_bindir}/OMShell-terminal-BRANCH
 ln -s /opt/%{name}/bin/OMNotebook %{buildroot}%{_bindir}/OMNotebook-BRANCH
 ln -s /opt/%{name}/bin/OMPlot %{buildroot}%{_bindir}/OMPlot-BRANCH
-touch %{buildroot}%{_bindir}/omc
 touch %{buildroot}%{_bindir}/OMEdit
 touch %{buildroot}%{_bindir}/OMShell
 touch %{buildroot}%{_bindir}/OMShell-terminal
 touch %{buildroot}%{_bindir}/OMNotebook
 touch %{buildroot}%{_bindir}/OMPlot
+%endif
 cp -a openmodelica-doc*/* %{buildroot}/opt/%{name}/share/doc/omc/
 
 %postun
@@ -201,12 +192,15 @@ if [ "$1" -ge "1" ]; then
 fi
 
 %post
-%{_sbindir}/update-alternatives --install %{_bindir}/omc openmodelica %{_bindir}/omc-BRANCH PRIORITY \
-  --slave %{_bindir}/OMEdit openmodelica-OMEdit %{_bindir}/OMEdit-BRANCH \
+slaves=""
+%if ! 0%{?omnogui}
+slaves="--slave %{_bindir}/OMEdit openmodelica-OMEdit %{_bindir}/OMEdit-BRANCH \
   --slave %{_bindir}/OMShell openmodelica-OMShell %{_bindir}/OMShell-BRANCH \
   --slave %{_bindir}/OMShell-terminal openmodelica-OMShell-terminal %{_bindir}/OMShell-terminal-BRANCH \
   --slave %{_bindir}/OMNotebook openmodelica-OMNotebook %{_bindir}/OMNotebook-BRANCH \
-  --slave %{_bindir}/OMPlot openmodelica-OMPlot %{_bindir}/OMPlot-BRANCH
+  --slave %{_bindir}/OMPlot openmodelica-OMPlot %{_bindir}/OMPlot-BRANCH"
+%endif
+%{_sbindir}/update-alternatives --install %{_bindir}/omc openmodelica %{_bindir}/omc-BRANCH PRIORITY $slaves
 
 %preun
 if [ $1 = 0 ]; then
@@ -221,11 +215,13 @@ rm -rf %{buildroot}
 /opt/%{name}/*
 %{_bindir}/*-BRANCH
 %ghost %{_bindir}/omc
+%if ! 0%{?omnogui}
 %ghost %{_bindir}/OMEdit
 %ghost %{_bindir}/OMShell
 %ghost %{_bindir}/OMShell-terminal
 %ghost %{_bindir}/OMNotebook
 %ghost %{_bindir}/OMPlot
+%endif
 
 %changelog
 * DATE  OpenModelica <openmodelica@ida.liu.se> ${version}-1

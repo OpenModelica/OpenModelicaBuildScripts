@@ -3,7 +3,9 @@ Section: math
 Priority: optional
 Maintainer: OpenModelica Build System <build@openmodelica.org>
 Build-Depends: debhelper-compat (= 13),
- libqt4-dev (>= 4.4.3),
+ qt6-base-dev,
+ qt6-svg-dev | libqt6svg6-dev,
+ qt6-5compat-dev | libqt6core5compat6-dev,
  omniidl:native (>= 4.0.0) | omniidl4:native | omniidl (>= 4.0.0) | omniidl4,
  libomniorb4-dev,
  autoconf,

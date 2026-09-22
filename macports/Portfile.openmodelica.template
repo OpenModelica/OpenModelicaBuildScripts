@@ -2,7 +2,7 @@
 
 PortSystem          1.0
 
-PortGroup           qt5 1.0
+PortGroup           qt6 1.0
 
 default_variants    +qt +omnotebook
 
@@ -117,12 +117,14 @@ variant clang description {build with macports clang} {
 
 variant qt description {Build Qt-based clients} {
 depends_lib-append     \
-  port:qt5 \
-  port:qwt-qt5 \
-  port:qt5-qtwebkit
-qt5.depends_component qttools
+  port:qt6-qtbase \
+  port:qt6-qtsvg \
+  port:qt6-qt5compat \
+  port:qt6-qtwebengine \
+  port:qt6-qtquick3d
+qt6.depends_component qttools
 
-configure.env-append QTDIR=${prefix}/libexec/qt5
+configure.env-append QTDIR=${prefix}/libexec/qt6
 }
 
 variant osg description {Build with OpenSceneGraph (visualization in OMEdit).} {
