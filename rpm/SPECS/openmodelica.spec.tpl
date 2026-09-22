@@ -70,7 +70,7 @@ BuildRequires: gcc-gfortran
 %if ! 0%{?omnogui}
 BuildRequires: qt6-qtwebengine-devel
 BuildRequires: qt6-linguist
-BuildRequires: qt6-qttools
+BuildRequires: qt6-qttools-devel
 BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel
 BuildRequires: qt6-qt3d-devel
