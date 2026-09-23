@@ -61,6 +61,13 @@ BuildRequires: xz
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gcc-gfortran
+# EL 8/9's minizip-devel is minizip-ng, a different API; EPEL has zlib's
+# classic minizip. EL 10 and Fedora only have minizip-ng's compat layer.
+%if 0%{?rhel} == 8 || 0%{?rhel} == 9
+BuildRequires: minizip1.2-devel
+%else
+BuildRequires: minizip-ng-compat-devel
+%endif
 # EL8 is the only target left without qt6, in EPEL or anywhere else, and the
 # GUI clients no longer build against qt5: ship el8 without them.
 %if 0%{?rhel} == 8
