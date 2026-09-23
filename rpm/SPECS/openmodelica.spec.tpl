@@ -93,7 +93,7 @@ BuildRequires: libarchive >= 3.3.3
 %{?el8:Requires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran}
 %if 0%{?rhel} == 8
 BuildRequires: gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ gcc-toolset-11-gcc-gfortran
-%define devtoolscmakeflags -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gcc -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/g++ -DCMAKE_Fortran_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran -DCMAKE_ASM_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/as
+%define devtoolscmakeflags -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gcc -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/g++ -DCMAKE_Fortran_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/gfortran
 %endif
 
 %if 0%{?omnogui}
