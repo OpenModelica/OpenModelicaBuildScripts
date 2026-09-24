@@ -1,5 +1,6 @@
 debian/tmp/usr/lib/*/omc/libOpenModelicaCompiler.so
 debian/tmp/usr/lib/*/omc/libOpenModelicaRuntimeC*
+debian/tmp/usr/lib/*/omc/libOpenModelicaRuntimeMMC*
 debian/tmp/usr/lib/*/omc/libomcruntime*
 debian/tmp/usr/lib/*/omc/libzmq*
 
