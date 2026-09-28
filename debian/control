@@ -176,6 +176,7 @@ Architecture: any
 Depends: omc (<< 20000),
  libomsimulator,
  libomsensplugin,
+ qml6-module-qtqml-workerscript,
  qml6-module-qtquick,
 # renamed from qml6-module-quick3d in Qt 6.6
  qml6-module-qtquick3d | qml6-module-quick3d,
