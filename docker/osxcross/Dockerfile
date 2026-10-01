@@ -17,13 +17,6 @@ RUN export PATH=$PATH:/workdir/osxcross/target/bin HOME=/workdir \
   && ./target/bin/osxcross-macports clear-cache \
   && mv target /opt/osxcross \
   && cd .. \
-  && wget -q https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz \
-  && tar xzf boost_1_67_0.tar.gz \
-  && cd boost_1_67_0 \
-  && ./bootstrap.sh \
-  && echo "using gcc : darwin : x86_64-apple-darwin15-c++ ;" > $HOME/user-config.jam \
-  && ./b2 --prefix=/opt/osxcross/macports/pkgs/opt/local/ -d0 --with-filesystem --with-system --no-tests toolset=gcc-darwin link=static cxxflags="-std=c++11 -stdlib=libc++" install \
-  && find /opt/osxcross/macports/pkgs/opt/local/ -name "*.a" -exec x86_64-apple-darwin15-ranlib {} ";" \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /workdir/MacOSX10.11.sdk.tar.xz \
   && rm -rf /workdir/osxcross \

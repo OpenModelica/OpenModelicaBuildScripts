@@ -14,7 +14,7 @@ RUN sed -i s,http://archive.ubuntu.com/ubuntu/,mirror://mirrors.ubuntu.com/mirro
  && curl -s https://git.archlinux.org/pacman.git/snapshot/pacman-5.1.0.tar.xz | tar xJ \
  && cd pacman-5.1.0 && ./autogen.sh && ./configure --prefix=/opt/pacman --disable-doc && make -j4 && make -j4 install \
  && cp /workdir/pacman.conf /opt/pacman/etc/pacman.conf \
- && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-$ARCH-readline mingw-w64-$ARCH-boost mingw-w64-$ARCH-python3 mingw-w64-$ARCH-libiconv mingw-w64-$ARCH-libxml2 mingw-w64-$ARCH-gcc \
+ && /opt/pacman/bin/pacman -Sy --noconfirm mingw-w64-$ARCH-readline mingw-w64-$ARCH-python3 mingw-w64-$ARCH-libiconv mingw-w64-$ARCH-libxml2 mingw-w64-$ARCH-gcc \
  && apt-get -qyy install mingw-w64 cmake git software-properties-common unzip wine64 wine32 wine-stable perl libmldbm-perl flex gcc \
  && if $LINKCPPFS; then ln -s /opt/pacman/mingw64/lib/gcc/$ARCH-w64-mingw32/*/libstdc++fs.a /usr/lib/gcc/$ARCH-w64-mingw32/*-posix; fi  \
  && cd /workdir \

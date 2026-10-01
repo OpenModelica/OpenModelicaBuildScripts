@@ -37,7 +37,6 @@ depends_lib         port:lp_solve \
                     port:readline \
                     port:qjson \
                     port:ossp-uuid \
-                    port:boost \
                     port:openblas
 
 build.target
