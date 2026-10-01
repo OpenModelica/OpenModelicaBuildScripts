@@ -54,9 +54,13 @@ jammy, noble, resolute and trixie on amd64, armhf and arm64.
 * [`control`](./debian/control) — one source stanza and 18 binary packages (`omc`,
   `libomc`, `omedit`, `omshell`, `omnotebook`, `omsimulator`, `omlibrary`, …). Some
   build dependencies carry alternatives (`libhdf5-serial-dev | libhdf5-dev`) because a
-  single control file has to satisfy every distribution in the matrix. Note that `apt`
-  installs the *first* alternative it can, so an alternative is not a way to say
-  "either of these will do" — it only helps where the first one is unavailable.
+  single control file has to satisfy every distribution in the matrix. An alternative
+  only helps where the first one is unavailable: `apt` skips the whole group when any
+  member is already installed or being installed, and its newer solver need not pick
+  the first one at all. A dependency that some distributions cannot satisfy is gated
+  on a build profile instead: `qt6-httpserver-dev <!pkg.openmodelica.nomcp>` (jammy has
+  no QtHttpServer, so apt-build passes `-Ppkg.openmodelica.nomcp` there, and
+  `debian/rules` fails when the profile is off and CMake did not find QtHttpServer).
 * [`rules`](./debian/rules) — a hand-written rules file, *not* the `dh` sequencer. It
   configures and builds the tree itself — with CMake, into `obj-<triplet>/` — and then
   calls each `dh_*` helper explicitly from the `install` and `binary-arch` targets.
@@ -107,8 +111,10 @@ done
 dpkg-source -x "openmodelica_$V-1.dsc"
 rm -rf "openmodelica-$V/debian" && cp -a /buildscripts/debian "openmodelica-$V/debian"
 sed -i -e "s/@REV@/$V/" -e "s/@TIME@/$(date -R)/" "openmodelica-$V/debian/changelog"
-cd "openmodelica-$V" && dpkg-buildpackage -rfakeroot -b -j"$(nproc)"
+cd "openmodelica-$V" && dpkg-buildpackage -rfakeroot -b -j"$(nproc)" -Ppkg.openmodelica.nomcp
 ```
+
+Drop `-Ppkg.openmodelica.nomcp` for any distribution newer than jammy.
 
 The first run takes hours. Afterwards `build-stamp` is cached, so re-running only
 `fakeroot debian/rules binary-arch` after another `debian/` tweak takes minutes.
