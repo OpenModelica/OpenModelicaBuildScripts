@@ -46,7 +46,6 @@ Build-Depends: debhelper-compat (= 13),
  libomp-dev,
 # Should be needed but seems to mess up sbuild
 # libexpat1-dev:native,
- libboost-all-dev,
  pkg-config,
  libffi-dev,
  lsb-release,
@@ -244,12 +243,7 @@ Package: libomccpp
 Section: math
 Architecture: amd64
 Multi-Arch: same
-Depends: libboost-dev,
- libboost-filesystem-dev,
- libboost-system-dev,
- libboost-serialization-dev,
- libboost-program-options-dev,
- ${shlibs:Depends},
+Depends: ${shlibs:Depends},
  ${misc:Depends}
 Description: Libraries for the C++ code generation target of OpenModelica
 

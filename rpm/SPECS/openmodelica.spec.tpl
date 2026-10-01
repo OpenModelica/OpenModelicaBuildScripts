@@ -47,8 +47,6 @@ BuildRequires: uuid
 BuildRequires: uuid-devel
 BuildRequires: libuuid-devel
 BuildRequires: hdf5-devel
-BuildRequires: boost-devel
-BuildRequires: boost-static
 BuildRequires: hwloc-devel
 BuildRequires: readline-devel
 BuildRequires: libffi-devel
@@ -117,8 +115,6 @@ Requires: lapack-devel
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
-Suggests: boost-devel
-Suggests: boost-static
 Suggests: lapack-static
 Suggests: openblas-static
 
