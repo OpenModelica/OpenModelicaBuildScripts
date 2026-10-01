@@ -61,6 +61,10 @@ build-stamp:
 	-DOM_RUST_RESULT_READERS=ON \
 	-DOM_RUST_RESULT_WRITERS=ON \
 	-DOM_ENABLE_RUST_SIM_RUNTIME=ON
+ifeq (,$(filter pkg.openmodelica.nomcp,$(DEB_BUILD_PROFILES)))
+	grep -q '^Qt6HttpServer_DIR:PATH=/' $(BUILD)/CMakeCache.txt || \
+	  { echo 'QtHttpServer not found; build with -Ppkg.openmodelica.nomcp to drop the MCP server' >&2; exit 1; }
+endif
 	cmake --build $(BUILD) $(BUILDFLAGS)
 	touch build-stamp
 
