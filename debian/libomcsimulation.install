@@ -36,11 +36,6 @@ debian/tmp/usr/lib/*/omc/lib*mumps*
 debian/tmp/usr/lib/*/omc/libmoo*
 debian/tmp/usr/lib/*/omc/libfmt*
 
-
-# OMSI
-debian/tmp/usr/include/omc/omsi/*
-debian/tmp/usr/lib/*/omc/omsi/*
-
 # ParModAuto
 debian/tmp/usr/lib/*/omc/libParModelicaAuto.*
 debian/tmp/usr/lib/*/omc/libtbb*
