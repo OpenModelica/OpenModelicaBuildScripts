@@ -126,6 +126,7 @@ Multi-Arch: same
 Architecture: any
 Depends: omc-common (<< 20000),
  libomcsimulation (<< 20000),
+ libhdf5-dev,
  ${shlibs:Depends},
  ${misc:Depends}
 Description: The OpenModelica Compiler lib dependencies
