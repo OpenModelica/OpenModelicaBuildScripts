@@ -3,3 +3,4 @@ debian/tmp/usr/include/omc/OMSimulator/*
 debian/tmp/usr/lib/*/omc/libOMSimulator.so
 debian/tmp/usr/lib/*/omc/libOMSimulator.a
 debian/tmp/usr/lib/*/omc/OMSimulator/*.py
+debian/tmp/usr/lib/*/omc/OMSimulator/schema
