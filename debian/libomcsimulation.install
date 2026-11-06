@@ -15,6 +15,9 @@ debian/tmp/usr/include/omc/ModelicaExternalC/*
 debian/tmp/usr/lib/*/omc/libOpenModelicaFMIRuntimeC*
 debian/tmp/usr/lib/*/omc/libSimulationRuntime*
 
+# Embedded OPC UA server (-embeddedServer=opc-ua)
+debian/tmp/usr/lib/*/omc/libomopcua*
+
 # Result files
 debian/tmp/usr/lib/*/omc/libomc_result*
 
