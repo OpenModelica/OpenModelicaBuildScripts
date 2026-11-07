@@ -26,7 +26,6 @@ debian/tmp/usr/lib/*/omc/lib*amd*
 debian/tmp/usr/lib/*/omc/libbtf*
 debian/tmp/usr/lib/*/omc/libklu*
 debian/tmp/usr/lib/*/omc/libsuitesparseconfig*
-debian/tmp/usr/lib/*/omc/libumfpack*
 
 debian/tmp/usr/lib/*/omc/liblis*
 debian/tmp/usr/lib/*/omc/libcminpack*
